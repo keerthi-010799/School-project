@@ -1,0 +1,27 @@
+<li class="submenu">
+                        <!--a href="#"><i class="fa fa-th-list bigfonts" aria-hidden="true"></i><span>Books/Resources</span></a-->
+                        <a href"><i class="fa fa-cc-mastercard bigfonts" aria-hidden="true"></i>Payments<span class="menu-arrow"></span></a>	                        
+                        <ul class="list-unstyled">	
+                            
+							<li><a href="listPayeeMaster.php"><i class="fa fa-user-md bigfonts" aria-hidden="true"></i>Record Payee</a></li>
+                            <li><a href="listVouchers.php"><i class="fa fa-money bigfonts" aria-hidden="true"></i> Expenses</a></li>
+                             <!--li><a href="listSpaceName.php"><i class="fa fa-square-o bigfonts"></i>Location Names</a></li-->                            
+                        </ul>
+</li>
+
+    <!--a href="#"><i class="fa fa-th-list bigfonts" aria-hidden="true"></i><span>Books/Resources</span></a-->
+                        <a href="#"><i class="fa fa-line-chart bigfonts" aria-hidden="true"></i>Reports<span class="menu-arrow"></span></a>	                        
+                        <ul class="list-unstyled">	
+                            
+							<li><a href="collectionReport.php"><i class="fa fa-fw fa-table"></i> <span> Collection Report</span></a></li>
+							<li><a href="payeeMasterReport.php"><i class="fa fa-fw fa-table"></i> <span> Payee Reports</span></a></li>
+							<li><a href="payeeTransactionHistory.php"><i class="fa fa-fw fa-table"></i> <span> Payee Transaction History log Report</span></a></li>
+							<li><a href="expenseReport.php"><i class="fa fa-fw fa-table"></i> <span> Expense Reports</span></a></li>
+							<li><a href="expenseTransactionHistory.php"><i class="fa fa-fw fa-table"></i> <span> Expenses Transaction History log Report</span></a></li>
+                            
+                            
+                            <!--li><a href="listGenre.php"><i class="fa fa-folder-o bigfonts"></i>Genre</a></li>
+                             <li><a href="listSpaceName.php"><i class="fa fa-square-o bigfonts"></i>Location Names</a></li>    
+							<li><a href="listDonationMaster.php"><i class="fa fa-rupee bigfonts" aria-hidden="true"></i>Donation</a></li-->     							 
+                        </ul>
+                    </li>

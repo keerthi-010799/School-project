@@ -1,0 +1,195 @@
+
+	<!-- End Sidebar -->
+<?php
+include("database/db_conection.php");//make connection here
+
+if(isset($_POST["submit"]))
+{
+  $file =$_POST['file'];
+ 
+ 
+echo $filename=$_FILES["file"]["name"];
+$ext=substr($filename,strrpos($filename,"."),(strlen($filename)-strrpos($filename,".")));
+ 
+//we check,file must be have csv extention
+if($ext=="csv")
+{
+  $file = fopen($filename, "r");
+         while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
+         {
+            $sql = "INSERT into studentprofile(academic,admissionno,firstname) values('$emapData[0]','$emapData[1]','$emapData[2]')";
+            mysqli_query($con, $sql);
+         }
+         fclose($file);
+         echo "CSV File has been successfully Imported.";
+}
+else {
+    echo "Error: Please Upload only CSV File";
+}
+ 
+ 
+}
+?>
+
+<?php include('header.php');?>
+
+    <div class="content-page">
+	
+		<!-- Start content -->
+        <div class="content">
+            
+			<div class="container-fluid">
+
+					
+										<div class="row">
+					<div class="col-xl-12">
+							<div class="breadcrumb-holder">
+                                    <h1 class="main-title float-left"><i class="fa fa-upload bigfonts" aria-hidden="true"></i> Students Bulk Upload</h1>
+                                    <ol class="breadcrumb float-right">
+										<li class="breadcrumb-item">Home</li>
+										<li class="breadcrumb-item active">Students Bulk Upload</li>
+                                    </ol>
+                                    <div class="clearfix"></div>
+                            </div>
+					</div>
+			</div>
+            <!-- end row -->
+
+            
+			<!--div class="alert alert-success" role="alert">
+					  <h4 class="alert-heading">Company Registrtion Form</h4>
+					  <p></a></p>
+			</div-->
+
+			
+			<div class="row">
+			
+                    
+
+					
+					<div class="col-xs-10 col-sm-10 col-md-8 col-lg-8 col-xl-8">						
+						<div class="card mb-3">
+							<div class="card-header">
+								
+								 <h5><div class="fa-hover col-md-6 col-sm-6">  
+								  </div>Display error messages here</h5>
+								
+								<!--h3><class="fa-hover col-md-12 col-sm-12"><i class="fa fa-cart-plus smallfonts" aria-hidden="true">
+								</i>Add Transport Master Details
+								</h3-->
+								
+							</div>
+								
+							<div class="card-body">
+								
+								<!--form autocomplete="off" action="#"-->
+								<form action=""  enctype="multipart/form-data" method="post" accept-charset="utf-8">
+
+								
+								<div class="form-row">                                 
+                                <div class="form-group">
+                                        <label>
+                                            <div class="fa-hover col-md-12 col-sm-12">
+                                                <i class="fa fa-folder-open bigfonts" aria-hidden="true"></i>Upload Student Details</div></label> 
+                                    
+                                        <input type="file" name="file" id="file" class="form-control" width="80" height="60">
+                                    </div>
+                                </div>
+									
+	
+								    <!--div class="form-row">
+                                    <div class="form-group col-md-6">
+                                    <label for="inputState">Class/Course<span class="text-danger">*</span></label>
+                                         <select required id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="academic" >                                                   <!--option value="">-Select Academic-</option-->
+											 <option value="">-Select Class/Course-</option>
+                                                    <?php 
+                                                    include("database/db_conection.php");//make connection here
+
+                                                    $sql = mysqli_query($dbcon, "SELECT class FROM class");
+                                                    while ($row = $sql->fetch_assoc()){	
+                                                        echo $class=$row['class'];
+                                                        echo '<option onchange="'.$row[''].'" value="'.$class.'" >'.$class.'</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                </div>
+									</div>
+									
+
+									<div class="form-row">
+                                    <div class="form-group col-md-6">
+                                    <label for="inputState">Section<span class="text-danger">*</span></label>
+                                         <select required id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="academic" >                                                   <!--option value="">-Select Academic-</option-->
+											 <option value="">-Select Section-</option>
+                                                    <?php 
+                                                    include("database/db_conection.php");//make connection here
+
+                                                    $sql = mysqli_query($dbcon, "SELECT section FROM section");
+                                                    while ($row = $sql->fetch_assoc()){	
+                                                        echo $section=$row['section'];
+                                                        echo '<option onchange="'.$row[''].'" value="'.$section.'" >'.$section.'</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                </div>
+									</div>
+									
+									<div class="form-row">
+                                    <div class="form-group col-md-6">
+                                    <label for="inputState">Academic<span class="text-danger">*</span></label>
+                                         <select required id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="academic" >
+											 <option value="">-Select Academic-</option>
+                                                    <?php 
+                                                    include("database/db_conection.php");//make connection here
+
+                                                    $sql = mysqli_query($dbcon, "SELECT academic FROM academic");
+                                                    while ($row = $sql->fetch_assoc()){	
+                                                        echo $academic=$row['academic'];
+                                                        echo '<option onchange="'.$row[''].'" value="'.$academic.'" >'.$academic.'</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                </div>
+										<div class="form-group col-md-6">
+										<a href="/download/sample.csv" download>
+  <img src="/download/sample.csv" alt="" width="104" height="142"> 
+										
+											<h4><div class="fa-hover col-md-6 col-sm-6"> <i class="fa fa-download bigfonts" aria-hidden="true"></i> 
+								  </div></h4>Download Students Data Sample Format File											
+										</a>
+										
+									</div>
+									</div>
+								    <div class="form-row">
+								    <div class="form-group text-right m-b-10">
+                                                       &nbsp;<button class="fa fa-upload bigfonts" name="submit" type="submit" value="submit">
+                                                            Upload
+                                                        </button>
+                                                        <button type="button" name="cancel" class="btn btn-secondary m-l-5" onclick="window.history.back();">Cancel
+                                                        </button>
+										</div>
+										</div>
+										
+													
+													
+								</form>
+								</div>
+							
+								</div>
+								</div>
+								</div>
+								
+								
+								
+		      </div>
+			<!-- END container-fluid -->
+
+		</div>
+		<!-- END content -->
+
+    </div>
+	<!-- END content-page -->
+	
+							
+    
+<?php include('footer.php');?>
