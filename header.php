@@ -289,7 +289,7 @@ if(isset($_SESSION['login_email'])){
 
         <!-- LOGO -->
         <div class="headerbar-left">
-            <a href="index.php" class="logo"><img alt="Logo" class="alert-info" src="assets/images/logo3.png"> 
+            <a href="index.php" class="logo"><img alt="Logo" class="alert-info" src="assets/images/schoollogo.jpeg"> 
                 
                 <Span style="color:yellow;"><small>JVMHSS<b>  
                   </b></small></span></a>

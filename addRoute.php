@@ -4,20 +4,20 @@ include("database/db_conection.php");//make connection here
 if(isset($_POST['submit']))
 {
 	//$prefix = "DAP/LOC/";
-    $pickuppoints = array();
+    $pickuppoints = $_POST['pickuppoints'] ;
 	$routeno=$_POST['routeno'];//here getting result from the post array after submitting the form.
 	 $driverName=$_POST['driverName'];
 	  $mobile=$_POST['mobile'];
-    $pickuppoints=$_POST['pickuppoints'];
-
+    
    //$image =base64_encode($image);														
-		echo $pickuppoints;	
+		print_r($pickuppoints);
+		$List = implode(', ', $pickuppoints);	
   
         // echo $item."<br>";
       //  $query = "INSERT INTO demo (name) VALUES ('$item')";
       //  $query_run = mysqli_query($con, $query);
 	$insert_route="insert into route(`pickuppoints`,`routeno`,`driverName`,`mobile`) 
-	VALUES ('$pickuppoints','$routeno','$driverName','$mobile')";
+	VALUES ('$List','$routeno','$driverName','$mobile')";
 	
 	if(mysqli_query($dbcon,$insert_route))
 	{

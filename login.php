@@ -160,7 +160,7 @@ header('location: index.php');
 	<div class="row h-100 align-items-center">
 	   <div class="col-md-4 offset-md-4">
 		<div class="card">
-			<h5 class="card-header"><img alt="Logo" src="assets/images/logo3.png" /> 
+			<h5 class="card-header text-center mb-1"><img alt="Logo" src="assets/images/schoollogo.jpeg" width="180" height="190"/> 
 			<div class="invoice-title text-center mb-3">an Online School Management System</a></div></h5>
            
 			<div class="card-body">
