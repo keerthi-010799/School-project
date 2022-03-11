@@ -112,6 +112,38 @@ include('workers/getters/functions.php');
 											   </select>
 											   
 									   </div>
+                                       <div class="form-group col-md-3">
+                                        
+										<select id="genderwise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="academic">
+											<option value="">-Select Gender-</option>
+												   <?php 
+												   include("database/db_conection.php");//make connection here
+
+												   $sql = mysqli_query($dbcon, "SELECT distinct gender FROM studentprofile where status = 'Y' order by community asc");
+												   while ($row = $sql->fetch_assoc()){	
+													   echo $gender=$row['gender'];
+													   echo '<option onchange="'.$row[''].'" value="'.$gender.'" >'.$gender.'</option>';
+												   }
+												   ?>
+											   </select>
+											   
+									   </div>
+                                       <div class="form-group col-md-3">
+                                        
+										<select id="castewise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="academic">
+											<option value="">-Select Caste-</option>
+												   <?php 
+												   include("database/db_conection.php");//make connection here
+
+												   $sql = mysqli_query($dbcon, "SELECT distinct caste FROM studentprofile where status = 'Y' order by community asc");
+												   while ($row = $sql->fetch_assoc()){	
+													   echo $Caste=$row['caste'];
+													   echo '<option onchange="'.$row[''].'" value="'.$Caste.'" >'.$Caste.'</option>';
+												   }
+												   ?>
+											   </select>
+											   
+									   </div>
 											<div class="form-group col-md-3">
 											<input type="button" class="btn btn-primary btn-sm" name="search" value="Search" onclick="search_filter();">
 								
@@ -143,10 +175,12 @@ include('workers/getters/functions.php');
 										<tbody>
 											<?php
 													include("database/db_conection.php");//make connection here																									
-													if((isset($_GET['classwise']) && $_GET['classwise']!=='')||(isset($_GET['academicwise'])&&$_GET['academicwise']!='')||(isset($_GET['communitywise'])&&$_GET['communitywise']!='')){
+													if((isset($_GET['classwise']) && $_GET['classwise']!=='')||(isset($_GET['academicwise'])&&$_GET['academicwise']!='')||(isset($_GET['castewise'])&&$_GET['castewise']!='')||(isset($_GET['Communitywise'])&&$_GET['Communitywise']!='')||(isset($_GET['genderwise'])&&$_GET['genderwise']!='')){
 														$classwise = $_GET['classwise'];
 														$academicwise = $_GET['academicwise'];
-														$communitywise = $_GET['communitywise'];	
+														$Communitywise = $_GET['Communitywise'];	
+                                                        $castewise = $_GET['castewise'];	
+														$genderwise = $_GET['genderwise'];	
 														$sql = "SELECT id,image,admissionno,concat(firstname,' ',lastname) 
 														as name,concat(class,' / ',section) as classsec,
 														fathername,mobile,batch,academic,status FROM `studentprofile` s where 1=1";										                                            
@@ -154,13 +188,21 @@ include('workers/getters/functions.php');
 	
 														$sql.=" and s.class='".$_GET['classwise']."'";    
 													}
-													if(isset($_GET['communitywise'])&&$_GET['communitywise']!=''){
+													if(isset($_GET['Communitywise'])&&$_GET['Communitywise']!=''){
 	
-														$sql.=" and s.community='".$_GET['communitywise']."'";    
+														$sql.=" and s.community='".$_GET['Communitywise']."'";    
 													}
 													if(isset($_GET['academicwise'])&&$_GET['academicwise']!=''){
 	
 														$sql.=" and s.academic='".$_GET['academicwise']."'";    
+													}
+                                                    if(isset($_GET['castewise'])&&$_GET['castewise']!=''){
+	
+														$sql.=" and s.caste='".$_GET['castewise']."'";    
+													}
+                                                    if(isset($_GET['genderwise'])&&$_GET['genderwise']!=''){
+	
+														$sql.=" and s.gender='".$_GET['genderwise']."'";    
 													}
 	
 													}else{
@@ -226,30 +268,7 @@ include('workers/getters/functions.php');
 							
 							</div><!-- end card-->			
 							</div>						
-                                        <script>
-											var page_classwise = "<?php if(isset($_GET['classwise'])){ echo $_GET['classwise']; } ?>";
-											var page_communitywise = "<?php if(isset($_GET['communitywise'])){ echo $_GET['communitywise']; } ?>";
-											var page_academicwise = "<?php if(isset($_GET['academicwise'])){ echo $_GET['academicwise']; } ?>";
-
-		
-                                            function delete_record(x)
-                                            {
-     
-                                                 var row_id = $(x).attr('data-id');
-                                               alert(row_id);
-                                                if (confirm('Confirm delete')) {
-                                                  window.location.href = 'deleteStudentProfile.php?id='+row_id;
-                                               }
-                                            }
 											
-											function search_filter(){
-												var classwise = $('#classwise').val();
-												var communitywise = $('#communitywise').val();
-												var academicwise = $('#academicwise').val();
-												location.href="listStudentProfile.php?classwise="+classwise+"&communitywise="+communitywise+"&academicwise="+academicwise;
-											}																				
-														
-
 <?php include('footer.php'); ?>
 							
 							
@@ -262,11 +281,28 @@ include('workers/getters/functions.php');
     var page_partywise = "<?php if(isset($_GET['partywise'])){ echo $_GET['partywise']; } ?>";
     var page_st = "<?php if(isset($_GET['st'])){ echo $_GET['st']; } ?>";
     var page_end = "<?php if(isset($_GET['end'])){ echo $_GET['end']; } ?>";
-
+    var page_classwise = "<?php if(isset($_GET['classwise'])){ echo $_GET['classwise']; } ?>";
+    var page_Communitywise = "<?php if(isset($_GET['Communitywise'])){ echo $_GET['Communitywise']; } ?>";
+    var page_castewise = "<?php if(isset($_GET['castewise'])){ echo $_GET['castewise']; } ?>";
+    var page_genderwise = "<?php if(isset($_GET['genderwise'])){ echo $_GET['genderwise']; } ?>";
+    var page_academicwise = "<?php if(isset($_GET['academicwise'])){ echo $_GET['academicwise']; } ?>";
+		                                            
+    function delete_record(x){     
+            var row_id = $(x).attr('data-id');
+            alert(row_id);
+            if (confirm('Confirm delete')) {
+            window.location.href = 'deleteStudentProfile.php?id='+row_id;
+                    }
+            }
 
     $(document).ready(function() {
         $('#partywise').val(page_partywise);
         $("#reset-date").hide();
+        $('#classwise').val(page_classwise);
+        $('#Communitywise').val(page_Communitywise);
+        $('#genderwise').val(page_genderwise);
+        $('#castewise').val(page_castewise);
+        $('#academicwise').val(page_academicwise);
 
         $('#daterange').daterangepicker({
             ranges: {
@@ -350,14 +386,14 @@ include('workers/getters/functions.php');
                 {
                     extend: 'excel',
                     text:'<span class="fa fa-file-excel-o"></span>',
-                    title:'Payment Transactions', footer: true ,
+                    title:'Students Report', footer: true ,
                     messageTop: excel_printhead   
 
                 },
                 {
                     extend: 'pdf',
                     text:'<span class="fa fa-file-pdf-o"></span>',
-                    title:'Payment Transactions', footer: true ,
+                    title:'Students Report', footer: true ,
                     messageTop: excel_printhead   
 
                 },
@@ -371,9 +407,20 @@ include('workers/getters/functions.php');
 
         table.buttons().container()
             .appendTo( '#po_reports_div');
+        });											
+											function search_filter(){
+												var classwise = $('#classwise').val();
+												var Communitywise = $('#Communitywise').val() ? $('#Communitywise').val() : "";
+                                                var genderwise = $('#genderwise').val() ? $('#genderwise').val() : "";
+												var castewise = $('#castewise').val() ? $('#castewise').val() : "";                                            
+												var academicwise = $('#academicwise').val();
+												location.href="studentsReport.php?classwise="+classwise+"&Communitywise="+Communitywise+"&academicwise="+academicwise+"&genderwise="+genderwise+"&castewise="+castewise;
+											}																				
+														
 
 
-    });
+
+    
 
 </script>
 <?php

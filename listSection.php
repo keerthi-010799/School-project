@@ -110,7 +110,7 @@ listSectionMaster.php
 
 					<div class="form-group">
 						<label> Section </label>
-						<input type="text" name="section" id="section" class="form-control"
+						<input type="text" name="section1" id="section1" class="form-control"
 							placeholder="Enter Section">
 					</div>
 
@@ -177,7 +177,7 @@ listSectionMaster.php
 
 														
 														echo '<td>
-														<button type="button" class="btn btn-warning btn-sm viewbtn">
+														<button type="button" class="btn btn-secondary btn-sm viewbtn">
 														 <i class="fa fa-search" aria-hidden="true"></i>  </button>
 
 														<button type="button" class="btn btn-primary btn-sm editbtn">
@@ -227,9 +227,9 @@ $('document').ready(function(){
 		   //dataType: 'json',
            success:function(response){
 				if(response!=0 || response!=""){
-					var new_option ="<option>"+response+"</option>";
-					$('#section').append(new_option);
-					 $('#customModalSection').modal('toggle');
+					// var new_option ="<option>"+response+"</option>";
+					// $('#section').append(new_option);
+					//  $('#customModalSection').modal('toggle');
 					  window.location.reload(true);
 				
 				}else{
@@ -279,7 +279,7 @@ $('document').ready(function(){
                 console.log(data);
 
                 $('#update_id').val(data[0]);
-                $('#section').val(data[1]);
+                $('#section1').val(data[1]);
                 $('#description').val(data[2]);
                
             });

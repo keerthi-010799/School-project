@@ -5,8 +5,9 @@ if(isset($_POST['purItmCateEdit']))
 { 
 	var_dump($_POST);
 	extract($_POST);
+	$List = implode(', ', $pickuppoints);	
 	
-    $updateCategory= "UPDATE `route` SET `routeno` = '".$routeno."',`driverName` = '".$driverName."',`mobile` = '".$mobile."',`description` = '".$description."'
+    $updateCategory= "UPDATE `route` SET `routeno` = '".$routeno."',`driverName` = '".$driverName."',`mobile` = '".$mobile."',`pickuppoints` = '".$List."'
 										WHERE `id` =".$itemcatID;
 	//echo $updatePurItmCtgry;
     if(mysqli_query($dbcon,$updateCategory))
@@ -80,7 +81,9 @@ if(isset($_POST['purItmCateEdit']))
 													$routeno = $res['routeno'];
 													$driverName = $res['driverName'];
 													$mobile = $res['mobile'];
-													$description= $res['description'];
+													$pickuppoints = $res['pickuppoints'];
+													
+													// $description= $res['description'];
 													
 												}
 											}
@@ -100,12 +103,24 @@ if(isset($_POST['purItmCateEdit']))
 									  <input type="text" class="form-control" name="mobile" value="<?php echo $mobile;?>"/>
 									  </div>
 									  
-									<div class="form-group col-md-10">
-									  <label >Description</label>
-									  <input type="text" class="form-control" name="description" value="<?php echo $description;?>"/>
+									  <div class="form-group col-md-12">									
+									<label for="example90">
+												Assign Pickup Point(s) <span class="text-danger">*</span>
+												</label>
+												<select class="form-control  select2" id="example90" name="pickuppoints[]" multiple required>   	
+												 <?php 
+                                                    include("database/db_conection.php");//make connection here
+
+                                                    $sql = mysqli_query($dbcon, "SELECT areaname FROM areamaster where status = 'Y'");
+                                                    while ($row = $sql->fetch_assoc()){	
+                                                        echo $pickuppoint=$row['areaname'];
+                                                        echo '<option onchange="'.$row[''].'" value="'.$pickuppoint.'" >'.$pickuppoint.'</option>';
+                                                    }
+                                                    ?>
+                                                </select>
 									</div>
 									</div>
-										
+ 										
 								    <div class="modal-footer">
 										<input type="hidden" name="itemcatID" value="<?=$_GET['id']?>">
 										<button type="submit" name="purItmCateEdit" value="userEdit" class="btn btn-primary">Update</button>

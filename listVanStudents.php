@@ -107,11 +107,28 @@ if (isset($_POST["submit"])) {
 										
 									<div class="form-row">
 										<div class="form-group col-md-8">
-								<input type="submit" class="btn btn-primary btn-sm"  name="exportVan" value="Export Van Students"/>
-										</div>
+										<input type="submit" class="btn btn-primary btn-sm"  name="exportVan" value="Export Van Students"/>
+										</form>
+
+										<div class="form-row">
+										<div class="form-group col-md-3">                                        
+										<select id="routewise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="academic">
+											<option value="">-Select Routeno-</option>
+												   <?php 
+												   include("database/db_conection.php");//make connection here
+												   $sql = mysqli_query($dbcon, "SELECT distinct routeno FROM studentprofile where status = 'Y' order by batch asc");
+												   while ($row = $sql->fetch_assoc()){	
+													   echo $route=$row['routeno'];
+													   echo '<option onchange="'.$row[''].'" value="'.$route.'" >'.$route.'</option>';
+												   }
+												   ?>
+											   </select>
+												</div>
+												<div class="form-group col-md-3">                                        
+											<input type="button" class="btn btn-primary btn-sm" name="search" value="Search" onclick="search_filter();">								
+                                        </div>
 									</div>
-								</form>
-								
+												</div>
 								<div class="card-body">
 									<div class="table-responsive">
 									<table id="example1" class="table table-bordered table-hover display">
@@ -133,13 +150,23 @@ if (isset($_POST["submit"])) {
 											<?php
 													include("database/db_conection.php");//make connection here
 													
-													//$sql = "select image,compcode,concat(title,name) as name,
-													//ctype,location,email,mobile,id from comprofile";
+													if((isset($_GET['routewise'])&&$_GET['routewise']!='')){
+													$routewise = $_GET['routewise'];
+													$sql = "SELECT s.id,s.status,s.academic,s.admissionno,s.firstname,
+													s.class,s.routeno,s.areaname,a.amount
+													FROM studentprofile s,areamaster a
+                                                    where 1=1";
+													if(isset($_GET['routewise'])&&$_GET['routewise']!=''){
+	
+														$sql.=" and s.routeno='".$_GET['routewise']."'";    
+													}
+												}else{
 													$sql = "SELECT s.id,s.status,s.academic,s.admissionno,s.firstname,
 													s.class,s.routeno,s.areaname,a.amount
 													FROM studentprofile s,areamaster a
                                                     where a.areaname = s.areaname
 													and s.vanflag = 'Y'  AND s.status = 'Y' ";
+													}
 													$result = mysqli_query($dbcon,$sql);
 													if ($result->num_rows > 0){
 													while ($row =$result-> fetch_assoc()){
@@ -167,7 +194,16 @@ if (isset($_POST["submit"])) {
                                         }
                                         ?>						
                                         <script>
-                                            function delete_record(x)
+					var page_routewise = "<?php if(isset($_GET['routewise'])){ echo $_GET['routewise']; } ?>";
+
+                    				$(document).ready(function () {
+												$('#routewise').val(page_routewise);												
+												});
+											function search_filter(){
+												var routewise = $('#routewise').val();
+												location.href="listVanStudents.php?routewise="+routewise;
+											}                        
+										function delete_record(x)
                                             {
                                                 console.log(x);
                                                  var row_id = $(x).attr('data-id');
