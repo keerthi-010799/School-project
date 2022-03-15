@@ -74,7 +74,7 @@ if (isset($_POST["submit"])) {
 										Add Institute Profile</a></span-->
 									<!--h3>Upload Van Students</h3--> 
 									
-							
+
 									
 									<!--form autocomplete="off" action="#"-->
 								<form action="uploadVanStudents.php"  enctype="multipart/form-data" method="post" accept-charset="utf-8">
@@ -107,16 +107,20 @@ if (isset($_POST["submit"])) {
 										
 									<div class="form-row">
 										<div class="form-group col-md-8">
-										<input type="submit" class="btn btn-primary btn-sm"  name="exportVan" value="Export Van Students"/>
-										</form>
+								<input type="submit" class="btn btn-primary btn-sm"  name="exportVan" value="Export Van Students"/>
+										</div>
+									</div>
+								</form>
 
-										<div class="form-row">
-										<div class="form-group col-md-3">                                        
+								<div class="form-row">
+							
+										<div class="form-group col-md-3">  
+									                      
 										<select id="routewise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="academic">
 											<option value="">-Select Routeno-</option>
 												   <?php 
 												   include("database/db_conection.php");//make connection here
-												   $sql = mysqli_query($dbcon, "SELECT distinct routeno FROM studentprofile where status = 'Y' order by batch asc");
+												   $sql = mysqli_query($dbcon, "SELECT distinct routeno FROM route ORDER by routeno  asc");
 												   while ($row = $sql->fetch_assoc()){	
 													   echo $route=$row['routeno'];
 													   echo '<option onchange="'.$row[''].'" value="'.$route.'" >'.$route.'</option>';
@@ -125,10 +129,11 @@ if (isset($_POST["submit"])) {
 											   </select>
 												</div>
 												<div class="form-group col-md-3">                                        
-											<input type="button" class="btn btn-primary btn-sm" name="search" value="Search" onclick="search_filter();">								
+											<input type="button" class="btn btn-primary btn-sm" name="search" value="Filter" onclick="search_filter();">								
                                         </div>
 									</div>
-												</div>
+												
+								
 								<div class="card-body">
 									<div class="table-responsive">
 									<table id="example1" class="table table-bordered table-hover display">
@@ -147,15 +152,18 @@ if (isset($_POST["submit"])) {
 											</tr>
 										</thead>										
 										<tbody>
-											<?php
+										<?php
 													include("database/db_conection.php");//make connection here
 													
 													if((isset($_GET['routewise'])&&$_GET['routewise']!='')){
 													$routewise = $_GET['routewise'];
+
 													$sql = "SELECT s.id,s.status,s.academic,s.admissionno,s.firstname,
 													s.class,s.routeno,s.areaname,a.amount
 													FROM studentprofile s,areamaster a
-                                                    where 1=1";
+                                                    where a.areaname = s.areaname
+													and s.vanflag = 'Y'  AND s.status = 'Y' ";
+
 													if(isset($_GET['routewise'])&&$_GET['routewise']!=''){
 	
 														$sql.=" and s.routeno='".$_GET['routewise']."'";    
@@ -166,7 +174,9 @@ if (isset($_POST["submit"])) {
 													FROM studentprofile s,areamaster a
                                                     where a.areaname = s.areaname
 													and s.vanflag = 'Y'  AND s.status = 'Y' ";
-													}
+
+												}
+
 													$result = mysqli_query($dbcon,$sql);
 													if ($result->num_rows > 0){
 													while ($row =$result-> fetch_assoc()){
@@ -193,7 +203,7 @@ if (isset($_POST["submit"])) {
                                             }
                                         }
                                         ?>						
-                                        <script>
+                                       <script>
 					var page_routewise = "<?php if(isset($_GET['routewise'])){ echo $_GET['routewise']; } ?>";
 
                     				$(document).ready(function () {

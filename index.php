@@ -9,20 +9,20 @@ function get_users_count(){
 }
 function get_student_count(){
     global $dbcon;
-    $sql_q = "select id from studentprofile where status=1";
+    $sql_q = "select id from studentprofile where status='Y'";
     $exc_q = mysqli_query($dbcon,$sql_q)or die("Error");
     return mysqli_num_rows($exc_q);
 }
 function get_student_gendercountm(){
     global $dbcon;
-    $sql_q = "select id from studentprofile where status=1 and gender=1";
+    $sql_q = "select id from studentprofile where status='Y' and gender='M'";
     $exc_q = mysqli_query($dbcon,$sql_q)or die("Error");
     return mysqli_num_rows($exc_q);
 }
 
 function get_student_gendercountf(){
     global $dbcon;
-    $sql_q = "select id from studentprofile where status=1 and gender = 2";
+    $sql_q = "select id from studentprofile where status='Y' and gender = 'F'";
     $exc_q = mysqli_query($dbcon,$sql_q)or die("Error");
     return mysqli_num_rows($exc_q);
 }
@@ -132,7 +132,7 @@ where inv_payment_status!='Paid' and inv_status='Approved' and DATE_ADD(inv_date
 
         <div class="container">
             <br/>
-			<a href="listNewAdmissions.php" style="font-size:25px"><b><i>View Online Admissions - 2021</i></a><br><br>
+			<!--a href="listNewAdmissions.php" style="font-size:25px"><b><i>View Online Admissions - 2021</i></a><br><br-->
 		
 
             <div class="row"> 			

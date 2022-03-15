@@ -410,18 +410,20 @@ if(isset($_SESSION['login_email'])){
                     </li>            
 
                     <li class="submenu">
-                        <a href="#"><i class="fa fa-users"></i>Students<span class="menu-arrow"></span></a>						
+                        <a href="#"><i class="fa fa-mortar-board bigfonts" aria-hidden="true"></i> Students Management<span class="menu-arrow"></span></a>						
                         <ul class="list-unstyled">  
-                            <li><a href="listStudentProfile.php"><i class="fa fa-server bigfonts"></i>Students</a> </li>
-                            <li><a href="listBusStudents.php"><i class="fa fa-location-arrow bigfonts"></i></i>Route Students</a> </li>
-                            <li><a href="listVanStudents.php"><i class="fa fa-bus bigfonts"></i></i>Van/Bus Students</a> </li>
+                            <li><a href="listStudentProfile.php"><i class="fa fa-server bigfonts"></i>List Students</a> </li>
+                            <li><a href="listBusStudents.php"><i class="fa fa-bus bigfonts"></i>Routewise Van Students</a> </li>
+                            <li><a href="listVanStudents.php"><i class="fa fa-download bigfonts"></i>Import/Edit-Van Students</a> </li>
                                 <li><a href="addBulkUpload.php"><i class="fa fa-upload bigfonts"></i>Students Bulk Upload</a> </li>
-                                    <li><a href="importArea.php"><i class="fa fa-upload bigfonts"></i>Area Bulk Upload</a> </li>                                                                         
+                                    <li><a href="importArea.php"><i class="fa fa-upload bigfonts"></i>Area Bulk Upload</a> </li>  
+                                    <li><a href="assignClasswiseSection.php"><i class="fa fa-download bigfonts"></i>Assign/Import Classwise Section</a> </li>  
+									<li><a href="studentsReport.php"><i class="fa fa-line-chart bigfonts" aria-hidden="true"></i>StudentsReport</a> </li> 									
                         </ul>
                         </li>
 
 					<li class="submenu">
-                        <a href="#"><i class="fa fa-users"></i>Staff<span class="menu-arrow"></span></a>						
+                        <a href="#"><i class="fa fa-user"></i>Staff Management<span class="menu-arrow"></span></a>						
                         <ul class="list-unstyled">  
                             <!--li><a href="addStudentProfile.php"><i class="fa fa-user-plus bigfonts" aria-hidden="true"></i>add Students</a> <li-->	
                             <li><a href="addStaffProfile.php"><i class="fa fa-server bigfonts"></i>Staff Profiles</a> </li>                                                
@@ -440,9 +442,9 @@ if(isset($_SESSION['login_email'])){
                             <li><a href="listRoute.php"><i class="fa fa-bus bigfonts"></i>Route</a></li>
                             <li><a href="listAreanames.php"><i class="fa fa-location-arrow bigfonts"></i>Areanames</a></li>
                             <li><a href="listFeesHead.php"><i class="fa fa-rupee bigfonts"></i>Fees Heads</a></li>
-							 <li><a href="listDesignation.php"><i class="fa fa-rupee bigfonts"></i>Designation</a></li>
-							 <li><a href="listCategory.php"><i class=""></i>Category</a></li>
-                             <li><a href="feesNavBar.php"><i class=""></i>Fees Management</a></li>                                                        
+							 <li><a href="listDesignation.php"><i class="fa fa-user-circle-o bigfonts" aria-hidden="true"></i>Designation</a></li>
+							 <li><a href="listCategory.php"><i class="fa fa-minus-square bigfonts" aria-hidden="true"></i>Discount Category</a></li>
+                             <!--li><a href="feesNavBar.php"><i class=""></i>Fees Management</a></li-->                                                        
                         </ul>
                     </li>
 
@@ -451,30 +453,37 @@ if(isset($_SESSION['login_email'])){
                     </li>
 
                     <li class="submenu">
-                        <a href="feesNavBar.php"><i class="fa fa-envelope bigfonts" aria-hidden="true"></i>Fees Management</span></a>
+                        <a href="feesNavBar.php"> <i class="fa fa-money bigfonts" aria-hidden="true"></i>Fees Management</span></a>
                     							
                                    
-                    </li>
+                    </li> 
 
                     <li class="submenu">
-                        <a><i class="fa fa-cc-mastercard bigfonts" aria-hidden="true"></i>Payments<span class="menu-arrow"></span></a>	                        
+                        <a><i class="fa fa-rupee bigfonts"></i>Expense Management<span class="menu-arrow"></span></a>	                        
                         <ul class="list-unstyled">	                            
-							<li><a href="listPayeeMaster.php"><i class="fa fa-user-md bigfonts" aria-hidden="true"></i>Record Payee</a></li>
-                            <li><a href="listVouchers.php"><i class="fa fa-money bigfonts" aria-hidden="true"></i> Expenses</a></li>
+							<!--li><a href="listPayeeMaster.php"><i class="fa fa-user-md bigfonts" aria-hidden="true"></i>Record Payee</a></li-->
+                            <li><a href="listVouchers.php"><i class="fa fa-money bigfonts" aria-hidden="true"></i> Record Expenses</a></li>
+                            <li><a href="expenseReport.php"><i class="fa fa-fw fa-table"></i> <span> Expenses Report</span></a></li>
+							<li><a href="expenseTransactionHistory.php"><i class="fa fa-fw fa-table"></i> <span> Expenses Transaction History log Report</span></a></li>
                         </ul>
                 </li>
+
+                <?php 
+                    if($_SESSION['groupname']=="Admin"){
+                        echo '<li class="submenu"><a href="Reports.php"><i class="fa fa-line-chart bigfonts" aria-hidden="true"></i><span>Reports</span></a></li>';
+                    }
+                    ?>
                 
-            <li class="submenu">
-                        <a href="#"><i class="fa fa-line-chart bigfonts" aria-hidden="true"></i>Reports<span class="menu-arrow"></span></a>	                        
+            <!--li class="submenu">
+                        <a href="#"><i class="fa fa-bar-chart-o"></i>Reports<span class="menu-arrow"></span></a>	                        
                         <ul class="list-unstyled">	
-							<li><a href="collectionReport.php"><i class="fa fa-fw fa-table"></i> <span> Collection Report</span></a></li>
+							<!--li><a href="collectionReport.php"><i class="fa fa-fw fa-table"></i> <span> Collection Report</span></a></li>
 							<li><a href="payeeMasterReport.php"><i class="fa fa-fw fa-table"></i> <span> Payee Reports</span></a></li>
-							<li><a href="payeeTransactionHistory.php"><i class="fa fa-fw fa-table"></i> <span> Payee Transaction History log Report</span></a></li>
-							<li><a href="expenseReport.php"><i class="fa fa-fw fa-table"></i> <span> Expense Reports</span></a></li>
-							<li><a href="expenseTransactionHistory.php"><i class="fa fa-fw fa-table"></i> <span> Expenses Transaction History log Report</span></a></li>
-                            </ul>
-                    </li>            
-                    </ul>
+							<li><a href="payeeTransactionHistory.php"><i class="fa fa-fw fa-table"></i> <span> Payee Transaction History log Report</span></a></li-->
+							
+                            </ul-->
+                    </li-->            
+                    </ul-->
                 <div class="clearfix"></div>
 
             </div>
