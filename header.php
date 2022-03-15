@@ -28,11 +28,11 @@ if(isset($_SESSION['login_email'])){
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>e-Schoolz - an Online School Management Software</title>
-        <meta name="description" content="an Event Management System">
+        <meta name="description" content="an Online School Management Software">
         <meta name="author" content="">
 
         <!-- Favicon -->
-        <link rel="shortcut icon" href="assets/images/logo3-min.png">
+        <link rel="shortcut icon" href="assets/images/schoollogo.jpeg">
 
         <!-- Bootstrap CSS -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -452,11 +452,20 @@ if(isset($_SESSION['login_email'])){
                         <a href="addComposeSMS.php"><i class="fa fa-envelope bigfonts" aria-hidden="true"></i>Compose SMS<span class="menu-arrow"></span></a>                                      
                     </li>
 
-                    <li class="submenu">
+                    <!--li class="submenu">                  
                         <a href="feesNavBar.php"> <i class="fa fa-money bigfonts" aria-hidden="true"></i>Fees Management</span></a>
-                    							
-                                   
-                    </li> 
+                 
+                    </li-->   
+
+                    <li class="submenu">
+                                <a href="#"> <i class="fa fa-money bigfonts" aria-hidden="true"></i> Fees Manegemet<span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">								
+                                    <li><a href="feesNavBar.php"><i class="fa fa-institution bigfonts" aria-hidden="true"></i>Manage School Fees</a></li>	
+                                    <li><a href="listStockItemMaster.php"><i class="fa fa-building-o bigfonts" aria-hidden="true"></i>Manage Other Fees</a></li>								
+                                    <!--li><a href="recordExpenses.php"><i class="fa fa-plus-circle"></i>add Expense</a></li-->								
+                                    <!--li><a href=""><i class="fa fa-circle-o"></i>list Accounts</a></li-->
+                                </ul>
+                            </li>
 
                     <li class="submenu">
                         <a><i class="fa fa-rupee bigfonts"></i>Expense Management<span class="menu-arrow"></span></a>	                        
