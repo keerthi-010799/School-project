@@ -213,13 +213,30 @@ else{
 								                <i class="fa fa-user-plus" aria-hidden="true"></i>New Fees Head</a><br-->                                            
                                                 </div>
                                                 </div>
+												<div class="form-group col-md-4">
+										<label >Term 1</label><span class="text-danger">*</span>
+									  <input type="text" class="form-control form-control-sm" name="term-1" placeholder="Enter Term1 Fee"  >
+									</div>
+									<div class="form-group col-md-4">
+										<label >Term 2</label><span class="text-danger">*</span>
+									  <input type="text" class="form-control form-control-sm" name="term-2" placeholder="Enter Term2 Fee"  >
+									</div>
+									<div class="form-group col-md-4">
+										<label >Term 3</label><span class="text-danger">*</span>
+									  <input type="text" class="form-control form-control-sm" name="term-3" placeholder="Enter Term3 Fee"  >
+									</div>
+
                                                 <div class="form-row">
                                                 <div class="form-group col-md-10">
 										<label >Amount</label><span class="text-danger">*</span>
 									  <input type="text" class="form-control form-control-sm" name="amount" placeholder="Enter Fee Amount"  >
 									</div>
-                                    </div>
-
+                                    </div>									
+								<div class="form-row">
+									<div class="form-group col-md-10">
+										<label><h4>Other Fees</h4></label><span class="text-danger"></span>
+									</div>                                
+								</div>
                                 <div class="form-row">
 									<div class="form-group col-md-10">
 										<label >Due Date</label><span class="text-danger">*</span>

@@ -176,9 +176,10 @@ if(isset($_POST['submit']))
 
                             <div class="form-row">
                             <div class="form-group col-md-6">
-                                    <label for="inputState"><span class="">Academic</span><span class="text-danger">*</span></label>
+                                    <label for="inputState"><span class="">Academic Year</span><span class="text-danger">*</span></label>
                                          <select required id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="academic" >
-                                             
+                                         <option value="0" selected>Select Academic Year</option>
+
                                              <!--select multiple name="academic" class="form-control form-control-sm" -->
                                                     <!--option value="">-Select Academic-</option-->
                                                     <?php 
@@ -193,6 +194,27 @@ if(isset($_POST['submit']))
                                                 </select>
                                 </div>
                                                 </div>
+                                                <div class="form-row">
+                            <div class="form-group col-md-6">
+                                    <label for="inputState"><span class="">Class</span><span class="text-danger">*</span></label>
+                                         <select required id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="class" >
+                                         <option value="0" selected>Select Class</option>
+
+                                             <!--select multiple name="academic" class="form-control form-control-sm" -->
+                                                    <!--option value="">-Select Academic-</option-->
+                                                    <?php 
+                                                    include("database/db_conection.php");//make connection here
+
+                                                    $sql = mysqli_query($dbcon, "SELECT class FROM class ");
+                                                    while ($row = $sql->fetch_assoc()){	
+                                                        echo $class=$row['class'];
+                                                        echo '<option onchange="'.$row[''].'" value="'.$class.'" >'.$class.'</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                </div>
+                                                </div>                        
+
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
@@ -212,7 +234,8 @@ if(isset($_POST['submit']))
                             <div class="form-group col-md-6">
                                     <label for="inputState"><span class="">Category</span><span class="text-danger">*</span></label>
                                          <select required id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="category" >
-                                             
+                                         <option value="0" selected>Select Category</option>
+
                                              <!--select multiple name="academic" class="form-control form-control-sm" -->
                                                     <!--option value="">-Select Academic-</option-->
                                                     <?php 
@@ -227,8 +250,6 @@ if(isset($_POST['submit']))
                                                 </select>
                                 </div>
                                                 </div>                        
-                                
-
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">

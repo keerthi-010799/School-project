@@ -1,4 +1,35 @@
+
+<?php
+include("database/db_conection.php");//make connection here
+ $message = '';
+if (isset($_POST["submit"])) {
+    
+   // $fileName = $_FILES["file"]["tmp_name"];
+    
+    if ($_FILES['file']['name']) {
+        
+        $filename = explode(".",$_FILES['file']['name']);
+        
+        if($filename[1]=='csv'){
+            $handle = fopen($_FILES['file']['tmp_name'],"r");
+                while($data = fgetcsv($handle)){
+                    $item1 =mysqli_real_escape_string($dbcon,$data[0]);
+                    $item2 =mysqli_real_escape_string($dbcon,$data[1]);
+				//	$item3 =mysqli_real_escape_string($dbcon,$data[2]);
+					$sql = "INSERT into areamaster(areaname,amount) values('$item1','$item2')";
+                    mysqli_query($dbcon,$sql);
+                }
+                   fclose($handle) ;
+            //print "Import Done";
+		 //  echo "<script>alert('Import done');<script>";
+		 $message = "Area Names add succusfully";
+        }
+    }
+}
+?>
 <?php include('header.php'); ?>
+
+
 	<!-- End Sidebar -->
 
 
@@ -30,13 +61,15 @@
 							<div class="card mb-3">
 								<div class="card-header">
 								
-										
+								<h3><p class="text-success"><?php echo $message;?></p> </h3>
 											<span class="pull-right">
 										<a href="addAreaMaster.php" class="btn btn-primary btn-sm"><i class="fa fa-user-plus" aria-hidden="true"></i>
 										Add Areaname</a></span>
 								
 									<!--h3><i class="fa fa-bus bigfonts" aria-hidden="true fa-th-list bigfonts"></i><b> List Areanames </b></h3-->
 								</div>
+										
+								<div class="card-body">
 								
 								<form autocomplete="off" action="exportArea.php"  method="post">
 									<div class="form-row">
@@ -46,8 +79,34 @@
 									</div>
 								</form>
 								
+								<form action=""  enctype="multipart/form-data" method="post" accept-charset="utf-8">
+
 								
-								<div class="card-body">
+								<div class="form-row">                                 
+                                <div class="form-group">
+                                        <label>
+                                            <div class="fa-hover col-md-12 col-sm-12">
+                                                <i class="fa fa-folder-open bigfonts" aria-hidden="true"></i>Upload Area Details(csv)</div></label> 
+                                    
+                                        <!--input type="file" name="file" id="file" class="form-control" width="80" height="60"-->
+									<p>Upload CSV <input type='file' name='file'></p>
+									<!--p><button input type='submit'  name='submit' value='Import' class="fa fa-upload bigfonts" >Import</button></p-->
+                                    </div>
+                                </div>
+								    <div class="form-row">
+								    <div class="form-group text-right m-b-10">
+                                                       &nbsp;<button class="fa fa-download bigfonts btn btn-success btn-sm" name="submit" type="submit" value="Import">
+													   IMPORT AREA LIST
+                                                        </button>
+                                                        <button type="button" name="cancel" class="btn btn-secondary btn-sm" onclick="window.history.back();">Cancel
+                                                        </button>
+										</div>
+										</div>		
+								</form>
+
+
+								
+						
 									<div class="table-responsive">
 									<table id="example1" class="table table-bordered table-hover display">
 										<thead>
