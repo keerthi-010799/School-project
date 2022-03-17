@@ -18,11 +18,15 @@ $rs = mysqli_fetch_assoc($result);
 if ($count == 1){
 $_SESSION['userid'] = $rs['id'];
 $_SESSION['groupname'] = $rs['groupname'];
+<<<<<<< HEAD
+$_SESSION['login_email'] = $rs['firstname']." ".$rs['lastname'];
+=======
 //$_SESSION['login_email'] = $rs['firstname']." ".$rs['lastname']." |".$rs['username'];
 $_SESSION['login_email'] = $rs['username'];
 	
 
 	
+>>>>>>> c719b7475d8d191abbe6afb7613b8bfad07bb04c
 header('location: index.php');
 
 }else{
@@ -40,9 +44,13 @@ header('location: index.php');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<<<<<<< HEAD
+    <title>Login</title>
+=======
 	<title>e-Schoolz Login Screen</title>
 	        <link rel="shortcut icon" href="assets/images/logo3.png">
 
+>>>>>>> c719b7475d8d191abbe6afb7613b8bfad07bb04c
 
     <!-- Core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -52,19 +60,31 @@ header('location: index.php');
 	<link href="assets/css/login.css" rel="stylesheet">
 
     <!-- Checkboxes style -->
+<<<<<<< HEAD
+    <link href="assets/css/bootstrap-checkbox.css" rel="stylesheet">
+=======
     <link href="assets/css/bootstrap-checkbox.css" rel="stylesheet
+>>>>>>> c719b7475d8d191abbe6afb7613b8bfad07bb04c
 	
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		
+<<<<<<< HEAD
+		<title></title>
+=======
 		<title>Online School/College Management</title>
+>>>>>>> c719b7475d8d191abbe6afb7613b8bfad07bb04c
 		<meta name="description" content="Free Bootstrap 4 Admin Theme | Pike Admin">
 		<meta name="author" content="Pike Web Development - https://www.pikephp.com">
 
 		<!-- Favicon -->
 		<!--link rel="shortcut icon" href="assets/images/favicon.ico" -->
+<<<<<<< HEAD
+		<link rel="shortcut icon" href="assets/images/ssj-favicon.png">
+=======
 		<link rel="shortcut icon" href="assets/images/logo.png">
+>>>>>>> c719b7475d8d191abbe6afb7613b8bfad07bb04c
 
 		<!-- Bootstrap CSS -->
 		<link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -112,6 +132,8 @@ header('location: index.php');
 		.form-section.current {
 			display: inherit;
 		}
+<<<<<<< HEAD
+=======
 			.input-group-addon {
     padding: 0.375rem 0.75rem;
     margin-bottom: 0;
@@ -124,6 +146,7 @@ header('location: index.php');
     border: 1px solid #ced4da;
     border-radius: 0.25re
 		}
+>>>>>>> c719b7475d8d191abbe6afb7613b8bfad07bb04c
 		</style>
 		<!-- END CSS for this page -->
 				
@@ -150,7 +173,11 @@ header('location: index.php');
           <a class="nav-link active" href="">Login Screen</a>		  
 		  <div class="col-md-8 float-right text-right">																
 		<a style="color:lightblue"><span><i class="fa fa-phone bigfonts" aria-hidden="true"></i>+91 9677573737</span><br>
+<<<<<<< HEAD
+		<span><i class="fa fa-envelope-open-o" aria-hidden="true"></i>&nbsp;saravanas.office@gmail.com</span><br/><i class="fa fa-link"></i> Visit e-schoolz.com</a>		
+=======
 		<span><i class="fa fa-envelope-open-o" aria-hidden="true"></i>&nbsp;saravanas.office@gmail.com</span><br/><i class="fa fa-link"></i> Visit eschoolserp.com&nbsp;&&nbsp;e-schoolz.in</a>		
+>>>>>>> c719b7475d8d191abbe6afb7613b8bfad07bb04c
 		</div>
         </nav>
       </div>
@@ -160,8 +187,14 @@ header('location: index.php');
 	<div class="row h-100 align-items-center">
 	   <div class="col-md-4 offset-md-4">
 		<div class="card">
+<<<<<<< HEAD
+			<h3 class="card-header">
+			<div class="invoice-title text-center mb-1"><img alt="Logo" src="assets/images/avatars/avatar6.png" alt="Profile image" width="180" height="190" /> </div>
+			<div class="invoice-title text-center mb-1">J.V.M.H.S.S SCHOOL</a></div></h3>
+=======
 			<h5 class="card-header text-center mb-1"><img alt="Logo" src="assets/images/schoollogo.jpeg" width="180" height="190"/> 
 			<div class="invoice-title text-center mb-3">an Online School Management System</a></div></h5>
+>>>>>>> c719b7475d8d191abbe6afb7613b8bfad07bb04c
            
 			<div class="card-body">
                     	
