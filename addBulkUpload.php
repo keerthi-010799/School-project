@@ -1,6 +1,6 @@
 <?php
 include("database/db_conection.php");//make connection here
- 
+ $message ='';
 if (isset($_POST["submit"])) {
     
    // $fileName = $_FILES["file"]["tmp_name"];
@@ -53,7 +53,9 @@ if (isset($_POST["submit"])) {
                 }
                    fclose($handle) ;
             //print "Import Done";
-			 echo "<script>alert('Import done');</script>";
+			// echo "<script>alert('Students data File has been successfully Imported');</script>";
+			$message = "Students data File has been successfully Imported";
+			// alert(\"CSV File has been successfully Imported.\");
         }
     }
 }
@@ -105,6 +107,7 @@ if (isset($_POST["submit"])) {
 								<!--h3><class="fa-hover col-md-12 col-sm-12"><i class="fa fa-cart-plus smallfonts" aria-hidden="true">
 								</i>Add Transport Master Details
 								</h3-->
+								<h3><p class="text-success"><?php echo $message;?></p> </h3>
 								
 							</div>
 								

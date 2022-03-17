@@ -124,10 +124,11 @@
 										<thead>
 											<tr>
                                             <th style="width:30px">#</th>													
-													<th style="width:30px">Academic</th>                                                      
+													<th style="width:30px">Academic</th>
+													<th style="width:30px">Class</th>
                                                     <th style="width:30px">Itemcode</th>
 													<th style="width:40px">Item Name</th>
-													
+
                                                    										
 													<th style="width:20px">Price</th>
                                                     <th style="width:20px">UOM</th>
@@ -153,7 +154,7 @@
 														$classwise = $_GET['classwise'];
 														$academicwise = $_GET['academicwise'];
 														$batchwise = $_GET['batchwise'];	
-														$sql = "SELECT id,itemcode,academic,category,itemname,description,price,stockinqty,price*stockinqty as stockvalue,
+														$sql = "SELECT id,itemcode,academic,class,category,itemname,description,price,stockinqty,price*stockinqty as stockvalue,
                                                         handler,uom,createdon,status 
                                                         FROM stockItemMaster s
                                                         WHERE 1=1";										                                            
@@ -172,7 +173,7 @@
 	
 													}else{
 													
-														$sql = "SELECT id,itemcode,academic,category,itemname,description,price,stockinqty,price*stockinqty as stockvalue,
+														$sql = "SELECT id,itemcode,academic,class,category,itemname,description,price,stockinqty,price*stockinqty as stockvalue,
                                                         handler,uom,createdon,status 
                                                         FROM stockItemMaster s
                                                         ORDER BY id ASC";													}
@@ -183,7 +184,8 @@
 														$row_id=$row['id'];
 														echo "<tr>";
                                                         echo '<td>'.$row['id'].' </td>';
-                                                        echo '<td>'.$row['academic'].' </td>';													
+                                                        echo '<td>'.$row['academic'].' </td>';
+														echo '<td>'.$row['class'].' </td>';																										
                                                         echo '<td>'.$row['itemcode'].' </td>';
                                                         echo '<td>'.$row['itemname'].' </td>';										
                                                           echo '<td>'.$row['price'].' </td>';

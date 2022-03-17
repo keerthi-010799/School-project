@@ -1,4 +1,47 @@
 <?php include('header.php'); ?>
+
+<?php
+include("database/db_conection.php");//make connection here
+$message='';
+if (isset($_POST["submit"])) {
+    
+
+    
+    if ($_FILES['file']['name']) {
+        
+        $filename = explode(".",$_FILES['file']['name']);
+        
+       if(end($filename)=='csv'){
+            $handle = fopen($_FILES['file']['tmp_name'],"r");
+                while($data = fgetcsv($handle)){
+					
+					$academic =mysqli_real_escape_string($dbcon,$data[0]);
+					$admissionno =mysqli_real_escape_string($dbcon,$data[1]);
+					$firstname =mysqli_real_escape_string($dbcon,$data[2]);
+                    $lastname =mysqli_real_escape_string($dbcon,$data[3]);
+					$class =mysqli_real_escape_string($dbcon,$data[4]);
+					$section =mysqli_real_escape_string($dbcon,$data[5]);
+				//	$gender =mysqli_real_escape_string($dbcon,$data[5]);
+					//$vanfees =mysqli_real_escape_string($dbcon,$data[5]);
+				
+				$query = "UPDATE studentprofile 
+				set academic='$academic',
+					admissionno = '$admissionno',
+					firstname ='$firstname',
+					lastname = '$lastname',
+					class = '$class',
+					section = '$section'
+					WHERE admissionno ='$admissionno' ";
+					 mysqli_query($dbcon,$query);
+                }
+                   fclose($handle) ;
+            //print "Import Done";
+			// echo "<script>alert('Import done');</script>";
+			$message = "Classwise Section has been assigned/updated Successfully";
+        }
+    }
+}
+?>
 	<!-- End Sidebar -->
 
 
@@ -46,45 +89,49 @@
 								<div class="card-header">
 
                                 				<!--form autocomplete="off" action="#"-->
-								<form action="updateClasswiseSection.php"  enctype="multipart/form-data" method="post" accept-charset="utf-8">
-
 								
-<div class="form-row">                                 
-<div class="form-group">
-        <label>
-            <div class="fa-hover col-md-12 col-sm-8">
-                <i class="fa fa-folder-open bigfonts" aria-hidden="true"></i>IMPORT/ASSIGN CLASSWISE SECTION</div></label> 
-    
-        <!--input type="file" name="file" id="file" class="form-control" width="80" height="60"-->
-    <p>Upload CSV <input type='file' name='file'></p>
-    <!--p><button input type='submit'  name='submit' value='Import' class="fa fa-upload bigfonts" >Import</button></p-->
-    </div>
-    </div>
 
-    <div class="form-row">
-    <div class="form-group text-right m-b-8">
-                       &nbsp;<button class="fa fa-download bigfonts btn btn-primary btn-sm" name="submit" type="submit" value="Import">
-                            IMPORT/ASSIGN CLASSWISE SECTION
-                        </button>
-                        <!--button type="button" name="cancel" class="btn btn-primary btn-sm" onclick="window.history.back();">Cancel
-                        </button-->
-        </div>
-        </div>		
-</form>
+												<h3><p class="text-success"><?php echo $message;?></p> </h3>
 								
-										<span class="pull-right">
+										<!--span class="pull-right"-->
 										<!--a href="addStudentProfile.php" class="btn btn-primary btn-sm"><i class="fa fa-user-plus" aria-hidden="true"></i>
 										Add Student Profile</a></span-->
 									<!--i class="" aria-hidden="">IMPORT/ASSIGN/EDIT CLASSWISE SECTION</i-->
 								</div>
+
 								
 								<div class="card-body">
+
+								<form action=""  enctype="multipart/form-data" method="post" accept-charset="utf-8">
+
+								
+								<div class="form-row">                                 
+                                <div class="form-group">
+                                        <label>
+                                            <div class="fa-hover col-md-12 col-sm-12">
+                                                <i class="fa fa-folder-open bigfonts" aria-hidden="true"></i>Upload Section Details(csv)</div></label> 
+                                    
+                                        <!--input type="file" name="file" id="file" class="form-control" width="80" height="60"-->
+									<p>Upload CSV <input type='file' name='file'></p>
+									<!--p><button input type='submit'  name='submit' value='Import' class="fa fa-upload bigfonts" >Import</button></p-->
+                                    </div>
+                                </div>
+								    <div class="form-row">
+								    <div class="form-group text-right m-b-10">
+                                                       &nbsp;<button class="fa fa-download bigfonts btn btn-success btn-sm" name="submit" type="submit" value="Import">
+													   IMPORT/ASSIGN CLASSWISE SECTION
+                                                        </button>
+                                                        <button type="button" name="cancel" class="btn btn-secondary btn-sm" onclick="window.history.back();">Cancel
+                                                        </button>
+										</div>
+										</div>		
+								</form>
                                     
                                     <form autocomplete="off" action="exportClassSectionWiseStudents.php"  method="post">
 										
 									<div class="form-row">
 										<div class="form-group col-md-8">
-								<input type="submit" class="btn btn-info btn-sm"  name="exportStudents" value="Download Class/Section List Format"/>
+								<input type="submit" class="btn btn-info btn-sm"  name="exportStudents" value="Download Section Asssign CSV File Format"/>
 										</div>
 									</div>
 								
