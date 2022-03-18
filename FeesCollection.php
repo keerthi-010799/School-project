@@ -27,7 +27,7 @@
                             
                         </div>
 <div class="card-body">
-    <form>
+    <form action="" method="post">
     <div class="form-row">
                             <div class="form-group col-md-6">
                                     <label for="inputState"><span class="">Class</span><span class="text-danger">*</span></label>
@@ -64,17 +64,24 @@
                                                 <div class="form-row">
                             <div class="form-group col-md-6">
                             <label for="inputState"><span class="">Fees Type</span><span class="text-danger">*</span></label>
-                                                <select id="feesType" data-parsley-trigger="change"  class="form-control form-control-sm"  name="FeesType">
+                                                <select id="feesType" data-parsley-trigger="change"  class="form-control form-control-sm" onchange="fees()"  name="FeesType">
                                              <option value="">-Select Fees Type-</option>
-                                                <option value="Term1" >Term Fees</option>
+                                                <option value="TermFees" >Term Fees</option>
                                                 <option value="VanFees" >Van Fees</option>
                                                 <option value="OtherFees" >Other Fees</option>
                                             </select>
                                                   </div>
                                                   </div>
                                                 </div>                                               
-                                                  </div>
-                                                  <form>
+                                                </div>                                               
+                                                <div class="card body" id="feesform" style="display:none">  
+                                                <form>
+                                                <div class="form-row">
+                                                  <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Total Amount</span><span class="text-danger">*</span></label>
+                                                  <input readonly/>
+                                                </div>
+                                                </div>
                                                   <div class="form-row">
                                                   <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term Fees</span><span class="text-danger">*</span></label>
@@ -82,8 +89,9 @@
                                                   <div><label>Term 2</label><input/></div>
                                                   <div><label>Term 3</label><input/></div>                                            
                                                   </div>
-                                                  </div>
+                                                  </div>                                                 
                                                   </form>
+                                                </div>
                                                   <form>
                                                   <div class="form-row">
                                                   <div class="form-group col-md-6">
@@ -116,7 +124,6 @@
 <script type="text/javascript">
   function FetchStudents(id){
     $('#students').html('');
-   // $('#city').html('<option>Select City</option>');
     $.ajax({
       type:'post',
       url: 'fetchDynamicClassAjax.php',
@@ -127,12 +134,20 @@
 
     })
   }
-                                                    function onFeesPayment(x) 
-                                                    {    
-                                                        var student_id=x.value;
-                                                        window.location.href = 'makeFeesPayment.php?student_id='+student_id;
-                                                    }
-	
+  function onFeesPayment(x) 
+     {    
+         var student_id=x.value;
+         window.location.href = 'makeFeesPayment.php?student_id='+student_id;
+     }
+     $('document').ready(function(){
+        var feesType = "<?php if(isset($_GET['FeesType'])){echo $_GET['FeesType'];}?>";
+        if(feesType == "TermFees"){
+            $("#feesform").show();
+        }	
+}
+	function fees(){
+        alert("click");
+    }
   
 </script>
 <!-- BEGIN Java Script for this page -->
