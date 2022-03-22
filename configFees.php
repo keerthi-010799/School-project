@@ -3,6 +3,7 @@ include("database/db_conection.php");//make connection here
 $feesConfig = '';
 if(isset($_POST['submit']))
 {
+	$feesId ="";
 	$feescode ="";
     $prefix = "";
   
@@ -12,91 +13,57 @@ if(isset($_POST['submit']))
 	$feesname=$_POST['feesname'];//same
 	$amount=$_POST['amount'];//same
     $duedate=$_POST['duedate'];
-	//$category=$_POST['category'];
+	$feeprefix = "fee".$_POST['class'];
 
-$sql="SELECT MAX(id) as latest_id FROM feesconfig ORDER BY id DESC";
+	$sql="SELECT MAX(fee_config_id) as latest_id,fee_config_code as fc  FROM feesconfig ORDER BY id DESC";
  if($result = mysqli_query($dbcon,$sql)){
      $row   = mysqli_fetch_assoc($result);
      if(mysqli_num_rows($result)>0){
          $maxid = $row['latest_id'];
          $maxid+=1;
 
-         $feescode = $prefix.$maxid;
+         $feesid = $prefix.$maxid;
      }else{
          $maxid = 0;
          $maxid+=1;
-         $feescode = $prefix.$maxid;
+         $feesId = $prefix.$maxid;
      }
  }
- $check_Config_alreadyDone="SELECT f.feesname,f.class FROM feesconfig f,class c WHERE f.feesname = '$feesname' AND c.class = '$class' '";
+ if($result = mysqli_query($dbcon,$sql)){
+	$row   = mysqli_fetch_assoc($result);
+	if(mysqli_num_rows($result)>0){
+		$maxid = $row['fc'];
+		$maxid+=1;
+
+		$feesid = $feeprefix.$maxid;
+	}else{
+		$maxid = 0;
+		$maxid+=1;
+		$feescode = $feeprefix.$maxid;
+	}
+}
  
  $run_query=mysqli_query($dbcon,$check_Config_alreadyDone);
  if(mysqli_num_rows($run_query)>0)
  {
-     //echo '0';
-    // echo "<script>alert('Item Name: $itemname is already exist in our database, Please try another one!')</script>";
-     //$fmsg= "Email already exists";   
     $feesConfig = "Fees Name: '$feesname''already Assigned to this class, Please try another class!";
-    //exit();
-     // header("location:addPurchaseItemMaster.php");
- }
-//    else{	$sql = 'Insert....
-
+     }
 else{
-   //$image =base64_encode($image);														
-	$insert_feesconfig="INSERT INTO feesconfig(`feescode`,`academic`,`class`,`gender`,`feesname`,`amount`,`duedate`) 
-	VALUES ('$feescode','$academic','$class','$gender','$feesname','$amount','$duedate')";													    
-
+	$insert_feesconfig="INSERT INTO feesconfig(`fee_config_id`,`fee_config_code`,`fee_config_academic_year`,`fee_config_class`,`fee_config_gender`,`fee_config_name`,`fee_config_amount`,`fee_config_duedate`,`fee_config_status`,`fee_config_createdby`,`fee_config_createdon`,`fee_config_structure`) 
+	VALUES ('$feesId','$feesCode','$academic','$class','$gender','$feesname','$amount','$duedate')";													    
 	echo "$insert_feesconfig";
-	//exit;
-	
 	if(mysqli_query($dbcon,$insert_feesconfig))
 	{
 		echo "<script>alert('Fees Configuration Successful ')</script>";
 		header("location:listFeesConfig.php");
      } else { echo die('Error: ' . mysqli_error($dbcon).$insert_feesconfig );
-		exit; //echo "<script>alert('section creation  unsuccessful ')</script>";
+		exit; 
 	}
 	die;
 }
 }
 ?>
 <?php include('header.php');?>
-	<!-- End Sidebar -->
-
-    <!-- Modal Feename-->
-    <!--div class="modal fade custom-modal" id="customModalFeesname2" tabindex="-1" role="dialog" aria-labelledby="customModal" aria-hidden="true">
-								  <div class="modal-dialog" role="document">
-									<div class="modal-content">
-									  <div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel2">Add Feesname</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										  <span aria-hidden="true">&times;</span>
-										</button>
-									  </div>
-									  <div class="modal-body">
-									  	<form action="#" enctype="multipart/form-data" method="post">
-									  
-											<div class="form-group">
-												<input type="text" class="form-control" name="addfeesname2" id="addfeesname2"  placeholder="Enter Feeas Head" required >
-											</div>
-										 
-											<div class="form-group">
-												<input type="text" class="form-control" name="addescription2" id="addescription2"  placeholder="Description">
-											</div>
-										</div>
-										
-									  <div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-										<button type="button" name="submitfeesname2" id="submitfeesname2" class="btn btn-primary">Save and Associate</button>
-									  </div>
-										   
-								  </div>
-										  
-								</div>
-								</div-->
-	<!-- Modal Ends-->	
-
 
     <div class="content-page">
 	
@@ -119,35 +86,19 @@ else{
 					</div>
 			</div>
             <!-- end row -->
-
-            
-			<!--div class="alert alert-success" role="alert">
-					  <h4 class="alert-heading">Company Registrtion Form</h4>
-					  <p></a></p>
-			</div-->
-
 			
 			<div class="row">
-			
-                    
-
-					
+			                    					
 					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">						
 						<div class="card mb-3">
 							<div class="card-header">
-								<!--h3><i class="fa fa-check-square-o"></i>Create Company </h3-->
 								 <h3><i class="fa fa-calendar bigfonts" aria-hidden="true"></i> 
 								 Fees Configuration
                                  <p class="text-danger"><?php echo $feesConfig;?></p> </h3>
-								<!--h3><class="fa-hover col-md-12 col-sm-12"><i class="fa fa-cart-plus smallfonts" aria-hidden="true">
-								</i>Add Transport Master Details
-								</h3-->
-									 </div>
-									 
+									 </div>									 
 								
 							<div class="card-body">
 								
-								<!--form autocomplete="off" action="#"-->
 								<form action=""  enctype="multipart/form-data" method="post" accept-charset="utf-8">
 								<div class="form-row">
                                     <div class="form-group col-md-4 ">
@@ -209,34 +160,26 @@ else{
                                                     }
                                                     ?>
                                                 </select>
-                                                <!--a href="#custom-modal" data-target="#customModalFeesname2" data-toggle="modal">
-								                <i class="fa fa-user-plus" aria-hidden="true"></i>New Fees Head</a><br-->                                            
                                                 </div>
                                                 </div>
+												<div class="form-row">
+                                                <div class="form-group col-md-10">
+										<label >Amount</label><span class="text-danger">*</span>
+									<input type="text" id="amount" class="form-control form-control-sm" name="amount" placeholder="Enter Fee Amount" onblur="addfees()">
+									</div>
+                                    </div>
 												<div class="form-group col-md-4">
 										<label >Term 1</label><span class="text-danger">*</span>
-									  <input type="text" class="form-control form-control-sm" name="term-1" placeholder="Enter Term1 Fee"  >
+									  <input type="text" class="form-control form-control-sm" id="term1" name="term-1" placeholder="Term1 Fee" readonly >
 									</div>
 									<div class="form-group col-md-4">
 										<label >Term 2</label><span class="text-danger">*</span>
-									  <input type="text" class="form-control form-control-sm" name="term-2" placeholder="Enter Term2 Fee"  >
+									  <input type="text" class="form-control form-control-sm" id="term2" name="term-2" placeholder="Term2 Fee"  readonly>
 									</div>
 									<div class="form-group col-md-4">
 										<label >Term 3</label><span class="text-danger">*</span>
-									  <input type="text" class="form-control form-control-sm" name="term-3" placeholder="Enter Term3 Fee"  >
-									</div>
-
-                                                <div class="form-row">
-                                                <div class="form-group col-md-10">
-										<label >Amount</label><span class="text-danger">*</span>
-									  <input type="text" class="form-control form-control-sm" name="amount" placeholder="Enter Fee Amount"  >
-									</div>
-                                    </div>									
-								<div class="form-row">
-									<div class="form-group col-md-10">
-										<label><h4>Other Fees</h4></label><span class="text-danger"></span>
-									</div>                                
-								</div>
+									  <input type="text" class="form-control form-control-sm" id="term3" name="term-3" placeholder="Term3 Fee"  readonly>
+									</div>                                    																	
                                 <div class="form-row">
 									<div class="form-group col-md-10">
 										<label >Due Date</label><span class="text-danger">*</span>
@@ -310,6 +253,14 @@ $('document').ready(function(){
 		 
 		 });
 });
+function addfees(){
+	alert('red');
+	var total = $('#amount').val();
+	var term = total/3;
+	$('#term1').val(term);
+	$('#term2').val(term);
+	$('#term3').val(term);
+}
 			
 </script>	
 	

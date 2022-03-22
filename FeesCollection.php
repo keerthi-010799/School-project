@@ -21,7 +21,7 @@
             </div>
             <!-- end row -->
             <div class="row">					
-                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">					
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">					
                     <div class="card mb-3">
                            <div class="card-header">
                             
@@ -45,7 +45,7 @@
                                 </div>
                                                 </div>                        
 
-                                                <div class="form-row">
+                <div class="form-row">
                             <div class="form-group col-md-6">
                                     <label for="inputState"><span class="">Students</span><span class="text-danger">*</span></label>
                                          <select required id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="class" >
@@ -61,6 +61,8 @@
                                                 </select>
                                             </div>
                                                 </div>  
+
+
                                                 <div class="form-row">
                             <div class="form-group col-md-6">
                             <label for="inputState"><span class="">Fees Type</span><span class="text-danger">*</span></label>
@@ -74,37 +76,72 @@
                                                   </div>
                                                 </div>                                               
                                                 </div>                                               
-                                                <div class="card body" id="feesform" style="display:none">  
-                                                <form>
+                                                <div id="termfeesform" style="display:none">  
                                                 <div class="form-row">
-                                                  <div class="form-group col-md-6">
+                                                <div class="form-group col-md-6">
+                                                <label for="inputState"><span class="">Term Fees</span></label>
+                                                </div>
+                                                </div>
+                                                <div class="form-row">  
+                                                <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Total Amount</span><span class="text-danger">*</span></label>
                                                   <input readonly/>
                                                 </div>
                                                 </div>
                                                   <div class="form-row">
-                                                  <div class="form-group col-md-6">
-                                                  <label for="inputState"><span class="">Term Fees</span><span class="text-danger">*</span></label>
-                                                  <div><label>Term 1</label><input/></div>
-                                                  <div><label>Term 2</label><input/></div>
-                                                  <div><label>Term 3</label><input/></div>                                            
-                                                  </div>
-                                                  </div>                                                 
-                                                  </form>
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Term 1</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" class="form-control form-control-sm" name="admissionno" placeholder="" required class="form-control" autocomplete="off" />
                                                 </div>
-                                                  <form>
+                                                </div>
+                                                <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Term 2</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" class="form-control form-control-sm" name="admissionno" placeholder="" required class="form-control" autocomplete="off" />
+                                                </div>
+                                                </div>
+                                                <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Term 3</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" class="form-control form-control-sm" name="admissionno" placeholder="" required class="form-control" autocomplete="off" />
+                                                </div>                                            
+                                                  </div>
+                                                </div>
+                                                </div>
+                                                <div id="vanfeesform" style="display:none">  
                                                   <div class="form-row">
                                                   <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Van Fees</span><span class="text-danger">*</span></label>
+                                                  
+                                                  <table  class="table table-hover small-text" id="tb">
+                                    <tr class="tr-header">
+                                        <th width="20%">Class</th>
+                                        <th width="11%">Student</th>
+                                        <th width="12%">Area</th>
+                                        <th width="20%">Total Fees</th>
+                                        <th width="25%" >Fees collected</th>
+                                    </tr>  
+                                                </table>
+                                                </div>
                                                   </div>
-                                                  </div>
-                                                  </form>
+                                                </div>
+                                                  <div id="otherfeesform" style="display:none">  
                                                   <div class="form-row">
                                                   <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Other Fees</span><span class="text-danger">*</span></label>
+                                                 
+                                                  <table  class="table table-hover small-text" id="tb">
+                                    <tr class="tr-header">
+                                        <th width="20%">Class</th>
+                                        <th width="11%">Student</th>
+                                        <th width="12%">Area</th>
+                                        <th width="25%">Total Fees</th>
+                                        <th width="25%" >Fees collected</th>
+                                    </tr>  
+                                                </table>  
+                                                </div>
                                                   </div>
-                                                  </div>
-                                                  </form>
+                                                </div>
                               <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <input type="hidden" name="id" >
@@ -121,6 +158,17 @@
 </div>
 </div>
         </form>
+        <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/detect.js"></script>
+    <script src="assets/js/fastclick.js"></script>
+    <script src="assets/js/jquery.blockUI.js"></script>
+    <script src="assets/js/jquery.nicescroll.js"></script>
+    <script src="assets/js/jquery.scrollTo.min.js"></script>
+    <script src="assets/plugins/switchery/switchery.min.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> 
 <script type="text/javascript">
   function FetchStudents(id){
     $('#students').html('');
@@ -139,14 +187,29 @@
          var student_id=x.value;
          window.location.href = 'makeFeesPayment.php?student_id='+student_id;
      }
+     
      $('document').ready(function(){
-        var feesType = "<?php if(isset($_GET['FeesType'])){echo $_GET['FeesType'];}?>";
+        	
+    })
+	function fees()
+    {
+        var feesType = $('#feesType').val();        
         if(feesType == "TermFees"){
-            $("#feesform").show();
-        }	
-}
-	function fees(){
-        alert("click");
+            $("#termfeesform").css('display','block');
+            $("#vanfeesform").css('display','none');
+            $("#otherfeesform").css('display','none');
+
+        }
+        else if(feesType == "VanFees"){
+            $("#termfeesform").css('display','none');
+            $("#vanfeesform").css('display','block');
+            $("#otherfeesform").css('display','none');
+        }
+        else if(feesType == "OtherFees"){
+            $("#otherfeesform").css('display','block');
+            $("#termfeesform").css('display','none');
+            $("#vanfeesform").css('display','none');
+        }
     }
   
 </script>
