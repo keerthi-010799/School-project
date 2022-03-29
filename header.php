@@ -27,12 +27,13 @@ if(isset($_SESSION['login_email'])){
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>e-Schoolz - an Online School Management Software</title>
-        <meta name="description" content="an Online School Management Software">
+        <title>Online e-Schoolz ERP Software</title>
+        <meta name="description" content="Online GST POS Software">
         <meta name="author" content="">
 
         <!-- Favicon -->
-        <link rel="shortcut icon" href="assets/images/schoollogo.jpeg">
+        <link rel="shortcut icon" href="assets/images/avatars/ssj-favicon.png">
+		
 
         <!-- Bootstrap CSS -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -42,15 +43,11 @@ if(isset($_SESSION['login_email'])){
 
         <!-- Custom CSS -->
         <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
-        
-        
 
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css"/>
-        
-        <!-- Select 2 -->
-         <link href="select2.css" rel="stylesheet"/>
-    
+		
+		
 
 
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -58,33 +55,6 @@ if(isset($_SESSION['login_email'])){
         <script src="assets/js/modernizr.min.js"></script>
         <script src="assets/js/moment.min.js"></script>
         <script src="assets/js/main.js"></script>
-		
-		
-		<!-- BEGIN CSS for this page -->
-		<link href="assets/plugins/datetimepicker/css/daterangepicker.css" rel="stylesheet" /> 
-		<!-- END CSS for this page -->
-		
-		
-		<!-- Custom CSS -->
-		<link href="assets/css/style.css" rel="stylesheet" type="text/css" />	
-		
-		<!-- BEGIN CSS for this page -->
-		<link rel="stylesheet" href="assets/plugins/trumbowyg/ui/trumbowyg.min.css">
-		<!-- END CSS for this page -->
-		
-			<!-- BEGIN CSS for this page -->
-		<link href="assets/plugins/lightbox/ekko-lightbox.css" rel="stylesheet" /> 
-		<!-- END CSS for this page -->
-		
-		<!-- BEGIN CSS for this page -->
-		<link href="assets/plugins/jquery.filer/css/jquery.filer.css" rel="stylesheet" />
-		<link href="assets/plugins/jquery.filer/css/themes/jquery.filer-dragdropbox-theme.css" rel="stylesheet" />
-		<!-- END CSS for this page -->
-      <!-- Dynamic Dropdown-->
-        <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script-->
-				
-
 
         <?php include('assets/datatables.php'); ?>
 
@@ -128,11 +98,9 @@ if(isset($_SESSION['login_email'])){
             tr.shown td.details-control {
                 background: url('assets/plugins/datatables/img/details_close.png') no-repeat center center;
             }
-        </style>
-        
-        
-        		
-<!-- Select 2 searchable Drop down -->
+        </style>		
+		
+		<!-- Select 2 searchable Drop down -->
 		<!-- Switchery css -->
 		<link href="assets/plugins/switchery/switchery.min.css" rel="stylesheet" />
 		
@@ -148,9 +116,6 @@ if(isset($_SESSION['login_email'])){
 		<!-- BEGIN CSS for this page -->
 		<link href="assets/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css"/>
 		<!-- END CSS for this page -->
-
-            
-        
 <!-- END Select 2 searchable Drop down -->
 
     </head>
@@ -423,11 +388,11 @@ if(isset($_SESSION['login_email'])){
                         </li>
 
 					<li class="submenu">
-                        <a href="#"><i class="fa fa-user"></i>Staff Management<span class="menu-arrow"></span></a>						
+                        <a href="#"><i class="fa fa-calendar bigfonts" aria-hidden="true"></i>Attendance Management<span class="menu-arrow"></span></a>						
                         <ul class="list-unstyled">  
                             <!--li><a href="addStudentProfile.php"><i class="fa fa-user-plus bigfonts" aria-hidden="true"></i>add Students</a> <li-->	
-                            <li><a href="addStaffProfile.php"><i class="fa fa-server bigfonts"></i>Staff Profiles</a> </li>                                                
-                                <li><a href="addBulkUpload.php"><i class="fa fa-upload bigfonts"></i>Staff Upload</a> </li>
+                            <li><a href="addStudentsAttendance.php"><i class="fa fa-calendar-check-o bigfonts" aria-hidden="true"></i>Daily Attendance</a> </li>                                                
+                                <li><a href="StudentAttendanceReport.php"><i class="fa fa-bar-chart bigfonts" aria-hidden="true"></i> Attendance Report</a> </li>
                                     <!--li><a href="importArea.php"><i class="fa fa-upload bigfonts"></i>Area Upload</a-->                                                                                     
                         </ul></li>
                         
@@ -468,7 +433,7 @@ if(isset($_SESSION['login_email'])){
                             </li>
 
                     <li class="submenu">
-                        <a><i class="fa fa-rupee bigfonts"></i>Expense Management<span class="menu-arrow"></span></a>	                        
+                        <a><i class="fa fa-credit-card bigfonts" aria-hidden="true"></i>Expense Management<span class="menu-arrow"></span></a>	                        
                         <ul class="list-unstyled">	                            
 							<!--li><a href="listPayeeMaster.php"><i class="fa fa-user-md bigfonts" aria-hidden="true"></i>Record Payee</a></li-->
                             <li><a href="listVouchers.php"><i class="fa fa-money bigfonts" aria-hidden="true"></i> Record Expenses</a></li>

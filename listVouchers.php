@@ -111,7 +111,7 @@
                                                 console.log(x);
                                                  var row_id = $(x).attr('data-id');
                                                 if (confirm('Confirm delete')) {
-                                                  window.location.href = 'deleteVouchers.php?id='+row_id;
+                                                  window.location.href = 'deleteVoucher.php?id='+row_id;
                                                }
                                             }
 											 </script>

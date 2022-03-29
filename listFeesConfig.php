@@ -55,28 +55,25 @@
 											<?php
 												
 													include("database/db_conection.php");//make connection here
-													$sql = "SELECT f.academic,f.feescode,c.class,f.feesname,f.amount,f.gender,f.duedate, 
-													f.status,f.id FROM feesconfig f,class c
-													WHERE f.class = c.class
-													ORDER BY f.class";
+													$sql = "SELECT * FROM feesconfig";
 													$result = mysqli_query($dbcon,$sql);
 													
 													if ($result->num_rows > 0){
 													while ($row =$result-> fetch_assoc()){
 													echo "<tr>";
-													echo '<td>' .$row['id'] . '</td>';
-													echo '<td>'.$row['academic'].' </td>';
-													echo '<td>'.$row['class'].' </td>';
-													echo '<td>'.$row['gender'].' </td>';
-													echo '<td>'.$row['feesname'].' </td>';
-													echo '<td>'.$row['amount'].' </td>';
-													echo '<td>'.$row['duedate'].' </td>';
-													echo '<td>'.$row['status'].' </td>';
+													echo '<td>' .$row['fee_config_id'] . '</td>';
+													echo '<td>'.$row['fee_config_academic_year'].' </td>';
+													echo '<td>'.$row['fee_config_class'].' </td>';
+													echo '<td>'.$row['fee_config_gender'].' </td>';
+													echo '<td>'.$row['fee_config_name'].' </td>';
+													echo '<td>'.$row['fee_config_amount'].' </td>';
+													echo '<td>'.$row['fee_config_duedate'].' </td>';
+													echo '<td>'.$row['fee_config_status'].' </td>';
 													
-													echo '<td><a href="editFeesConfig.php?id=' . $row['id'] . '" class="btn btn-primary btn-sm" data-target="#modal_edit_user_5">
+													echo '<td><a href="editFeesConfig.php?id=' . $row['fee_config_id'] . '" class="btn btn-primary btn-sm" data-target="#modal_edit_user_5">
 														<i class="fa fa-pencil" aria-hidden="true"></i></a>
 													
-													<a href="javascript:deleteRecord_8(' . $row['id'] . ');" class="btn btn-danger btn-sm" data-placement="top" data-toggle="tooltip" data-title="Delete">
+													<a href="javascript:deleteRecord_8(' . $row['fee_config_id'] . ');" class="btn btn-danger btn-sm" data-placement="top" data-toggle="tooltip" data-title="Delete">
 													<i class="fa fa-trash-o" aria-hidden="true"></i></a></td>';
 													echo "</tr>";
 													}

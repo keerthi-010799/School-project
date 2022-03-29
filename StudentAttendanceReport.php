@@ -29,10 +29,10 @@
 						<div class="row">
 									<div class="col-xl-12">
 											<div class="breadcrumb-holder">
-													<h1 class="main-title float-left">Students Attendance Marking</h1>
+													<h1 class="main-title float-left">Students Attendance Report</h1>
 													<ol class="breadcrumb float-right">
 														<li class="breadcrumb-item">Home</li>
-														<li class="breadcrumb-item active">Students Attendance</li>
+														<li class="breadcrumb-item active">Students Attendance< Report/li>
 													</ol>
 													<div class="clearfix"></div>
 											</div>
@@ -46,9 +46,9 @@
 								<div class="card-header">
 								
 										<span class="pull-right">
-										<a href="StudentAttendanceReport.php" class="btn btn-success btn-sm"><i class="fa fa-calendar-check-o bigfonts" aria-hidden="true"></i>
-										Check Attendance Report</a></span>
-									<i class="" aria-hidden="">List Attendance</i>
+										<a href="addStudentsAttendance.php" class="btn btn-success btn-sm"><i class="fa fa-calendar-check-o bigfonts" aria-hidden="true"></i>
+										Mark Attendance </a></span>
+									<i class="" aria-hidden="">Attendance Report</i>
 								</div>
 								
 								<div class="card-body">
@@ -114,12 +114,6 @@
 											<input type="button" class="btn btn-primary btn-sm" name="search" value="Search" onclick="search_filter();">
 								
                                         </div>
-										
-									<div class="form-group col-md-2">
-									   
-									  <input type="date" class="form-control form-control-sm"  name="createdon" value="<?php echo date("Y-m-d");?>" >							
-									</div>
-												</div>
 										</div>
 										
 										
@@ -141,10 +135,11 @@
                                                     <th style="width:20px">Academic</th>
                                                     <th style="width:40px">Parent</th>
 													<th style="width:20px">Mobile</th>                                                   
-												    <!--th style="width:20px">Date</th-->                                                  
+												    <th style="width:20px">Created On</th>    
+                                                    <th style="width:20px">Attendance</th>                                                  
 													<!--th style="width:20px">Academic</th-->												  
 													<!--th style="width:30px">Attendance</th-->
-													<th style="width:20px">Mark/Edit Attendance</th>
+													<!--th style="width:20px">Mark/Edit Attendance</th-->
 													</tr>
 										</thead>										
 										<tbody>
@@ -162,8 +157,8 @@
 														$academicwise = $_GET['academicwise'];
 													//	$batchwise = $_GET['batchwise'];	
 														$sql = "SELECT id,admissionno,firstname,lastname,class,section,
-														fathername,mobile,academic,CURDATE() AS Today 
-                                                        FROM `studentprofile` s where 1=1";										                                            
+														fathername,mobile,academic,createdon,attendance
+                                                        FROM `studentsattendance` s where 1=1";										                                            
 													 if(isset($_GET['classwise'])&&$_GET['classwise']!=''){
 	
 														$sql.=" and s.class='".$_GET['classwise']."'";    
@@ -180,8 +175,8 @@
 													}else{
 													
 														$sql = "SELECT id,admissionno,firstname,lastname,class,section,
-														fathername,mobile,academic,CURDATE() AS Today 
-                                                        FROM `studentprofile`  WHERE status='Y'
+														fathername,mobile,academic,createdon,attendance 
+                                                        FROM `studentsattendance` 
 														ORDER BY class ASC";													}
 																											
 													$result = mysqli_query($dbcon,$sql);
@@ -203,12 +198,12 @@
                                                     echo '<td>'.$row['academic'].'</td>';
 													echo '<td>'.$row['fathername'].'</td>';
 													echo '<td>'.$row['mobile'].'</td>';												
-												//	echo '<td>'.$row['Today'].'</td>';
-                                                 //   echo '<td>'.$row['createdby'].'</td>';
+													echo '<td>'.$row['createdon'].'</td>';
+                                                  //  echo '<td>'.$row['attendance'].'</td>';
 													
 													
 														?>
-													<!--td><?php if($row['status']=='Y'){
+													<td><?php if($row['attendance']=='P'){
 																	echo '<span style="background-color:green;text-align:center;">
 																	<span style="color:white;text-align:center;">Present';
 																}else if($row['attendance']=='A'){
@@ -217,17 +212,17 @@
 																}else{
 																	echo "";
 																}	 ?>
-													</td-->
+													</td>
 												  
 													<?php
-													echo '<td><a href="editAttendance.php?id=' . $row['id'] . '" class="btn btn-primary btn-sm" data-target="#modal_edit_user_5">
-														<i class="fa fa-pencil" aria-hidden="true"></i></a>
+													//echo '<td><a href="editAttendance.php?id=' . $row['id'] . '" class="btn btn-primary btn-sm" data-target="#modal_edit_user_5">
+													//	<i class="fa fa-pencil" aria-hidden="true"></i></a>
 													
-													<!--a onclick="delete_record(this);" id="deleteCustomerProfile" data-id="' . $row_id . '" class="btn btn-danger btn-sm"  data-title="Delete">
-													<i class="fa fa-trash-o" aria-hidden="true"></i></a-->
+													//<a onclick="delete_record(this);" id="deleteCustomerProfile" data-id="' . $row_id . '" class="btn btn-danger btn-sm"  data-title="Delete">
+												//	<i class="fa fa-trash-o" aria-hidden="true"></i></a-->
                                                 
-														<!--a onclick="print_record(this);" id="printStudentProfile" data-id="' . $row_id . '" class="btn btn-secondary btn-sm"  data-title="Print">
-													<i class="fa fa-print" aria-hidden="true"></i></a></td-->';                                               
+												//		<a onclick="print_record(this);" id="printStudentProfile" data-id="' . $row_id . '" class="btn btn-secondary btn-sm"  data-title="Print">
+												//	<i class="fa fa-print" aria-hidden="true"></i></a></td-->';                                               
 														
 														echo "</tr>";
                                             }
@@ -263,7 +258,7 @@
 												var classwise = $('#classwise').val();
 											//	var batchwise = $('#batchwise').val();
 												var academicwise = $('#academicwise').val();
-												location.href="addStudentsAttendance.php?classwise="+classwise+"&academicwise="+academicwise;
+												location.href="StudentAttendanceReport.php?classwise="+classwise+"&academicwise="+academicwise;
 											}
 											
 											 </script>

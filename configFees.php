@@ -3,9 +3,7 @@ include("database/db_conection.php");//make connection here
 $feesConfig = '';
 if(isset($_POST['submit']))
 {
-	$feesId ="";
 	$feescode ="";
-    $prefix = "";
   
 	$academic=$_POST['academic'];//same
     $class=$_POST['class'];//same
@@ -13,54 +11,35 @@ if(isset($_POST['submit']))
 	$feesname=$_POST['feesname'];//same
 	$amount=$_POST['amount'];//same
     $duedate=$_POST['duedate'];
-	$feeprefix = "fee".$_POST['class'];
+	$feeprefix = $_POST['class'];
 
-	$sql="SELECT MAX(fee_config_id) as latest_id,fee_config_code as fc  FROM feesconfig ORDER BY id DESC";
- if($result = mysqli_query($dbcon,$sql)){
-     $row   = mysqli_fetch_assoc($result);
-     if(mysqli_num_rows($result)>0){
-         $maxid = $row['latest_id'];
-         $maxid+=1;
-
-         $feesid = $prefix.$maxid;
-     }else{
-         $maxid = 0;
-         $maxid+=1;
-         $feesId = $prefix.$maxid;
-     }
- }
- if($result = mysqli_query($dbcon,$sql)){
-	$row   = mysqli_fetch_assoc($result);
-	if(mysqli_num_rows($result)>0){
-		$maxid = $row['fc'];
-		$maxid+=1;
-
-		$feesid = $feeprefix.$maxid;
-	}else{
+	$sql="SELECT MAX(fee_config_id) as id FROM feesconfig ORDER BY id DESC";
+  if($result = mysqli_query($dbcon,$sql)){
+ 	$row   = mysqli_fetch_assoc($result);
+ 	if(mysqli_num_rows($result)>0){
+ 	  echo $row['id'];
+		 	$maxid = $row['id'];
+ 	 	$maxid += 1;
+ 	$feescode = $feeprefix.$maxid;
+ 	 }
+	 else{
 		$maxid = 0;
-		$maxid+=1;
-		$feescode = $feeprefix.$maxid;
+		$maxid += 1;
+		 $feescode = $feeprefix.$maxid;
 	}
-}
- 
- $run_query=mysqli_query($dbcon,$check_Config_alreadyDone);
- if(mysqli_num_rows($run_query)>0)
- {
-    $feesConfig = "Fees Name: '$feesname''already Assigned to this class, Please try another class!";
-     }
-else{
-	$insert_feesconfig="INSERT INTO feesconfig(`fee_config_id`,`fee_config_code`,`fee_config_academic_year`,`fee_config_class`,`fee_config_gender`,`fee_config_name`,`fee_config_amount`,`fee_config_duedate`,`fee_config_status`,`fee_config_createdby`,`fee_config_createdon`,`fee_config_structure`) 
-	VALUES ('$feesId','$feesCode','$academic','$class','$gender','$feesname','$amount','$duedate')";													    
-	echo "$insert_feesconfig";
+ }
+//   echo $feescode;
+
+	$insert_feesconfig="INSERT INTO feesconfig (`fee_config_code`,`fee_config_academic_year`,`fee_config_class`,`fee_config_gender`,`fee_config_name`,`fee_config_amount`,`fee_config_duedate`) 
+	VALUES ('$feescode','$academic','$class','$gender','$feesname','$amount','$duedate')";													    
+	
 	if(mysqli_query($dbcon,$insert_feesconfig))
 	{
-		echo "<script>alert('Fees Configuration Successful ')</script>";
 		header("location:listFeesConfig.php");
      } else { echo die('Error: ' . mysqli_error($dbcon).$insert_feesconfig );
 		exit; 
 	}
 	die;
-}
 }
 ?>
 <?php include('header.php');?>
@@ -150,7 +129,10 @@ else{
 									<label for="feesname">Fees Name<span class="text-danger">*</span></label>
                                          <select id="feesname" class="form-control form-control-sm" name="feesname" required>        
 											 <option value="">-Select Particulars-</option>
-                                                    <?php 
+											 <option value="termfees">Term Fees</option>
+
+
+								<!-- <php 
                                                     include("database/db_conection.php");//make connection here
 
                                                     $sql = mysqli_query($dbcon, "SELECT feesname FROM feeshead");
@@ -158,7 +140,7 @@ else{
                                                         echo $feesname=$row['feesname'];
                                                         echo '<option onchange="'.$row[''].'" value="'.$feesname.'" >'.$feesname.'</option>';
                                                     }
-                                                    ?>
+                                                    ?> -->
                                                 </select>
                                                 </div>
                                                 </div>
@@ -254,7 +236,6 @@ $('document').ready(function(){
 		 });
 });
 function addfees(){
-	alert('red');
 	var total = $('#amount').val();
 	var term = total/3;
 	$('#term1').val(term);

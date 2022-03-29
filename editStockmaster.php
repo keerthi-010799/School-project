@@ -1,11 +1,17 @@
 <?php
 include("database/db_conection.php");//make connection here
+
+$ItemFound ='';
+
 if(isset($_POST['editStock']))
 {	
  extract($_POST);
 	 
- $editstock = "UPDATE `stockitemmaster` SET `academic` = '$academic',`itemname` = '$itemname',`description` = '$description',`description` = '$description',`category` = '$category',
- `uom` = '$uom', WHERE `id` =" .$stkid ;
+ $editstock = "UPDATE `stockitemmaster` SET `academic`= '".$academic."',	
+   `itemname`= '".$itemname."',
+   `description`= '".$description."',
+   `uom`= '".$uom."'
+WHERE `id` =".$stkId;
  if(mysqli_query($dbcon,$editstock))
  {
     echo "<script>alert('User edited successful ')</script>";

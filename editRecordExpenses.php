@@ -6,7 +6,23 @@ if(isset($_POST['expenseEdit']))
 	var_dump($_POST);
 	extract($_POST);
 	
-	
+	$target_dir = "upload/";
+    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+   // Check if image file is a actual image or fake image
+    $check = getimagesize($_FILES["image"]["tmp_name"]);
+    if($check !== false) {
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+            //echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded.";
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+        }
+
+    } else {
+        echo "File is not an image.";
+        $uploadOk = 0;
+    }
 	
     $sql = "UPDATE `recordexpense` set 	`voucherid` = '".$voucherid."',
 										`updatedon` = '".$createdon."',
@@ -18,6 +34,7 @@ if(isset($_POST['expenseEdit']))
 										 `paymentmode` = '".$paymentmode."',
 										 `updatedby` = '".$updatedby."',
 										 `reference` = '".$reference."',
+										 `image` = '".$target_file."',
 										 `notes` = '".$reason."'	
 				         				WHERE `id` =".$expID;
 										//echo  $sql;
@@ -126,7 +143,7 @@ if(isset($_POST['expenseEdit']))
 													$payeeid= $res['payeeid'];
 													$reference= $res['reference'];
 													$payeetype= $res['payeetype'];
-													//$image= $res['image'];
+													$image= $res['image'];
 													$notes= $res['notes'];
 													$updatedby = $res['createdby'];
 													
@@ -138,7 +155,7 @@ if(isset($_POST['expenseEdit']))
 								<div class="form-row">
 									<div class="form-group col-md-8">
 									  <label></i>Voucher ID</label>
-									  <input type="text" class="form-control form-control-sm" name="voucherid" readonly value="<?php echo $voucherid;?>" />
+									  <input type="text" class="form-control form-control-sm" name="voucherid"  value="<?php echo $voucherid;?>" />
 									  </div>
 									  </div>
 									  
@@ -175,14 +192,14 @@ if(isset($_POST['expenseEdit']))
                                         </div>								  
 									 
 								    <div class="form-row">
-									<div class="form-group col-md-3">
+									<!--div class="form-group col-md-3">
 									Payee ID<label ></label><span class="text-danger">*</span>
 									  
 									  <input type="text" class="form-control form-control-sm" readonly name="payeeid"  value="<?php echo $payeeid;?>"/>	
-									</div>
+									</div-->
 									<div class="form-group col-md-5">
 									  Payee<label ></label><span class="text-danger">*</span>
-									  <input type="text" class="form-control form-control-sm" readonly name="payee"  value="<?php echo $payee;?>"/>	
+									  <input type="text" class="form-control form-control-sm"  name="payee"  value="<?php echo $payee;?>"/>	
 									</div>
 									</div>
 									<div class="form-group col-md-8">		
@@ -283,6 +300,18 @@ if(isset($_POST['expenseEdit']))
 									</div>
 
 									<div class="form-row">
+                                   <div class="form-group col-md-11">
+                                        <label>
+                                            <div class="fa-hover col-md-12 col-sm-12">
+                                              <span class="text-danger"><i class="fa fa-paperclip bigfonts" aria-hidden="true"></span></i>&nbsp;Attach updated Receipt[Upload image like JPG,GIF,PNG..<]<span class="text-danger">(not more than 1MB)</span></div>
+                                        </label> 
+                                        <img src="<?php echo $image;?>" width="350px" class="rounded float-left" alt="...">
+
+                                        &nbsp;&nbsp;<input type="file" name="image" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+
+									<div class="form-row">
 									  <div class="form-group col-md-8">
 									  <label for="inputState">Updated By</label>
 									  <?php 
@@ -301,13 +330,13 @@ if(isset($_POST['expenseEdit']))
 																		
 																	
 									
-								  <div class="form-row">
+								  <!--div class="form-row">
 									<div class="form-group col-md-8">
 									 <label>Notes</label></span>
 									  <!--textarea cols="20" rows="2" class="form-control tip redactor" name="notes" placeholder="Max 200 Characters "><?php echo $rs['notes']; ?></textarea-->
 									 <textarea rows="2" class="form-control" name="note" hidden="true"><?php echo $notes;?></textarea>
 									</div> 
-								</div>
+								</div-->
 									
 								<!--div class="form-row">
                                     <div class="form-group col-md-12">
@@ -353,14 +382,8 @@ if(isset($_POST['expenseEdit']))
 	<!-- END content-page -->
 	
     
-	<footer class="footer">
-		<span class="text-right">
-		Copyright@<a target="_blank" href="#">Dhiraj Agro Products Pvt. Ltd.,</a>
-		</span>
-		<span class="float-right">
-		Powered by <a target="_blank" href=""><span>e-Schoolz</span> </a>
-		</span>
-	</footer>
+	
+	<?php include('footer.php'); ?>
 
 </div>
 <!-- END main -->

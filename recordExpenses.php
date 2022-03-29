@@ -1,21 +1,21 @@
 <?php
 include("database/db_conection.php");//make connection here
-$payeeid = '';
-$payee = '';
-$payeetype = '';
-$description ='';
-$amount ='';
-$mobile ='';
-$location ='';
+//$payeeid = '';
+//$payee = '';
+//$payeetype = '';
+//$description ='';
+//$amount ='';
+//$mobile ='';
+//$location ='';
 
 
 if(isset($_POST['submit'])){	
 	$createdon=$_POST['createdon'];//same
     $category=$_POST['category'];//same
 	$payee=$_POST['payee'];//same
-	//$payeetype=$_POST['payeetype'];//same
+	$voucherid=$_POST['voucherid'];//same
 	$paymentmode=$_POST['paymentmode'];//same
-	$notes=$_POST['notes'];//same
+	//$notes=$_POST['notes'];//same
 	//$image=$_POST['image'];//same
 	$createdby = $_POST['createdby'];
 	$amount = $_POST['amount'];//same
@@ -27,45 +27,41 @@ if(isset($_POST['submit'])){
 	//$id = $_POST['id'];
 			
 			
-//$image =base64_encode($image);	
-//$target_dir = "upload/";
-//$target_file = $target_dir . basename($_FILES["image"]["name"]);
-//$uploadOk = 1;
-//$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+//$image = file_get_contents($image
+$target_dir = "upload/";
+$target_file = $target_dir . basename($_FILES["image"]["name"]);
+$uploadOk = 1;
+$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 // Check if image file is a actual image or fake image
-  //  $check = getimagesize($_FILES["image"]["tmp_name"]);
-    //if($check !== false) {
-      //  if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-        //echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded.";
-    //} else {
-      //  echo "Sorry, there was an error uploading your file.";
-   // }
-		
-	//} else {
-      //  echo "File is not an image.";
-        //$uploadOk = 0;
-   // }
-	
-	$voucherid ="";
-	$prefix = "";
-	
-	//Generating VoucherIDS
-	$sql="SELECT MAX(id) as latest_id FROM recordexpense ORDER BY id DESC";
-	if($result = mysqli_query($dbcon,$sql)){
-		$row   = mysqli_fetch_assoc($result);
-		if(mysqli_num_rows($result)>0){
-			$maxid = $row['latest_id'];
-			$maxid+=1;			
-			$voucherid = $prefix.$maxid;
-		}else{
-			$maxid = 0;
-			$maxid+=1;
-			$voucherid = $prefix.$maxid;
-		}
+$check = getimagesize($_FILES["image"]["tmp_name"]);
+if($check !== false) {
+	if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+		//echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded.";
+	} else {
+		echo "Sorry, there was an error uploading your file.";
 	}
 
-	$sql="INSERT INTO recordexpense(`voucherid`, 	
-									`payeeid`,
+} else {
+	echo "File is not an image.";
+	$uploadOk = 0;
+}
+	
+	//Generating VoucherIDS
+//	$sql="SELECT MAX(id) as latest_id FROM recordexpense ORDER BY id DESC";
+//	if($result = mysqli_query($dbcon,$sql)){
+	//	$row   = mysqli_fetch_assoc($result);
+	//	if(mysqli_num_rows($result)>0){
+	//		$maxid = $row['latest_id'];
+	//		$maxid+=1;			
+	//		$voucherid = $prefix.$maxid;
+	//	}else{
+	//		$maxid = 0;
+	//		$maxid+=1;
+	//		$voucherid = $prefix.$maxid;
+	//	}
+//	}
+
+	$sql="INSERT INTO recordexpense(`voucherid`, 
 									`createdon`, 	
 									`category`, 
 									`description`,					
@@ -73,12 +69,10 @@ if(isset($_POST['submit'])){
 									`payeetype`, 
 									`amount`,	
 									`reference`,
-									`paymentmode`,
-									`notes`, 	
-									
-									`createdby`)
-							VALUES ('$voucherid',
-									'$payeeid',
+									`paymentmode`,							
+									`createdby`,
+									`image`)
+							VALUES ('$voucherid',								
 									'$createdon',
 									'$category',
 									'$description',
@@ -86,9 +80,9 @@ if(isset($_POST['submit'])){
 									'$payeetype',
 									'$amount',
 									'$reference',
-									'$paymentmode',
-									'$notes',
-									'$createdby')";		
+									'$paymentmode',								
+									'$createdby',
+									'$target_file')";		
 
 		
 //$sql3 = "UPDATE payeemaster set amount = amount- $amount  WHERE payeeid = $payeeid";
@@ -140,6 +134,44 @@ if(isset($_POST['submit'])){
 
 <?php include('header.php'); ?>
 
+<!--Modal catogrey-->
+<!-- Modal Academic-->
+<div class="modal fade custom-modal" id="customModalAcademic" tabindex="-1" role="dialog" aria-labelledby="customModal" aria-hidden="true">
+								  <div class="modal-dialog" role="document">
+									<div class="modal-content">
+									  <div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel2">Add Academic</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+										</button>
+									  </div>
+									  <div class="modal-body">
+									  	<form action="#" enctype="multipart/form-data" method="post">
+									  
+											<div class="form-group">
+												<input type="text" class="form-control select2" name="addacademic"  id="addacademic"  placeholder="Example Diesel, Advances, Food">
+											</div>
+										 								
+											
+										 
+											<!--div class="form-group">
+												<input type="text" class="form-control" name="adddescription" id="adddescription"  placeholder="Description">
+											</div-->
+										</div>
+										
+										
+									  <div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="button" name="submitacademic" id="submitacademic" class="btn btn-primary">Save and Associate</button>
+									  </div>
+										   
+								  </div>
+										  
+								</div>
+								</div>
+	<!-- Modal Ends-->	
+<!-- Category Modal Ends -->
+
     <div class="content-page">
 	
 		<!-- Start content -->
@@ -179,63 +211,23 @@ if(isset($_POST['submit'])){
 										<div class="row">
 											<div class="form-group col-xl-7 col-md-6 col-sm-9">
 												<div class="form-row">
-													<label >Date<span class="text-danger"></span></label>
+												
+													<label >Expense Date<span class="text-danger"></span></label>
 													<input type="date" class="form-control form-control-sm" name="createdon"  value="<?php print(date("Y-m-d")); ?>"/>
 												</div>
-											
-												<div class="form-group">											
-											<label for="inputState">Payee ID<span class="text-danger"></span></label>
-                                         <select id="payeeid" onchange="onpayeeid(this);" class="form-control form-control select2"  name="payeeid" >
-                                             <option value="">-Select Payee ID-</option>
-                                                    <?php 
-                                                    include("database/db_conection.php");//make connection here
 
-                                                    $sql = mysqli_query($dbcon, "SELECT * FROM payeemaster");
-                                                   while ($row = $sql->fetch_assoc()){	
-                                                        echo $payeeid_get=$row['payeeid'];
-                                                        if($payeeid_get==$_GET['payeeid']){
-                                                                echo '<option value="'.$payeeid_get.'"  selected>'.$payeeid_get.'</option>';  
-                                                        }else{
-                                                            echo '<option value="'.$payeeid_get.'" >'.$payeeid_get.'</option>';      
-                                                        }
-													  }
-                                                    ?>
-                                                </select>
-                                                <script>
-                                                    function onpayeeid(x) 
-                                                    {    
-                                                        var payeeid=x.value;
-                                                        window.location.href = 'recordExpenses.php?payeeid='+payeeid;
-                                                    }
-                                                </script>									
-											</div>
-									
-									
-									
-										<div class="form-group">	
-									<label for="inputState">Payee Name<span class="text-danger"></span></label>
-                                         										
-												<?php if (isset($_GET["payeeid"])) {
-                                                    $payee_id = $_GET["payeeid"];
-                                                    $sql = mysqli_query($dbcon,"select * from payeemaster");
-											        while ($row = $sql->fetch_assoc()){	
-                                                     if($payee_id ==$row['payeeid']){
-														 $id =  $row['id']; 
-														
-													    $payee =  $row['payeename']; 
-														$payeetype =  $row['payeetype']; 
-														$description =  $row['description'];
-														$mobile =  $row['mobile']; 
-														$location =  $row['location']; 
-														$amount =  $row['amount']; 
-												}
-												}
-												}
-											?>
+												<div class="form-group">	
+													<label >Enter Voucher Number<span class="text-danger"></span></label>
+												<input type="text" class="form-control form-control-sm" name="voucherid"  placeholder="Voucher Number"  />
+												</div>
+
+												<div class="form-group">	
+													<label >Enter Payee Name<span class="text-danger"></span></label>
+												<input type="text" class="form-control form-control-sm" name="payee"  placeholder="Enter Payee Name"  />
+												</div>
+												
+
 											
-												<input type="text" class="form-control form-control-sm" name="payee"  placeholder="Enter Payee Name" value="<?php echo $payee;?>" />
-									
-													</div>
 
 								<div class="form-group">		
                                     <label >Payee Type<span class="text-danger">*</span></label>
@@ -246,10 +238,11 @@ if(isset($_POST['submit'])){
 										<option value="Employee">Employee</option>
 										</select>
                                 </div>
+										
 												
 												<div class="form-group">
-												<label for="inputState">Expense Category<span class="text-danger">*</span></label>
-												<select required id="inputState" data-parsley-trigger="change"  class="form-control form-control select2"  name="category" >
+												<label for="category1">Expense Category<span class="text-danger">*</span></label>
+												<select required id="category1"   class="form-control select2"  name="category" >
 												<option value="">-Select Category-</option>
                                                     <?php 
                                                     include("database/db_conection.php");//make connection here
@@ -260,8 +253,10 @@ if(isset($_POST['submit'])){
                                                         echo '<option onchange="'.$row[''].'" value="'.$expensename.'" >'.$expensename.'</option>';
                                                     }
                                                     ?>
-                                                </select><span class="text-danger">Please Select Category as Bills for Selectd Payee ID</span>
-									</div>
+                                                </select>
+												<a href="#custom-modal" data-target="#customModalAcademic" data-toggle="modal">
+												<i class="fa fa-user-plus" aria-hidden="true"></i>New Expense Category</a><br>
+											</div>
 									<div class="form-group">	
 												<form class="form-inline">
 												<label class="sr-only" for="inlineFormInputGroupUsername2">Enter Amount</label>
@@ -269,16 +264,15 @@ if(isset($_POST['submit'])){
 													<div class="input-group-prepend">
 													<div class="input-group-text">₹</div>
 													</div>												
-													<input type="text" name="amount" class="form-control" id="amount" placeholder="Enter Amount" required value="<?php echo $amount;?>" />
+													<input type="text" name="amount" class="form-control" id="amount" placeholder="Enter Amount" required  />
 												</div>
 											</div>
 									
 												<div class="form-group">
 												<label>Description</label>
-												<input type="text" name="description" class="form-control form-control-sm " placeholder="Enter Expense Detaiails" value="<?php echo $description;?>" />
-												</div>								
-                            
-											
+												<input type="text" name="description" class="form-control form-control-sm " placeholder="Enter Expense Detaiails"  />
+												</div>					
+                            								
 										
 											
 											 <div class="form-group">								
@@ -301,10 +295,10 @@ if(isset($_POST['submit'])){
 												</div>
 											
 								
-										<div class="form-group">
+										<!--div class="form-group">
 												<label>Notes</label><br />
 												<textarea rows="2" class="form-control  form-control-sm" name="notes" placeholder="Add Expense Notes"></textarea>
-										</div>
+										</div-->
 												<!--div class="form-group">
 													<label>Upload Bills </label><br />
 													<input type="file" name="image" class="form-control">
@@ -325,7 +319,21 @@ if(isset($_POST['submit'])){
 
 												</div>
 													
-							
+												<div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <h4 class="col-md-12 text-muted">Attach Bill</h4>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-11">
+                                    <label>
+                                        <div class="fa-hover col-md-12 col-sm-12">
+                                            &nbsp;<i class="fa fa-folder-open bigfonts" aria-hidden="true"></i>Upload image like JPG,GIF,PNG..</div>
+                                    </label> 
+                                    &nbsp;&nbsp;<input type="file" name="image" class="form-control"  >
+                                </div>
+                            </div>
 												
 												<div class="form-group">
 												&nbsp;<button class="btn btn-primary" name="submit" type="submit">
@@ -337,7 +345,7 @@ if(isset($_POST['submit'])){
                                                     </div>
 												</div>
 											
-											<div class="form-group col-xl-4 col-md-4 col-sm-12 border-left">
+											<!--div class="form-group col-xl-4 col-md-4 col-sm-12 border-left">
 											
                                                 <label ><span class="text-danger"></label>
 												<b>Payeename:</b>&nbsp; <?php echo $payee; ?>  <br><br>
@@ -351,7 +359,7 @@ if(isset($_POST['submit'])){
 												
 														
 											        
-                                            </div>
+                                            </div-->
                                         </div>
                                         
 											
@@ -387,6 +395,52 @@ if(isset($_POST['submit'])){
 
     </div>
 	<!-- END content-page -->
+	<script>
+
+$('document').ready(function(){
+	//addGroupnames_ajax.php
+	$('#submitacademic').click(function(){
+		var academic = $('#addacademic').val();
+	//	var description = $('#adddescription').val();
+		
+		//alert($partyname);
+		$.ajax ({
+           url: 'addCategoryModal.php',
+		   type: 'post',
+		   data: {
+				  //custype:custype,
+				  academic:academic,
+				//  description:description
+				},
+		   //dataType: 'json',
+           success:function(response){
+				if(response!=0 || response!=""){
+					var new_option ="<option>"+response+"</option>";
+					$('#academic').append(new_option);
+					 $('#customModalAcademic').modal('toggle');
+					  window.location.reload(true);
+				
+				}else{
+					alert('Error in inserting Academic,try another one');
+				}
+			}
+        
+         });
+		 
+		 });
+});
+			
+</script>	
+
+</script>	
+<!-- BEGIN Java Script for this page -->
+<script src="assets/plugins/select2/js/select2.min.js"></script>
+<script>                                
+$(document).ready(function() {
+    $('.select2').select2();
+});
+</script>
+<!-- END Java Script for this page -->
     
 	<?php include('footer.php'); ?>
 </div>

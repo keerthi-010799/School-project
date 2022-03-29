@@ -32,12 +32,12 @@
           Fees Management
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="listAcademic.php">Academic</a>
+        <!--a class="dropdown-item" href="listAcademic.php">Academic</a-->
           <a class="dropdown-item" href="listFeesHead.php">Fees Heads</a>
           <!--a class="dropdown-item" href="listLeaveType.php">Leave Types</a-->
           <a class="dropdown-item" href="listFeesConfig.php">Fees Configuration</a>
-		   <a class="dropdown-item" href="#">Fees Entitlements</a>
-          <a class="dropdown-item" href="#">Fees Payment</a>
+		   <a class="dropdown-item" href="discReport.php">Set Discounts</a>
+          <a class="dropdown-item" href="#">Fees Collection</a>
          
           
           <div class="dropdown-divider"></div>

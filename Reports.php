@@ -28,40 +28,41 @@
                             <thead>
                                 <tr>
                                     <td>
-                                        <i class="fa fa-shopping-basket" aria-hidden="true"></i>&nbsp;Purchases & Expenses
+                                    <i class="fa fa-money bigfonts" aria-hidden="true"></i>&nbsp;Expenses
                                     </td>
-                                    <td class="text-left"><i class="fa fa-shopping-cart"></i>&nbsp;Sales
-                                    </td>
-                                    <td class="text-center"><i class="fa fa-truck smallfonts" aria-hidden="true"></i>&nbsp;Inventory&nbsp;&&nbsp;<i class="fa fa-list-alt bigfonts" aria-hidden="true"></i>&nbsp;Stock Transfers</td>
-                                    <td class="text-right"><i class="fa fa-th-large bigfonts" aria-hidden="true"></i>&nbsp;GENERAL
+                                    <!--td class="text-left"><i class="fa fa-rupee bigfonts"></i>&nbsp;Fees Collections
+                                    </td-->
+                                    <td class="text-center"><i class="fa fa-truck smallfonts" aria-hidden="true"></i>&nbsp;Inventory(Uniform Materials & Accessaries)</td>
+                                    <td class="text-right"><i class="fa fa-mortar-board bigfonts" aria-hidden="true"></i>&nbsp;Students & Van
                                     </td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <!-- foreach ($order->lineItems as $line) or some such thing here -->
                                 <tr>
-                                    <td><a href="PurchaseOrderReports.php">
-                                        <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Purchases by Vendor</a></td>
-                                    <td class="text-left"><a  href="SalesOrderReports.php">
-                                        <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Sales Order</a>
-                                    </td>
+                                    <td><a href="expensesReport.php">
+                                        <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> Expenses Report&nbsp;</a></td>
+                                    <!--td class="text-left"><a  href="SalesOrderReports.php">
+                                        <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Fees Collection Report</a>
+                                    </td-->
 
                                     <td class="text-center"><a  href="StockInwardReports.php">
                                         <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Inventory(Inward) Stock Report</a> &nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="Raw Material Purchase Item Master/Stock Inward Report."></i>
                                     </td>
 
-                                    <td class="text-right">  <a  href="listRecordPayments.php">
-                                        <i class="fa fa-angle-right bigfonts" aria-hidden="true">&nbsp;</i>Payments Transactions </a>
-                                        &nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="Manual Payments Received Transactions Report."></i>
+                                    <td class="text-right">  <a  href="studentsReport.php">
+                                        <i class="fa fa-angle-right bigfonts" aria-hidden="true">&nbsp;</i>Student's Community & Caste wise Report</a>
+                                        &nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="You can get communitywise,classwise,gender & caste wise report"></i>
                                     </td>
                                 </tr> 
 
 
                                 <tr>
                                     <td>
-                                        <a href="listExpenses.php">
-                                            <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Expenses by Payee Type</a>
-                                    </td>      
+                                        <a href="expenseTransactionHistory.php">
+                                            <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Expenses Transaction Log Report</a>
+                                    </td>  
+                                        
                                     
                                     
 
@@ -72,8 +73,8 @@
                                     </td>
 
                                     <td class="text-center">
-                                        <a href="StockTransfersReports.php">
-                                            <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Stock Transfers(Inward to Locations) Report</a>
+                                        <a href="StudentAttendanceReport.php">
+                                            <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Students Attendance Report</a>
                                     </td>                                                 
 
                                 </tr>  
@@ -91,11 +92,11 @@
 <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Expenses by Payee c</a-->
                                     </td>
 
-                                    <td class="text-center">
+                                    <!--td class="text-center">
                                         <a href="StockOutwardReports.php">
                                             <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Inventory(Outward) Stock Report</a>&nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="Sales Item Master/Stock Outward Report."></i>
                                     </td>
-                                </tr>
+                                </tr-->
                                 
                                 <tr>
                                     <td> 
@@ -109,13 +110,13 @@
 <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Expenses by Payee c</a-->
                                     </td>
 
-                                    <td class="text-center">
+                                    <!--td class="text-center">
                                         <a href="inventAdjInwardReport.php">
                                              <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Inventory Adjustment (Inward) Log Report</a> &nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="As and when Inward qty is added or updated manually or through GRN, the transaction log report is generated."></i>
                                         
                                         
                                         
-                                    </td>
+                                    </td-->
                                     
                                    
                                 </tr>
@@ -131,10 +132,10 @@
 <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Expenses by Payee c</a-->
                                     </td>
 
-                                    <td class="text-center">
+                                    <!--td class="text-center">
                                         <a href="inventAdjOutwardReport.php">
                                              <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Inventory Adjustment (Outward) Log Report</a> &nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="As and when Inward qty is added or updated manually or through GRN, the transaction log report is generated."></i>
-                                    </td>
+                                    </td-->
                                     
                                     <td class="text-left">
                                         <!--a href="listExpenses.php">
@@ -155,10 +156,10 @@
 <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Expenses by Payee c</a-->
                                     </td>
 
-                                    <td class="text-center">
+                                    <!--td class="text-center">
                                         <a href="VendorItemWise.php">
                                              <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Vendor Wise Inventory(Inward) Report</a> &nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="As and when Inward qty is added through GRN, vendor wise Item purchased Report is generated."></i>
-                                    </td>
+                                    </td-->
 
 
                             </tbody>
@@ -182,12 +183,12 @@
                                 <thead>
                                     <tr>
                                         <td >
-                                            <i class="fa fa-rupee bigfonts" aria-hidden="true"></i>&nbsp;Payables & Payments Made
+                                            <i class="fa fa-rupee bigfonts" aria-hidden="true"></i>&nbsp;Income & Expenditure Balance Sheet
                                         </td>
 
 
                                         <td class="text-left">
-                                            <i class="fa fa-money bigfonts" aria-hidden="true"></i>&nbsp;Receivables & Received Payments
+                                            <i class="fa fa-money bigfonts" aria-hidden="true"></i>&nbsp;Receivables & Fee Payments Made
                                         </td>
                                         <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             &nbsp;&nbsp;&nbsp;</td>

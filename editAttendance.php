@@ -6,33 +6,62 @@ if(isset($_POST['stuProfEdit']))
 	var_dump($_POST);
 	extract($_POST);
 
-    $updateAttendance = "UPDATE `studentsattendance` 
-                            SET `createdon` = '".$createdon."', 
-                                `academic` = '".$academic."',                                                    
-                                 `admissionno` = '".$admissionno."' ,
-                                 `firstname` = '".$firstname."' ,
-                                 `lastname` = '".$lastname."' ,
-                                 `class` = '".$class."' ,
-                                 `section` = '".$section."' ,
-                                 `fathername` = '".$fathername."' ,
-                                 `mobile` = '".$mobile."' ,
-                                 `attendance` = '".$attendance."' ,
-                                 `status` = '".$status."' ,
-                                 `createdon` = '".$createdon."'                                  
-                                 WHERE `id` =".$stuId;
-    if(mysqli_query($dbcon,$updateAttendance))
-    {
-	//	echo "<script>alert('class Details Successfully updated')</script>";
-		header("location:addStudentsAttendance.php");
-    } else { echo die('Error: ' . mysqli_error($dbcon).$updateAttendance );
-		exit; //echo "<script>alert('User creation unsuccessful ')</script>";
-	}
-      
-	die;
+ 
+
+   
+    $sql1 =  "INSERT studentsattendance(`createdon`,
+    `academic`,
+        `admissionno`,
+        `firstname`,										
+        `lastname`,
+        `class`,
+        `section`,
+        `fathername`,
+        `mobile`,
+        `status`,
+        `attendance`        
+        )
+VALUES('".$createdon."',
+ '".$academic."',
+ '".$admissionno."',
+'".$firstname."',
+ '".$lastname."',
+ '".$class."',
+ '".$section."',
+ '".$fathername."',
+ '".$mobile."',
+ '".$status."',
+ '".$attendance."' )";	 
+
+ $sql = "UPDATE `studentsattendance` 
+ SET `createdon` = '".$createdon."', 
+     `academic` = '".$academic."',                                                    
+      `admissionno` = '".$admissionno."' ,
+      `firstname` = '".$firstname."' ,
+      `lastname` = '".$lastname."' ,
+      `class` = '".$class."' ,
+      `section` = '".$section."' ,
+      `fathername` = '".$fathername."' ,
+      `mobile` = '".$mobile."' ,
+      `attendance` = '".$attendance."' ,
+      `status` = '".$status."'                                                        
+      WHERE `id` =".$stuId;
+ 
+ 
+ if(mysqli_query($dbcon,$sql)&& mysqli_query($dbcon,$sql1))
+ {
+     echo "<script>alert('Expense Successfully updated')</script>";
+     header("location:addStudentsAttendance.php");
+ } else { 
+ die('Error: ' . mysqli_error($dbcon));
+     exit;
+ echo 'Failed to update user group';
+ exit; //echo "<script>alert('User creation unsuccessful ')</script>";
+ }
 }
 
 ?>
-	
+      	
 
 
     
@@ -50,10 +79,10 @@ if(isset($_POST['stuProfEdit']))
                 <div class="row">
 					<div class="col-xl-12">
 							<div class="breadcrumb-holder">
-                                    <h1 class="main-title float-left">Edit Student Profile </h1>
+                                    <h1 class="main-title float-left">Edit Attendance </h1>
                                     <ol class="breadcrumb float-right">
 									<a  href="index.php"><li class="breadcrumb-item">Home</a></li>
-										<li class="breadcrumb-item active">Edit Student Profile</li>
+										<li class="breadcrumb-item active">Edit Attendance</li>
                                     </ol>
                                     <div class="clearfix"></div>
                             </div>
@@ -87,7 +116,7 @@ if(isset($_POST['stuProfEdit']))
                                             $id=$_GET['id'];
 
                                             //selecting data associated with this particular id
-                                            $result = mysqli_query($dbcon, "SELECT * FROM studentsattendance WHERE id=$id");
+                                            $result = mysqli_query($dbcon, "SELECT * FROM studentprofile WHERE id=$id");
                                             while($res = mysqli_fetch_array($result))
                                             {
                                                 $createdon =	$res['createdon'];
@@ -99,7 +128,7 @@ if(isset($_POST['stuProfEdit']))
 												$section  =	$res['section'];												
 												$fathername = $res['fathername'];											
 												$mobile 	 =	$res['mobile']; 
-												$attendance 	 =	$res['attendance'];		
+											//	$attendance 	 =	$res['attendance'];		
                                                 $status 	 =	$res['status'];										
 
                                             }
@@ -219,13 +248,20 @@ if(isset($_POST['stuProfEdit']))
                                     
                                      
                                     
-                                    <div class="form-row">
+                                    <!--div class="form-row">
 								<div class="form-group col-md-12">
 								<div class="checkbox"><label> Attendance </label>&nbsp;&nbsp;
 									Present <input type="radio" name="attendance" value="P"  <?php echo ($attendance=='P')?"checked":"";?> />	
 									&nbsp;&nbsp;Absent <input type="radio" name="attendance" value="A"  <?php echo ($attendance=='A')?"checked":"";?> />
 								</div>
-								 </div>                                    
+								 </div--> 
+                                 <div class="form-row">
+                                <div class="col-md-12 col-md-offset-12">
+                                    <div class="checkbox"><label> Mark Attendance &nbsp;&nbsp;</label>
+                                        Present <input type="radio" name="attendance" value="P" class=class="fa fa-check-square-o" checked >	
+                                       &nbsp;&nbsp; Absent <input type="radio" name="attendance" value="A" class=class="fa fa-check-square-o"  >	
+                                    </div>
+                                </div>                                   
                                   
                                  
                                  <div class="form-row">                                

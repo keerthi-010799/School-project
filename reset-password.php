@@ -26,7 +26,7 @@ if(isset($_POST['reset_submit'])){
 			<td>We have received your request to reset your account password associated with this email address. If you have not placed this request, you can safely ignore this email and we assure you that your account is completely secure.</td>
 		</tr>
 		<tr><td>If you do need to change your password, you can use the link given below</td></tr>
-		<tr><td><a href='http://www.eschoolzerp.com/e-schoolz/confirm-password.php?fgtpwd=".md5(strtotime("now"))."' target='_blank'>RESET PASSWORD</a></td></tr>
+		<tr><td><a href='http://www.e-schoolz.com/jvmhss/confirm-password.php?fgtpwd=".md5(strtotime("now"))."' target='_blank'>RESET PASSWORD</a></td></tr>
 		<tr><td>Please contact support@eschoolzerp.com for any quries regarding this</td></tr>
 		<tr><td>Cheers</td></tr>
 		<tr><td>e-Schoolz Team</td></tr>
@@ -40,7 +40,7 @@ if(isset($_POST['reset_submit'])){
 		$headers = "MIME-Version: 1.0" . "\r\n";
 		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 		// More headers
-		$headers .= 'From: <support@eschoolzerp.com>' . "\r\n";
+		$headers .= 'From: <support@e-schoolz.com>' . "\r\n";
 		// $headers .= 'Cc: test@e-schoolz.in' . "\r\n";
 		//echo '<pre>';
 		//echo 'to '. $to.' subject '.$subject.' message '.$message;
