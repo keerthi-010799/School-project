@@ -179,25 +179,28 @@ if(isset($_POST['stuProfEdit']))
                                 
 
                                        
-                                    <div class="form-group col-md-7">
-                                    <label for="category">Category<span class="text-danger">*</span></label>
-                                                <select  id="category" onchange="onlocode(this)"  class="form-control form-control-sm" name="category">
+                                <div class="form-row">
+                                <div class="form-group col-md-7">
+                                       <label for="inputState">Discount Category<span class="text-danger">*</span></label>
+                                                <select id="category" onchange="onlocode(this)"   class="form-control form-control-sm" name="category">
                                                     <?php 
-                                                    include("database/db_conection.php");//make connection here
+                                                    include("database/db_conection.php");//make db connection here
 
-                                                    $sql = mysqli_query($dbcon, "SELECT category FROM category");
+                                                    $sql = mysqli_query($dbcon, "SELECT id,category FROM category");
                                                     while ($row = $sql->fetch_assoc()){	
-                                                        echo $academic_get=$row['category'];
-                                                        if($academic_get==$category){
-                                                            echo '<option value="'.$academic_get.'" selected>'.$academic_get.'</option>';
+                                                        echo $category_get=$row['category'];
+                                                        echo $id_get=$row['id'];
+                                                        if($id_get==$category){
+                                                            echo '<option value="'.$id_get.'" selected>'.$category_get.'</option>';
                                                         } else {
-                                                            echo '<option value="'.$academic_get.'" >'.$academic_get.'</option>';
+                                                            echo '<option value="'.$id_get.'" >'.$category_get.'</option>';
                                                             
                                                             }
                                                         }
                                                     ?>
                                                 </select>
-                                </div>
+                                            </div>
+                        
                                                    
                                     <div class="form-group col-md-7">
                                     <label for="category">Discount Percentage<span class="text-danger">*</span></label>
@@ -205,13 +208,14 @@ if(isset($_POST['stuProfEdit']))
                                                     <?php 
                                                     include("database/db_conection.php");//make connection here
 
-                                                    $sql = mysqli_query($dbcon, "SELECT discountpercentage,category FROM category");
+                                                    $sql = mysqli_query($dbcon, "SELECT id,discountpercentage FROM category");
                                                     while ($row = $sql->fetch_assoc()){	
-                                                        echo $academic_get=$row['discountpercentage'];
+                                                        echo $percentage_get=$row['discountpercentage'];
+                                                        echo $academic_get=$row['id'];
                                                         if($academic_get==$discountpercentage){
-                                                            echo '<option value="'.$academic_get.'" selected>'.$academic_get.'</option>';
+                                                            echo '<option value="'.$academic_get.'" selected>'.$percentage_get.'</option>';
                                                         } else {
-                                                            echo '<option value="'.$academic_get.'" >'.$academic_get.'</option>';
+                                                            echo '<option value="'.$academic_get.'" >'.$percentage_get.'</option>';
                                                             
                                                             }
                                                         }

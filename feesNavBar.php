@@ -36,7 +36,7 @@
           <a class="dropdown-item" href="listFeesHead.php">Fees Heads</a>
           <!--a class="dropdown-item" href="listLeaveType.php">Leave Types</a-->
           <a class="dropdown-item" href="listFeesConfig.php">Fees Configuration</a>
-		   <a class="dropdown-item" href="discReport.php">Set Discounts</a>
+		   <a class="dropdown-item" href="discReport.php">Assign/Manage Discounts</a>
           <a class="dropdown-item" href="#">Fees Collection</a>
          
           

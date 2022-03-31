@@ -46,7 +46,7 @@
 								<div class="card-header">
 								
                                 <span class="pull-right">
-										<a href="addDiscountStudents.php" class="btn btn-success btn-sm"><i class="fa fa-user-plus" aria-hidden="true"></i>
+										<a href="assignDiscount.php" class="btn btn-success btn-sm"><i class="fa fa-user-plus" aria-hidden="true"></i>
 										Assaign Discount</a></span>
 									<h3<i class="fa fa-file-text-o bigfonts" aria-hidden="true"></i> List Discount </h3>
 								</div>
@@ -101,10 +101,11 @@
 												   <?php 
 												   include("database/db_conection.php");//make connection here
 
-												   $sql = mysqli_query($dbcon, "SELECT category from category order by category asc");
+												   $sql = mysqli_query($dbcon, "SELECT id,category from category order by id asc");
 												   while ($row = $sql->fetch_assoc()){	
-													   echo $batch=$row['category'];
-													   echo '<option onchange="'.$row[''].'" value="'.$batch.'" >'.$batch.'</option>';
+													echo $category_id=$row['id'];
+													   echo $category=$row['category'];
+													   echo '<option onchange="'.$row[''].'" value="'.$category_id.'" >'.$category.'</option>';
 												   }
 												   ?>
 											   </select>
@@ -166,10 +167,11 @@
 														$academicwise = $_GET['academicwise'];
 														$batchwise = $_GET['batchwise'];	
 														$sql = "SELECT d.discid,d.id,d.admissionno,s.firstname,s.lastname,s.class,
-														d.academic,d.category,d.discountpercentage,d.status,d.approvedby,d.createdon,
+														d.academic,c.category,c.discountpercentage,d.status,d.approvedby,d.createdon,
                                                         d.createdby
-                                                        FROM `studentprofile` s , `studentsdiscount` d
+                                                        FROM `studentprofile` s , `studentsdiscount` d,`category` c
                                                         WHERE d.admissionno = s.admissionno
+														AND c.id = d.category
                                                         AND d.academic = s.academic
                                                         AND  1=1";										                                            
 													 if(isset($_GET['classwise'])&&$_GET['classwise']!=''){
@@ -188,10 +190,11 @@
 													}else{
 													
 														$sql = "SELECT d.discid,d.id,d.admissionno,s.firstname,s.lastname,s.class,
-														d.academic,d.category,d.discountpercentage,d.status,d.approvedby,d.createdon,
+														d.academic,c.category,c.discountpercentage,d.status,d.approvedby,d.createdon,
                                                         d.createdby
-                                                        FROM `studentprofile` s , `studentsdiscount` d
+                                                        FROM `studentprofile` s , `studentsdiscount` d,`category` c
                                                         WHERE d.admissionno = s.admissionno
+														AND c.id = d.category
                                                         AND d.academic = s.academic
 														ORDER BY class ASC";													}
 																											

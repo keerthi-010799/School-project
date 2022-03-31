@@ -1,4 +1,5 @@
 
+
 <?php include('header.php');?>
 
 <div class="content-page">
@@ -34,7 +35,7 @@
 <div class="card-body">
 <?php
   include("database/db_conection.php");//make connection here
-  $query = "SELECT * FROM class Order by class";
+  $query = "SELECT id,class FROM class Order by class";
   $result = $dbcon->query($query);
 ?>
   <div class="row">
@@ -47,7 +48,7 @@
           <?php
             if ($result->num_rows > 0 ) {
                while ($row = $result->fetch_assoc()) {
-                echo '<option value='.$row['id'].'>'.$row['class'].'</option>';
+                echo '<option value='.$row['class'].'>'.$row['class'].'</option>';
                }
             }
           ?> 
@@ -89,7 +90,7 @@
     $.ajax({
       type:'post',
       url: 'fetchDynamicClassAjax.php',
-      data : { class_id : id},
+      data : { class_id : class},
       success : function(data){
          $('#students').html(data);
       }
