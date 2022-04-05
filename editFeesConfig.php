@@ -3,6 +3,7 @@ include("database/db_conection.php");//make connection here
 
 if(isset($_POST['FeesConfigEdit']))
 { 
+    $feesId = $_POST['feesId'];
 	var_dump($_POST);
 	extract($_POST);
     $updatefeesconfig = "UPDATE `feesconfig` SET `class` = '".$class."',
@@ -76,17 +77,16 @@ if(isset($_POST['FeesConfigEdit']))
 												$id=$_GET['id'];
 											  
 												//selecting data associated with this particular id
-												$result = mysqli_query($dbcon, "SELECT * FROM feesconfig WHERE id=$id");
-									 
+												$result = mysqli_query($dbcon, "SELECT * FROM feesconfig WHERE fee_config_id = $id");								 
 												while($res = mysqli_fetch_array($result))
 												{
 													//$feescode = $res['feescode'];
-													$academic = $res['academic'];													
-													$class = $res['class'];
-													$feesname = $res['feesname'];													
-													$amount = $res['amount'];
-													$duedate = $res['duedate'];
-													$status = $res['status'];
+													$academic = $res['fee_config_academic_year'];													
+													$class = $res['fee_config_class'];
+													$feesname = $res['fee_config_name'];													
+													$amount = $res['fee_config_amount'];
+													$duedate = $res['fee_config_duedate'];
+													$status = $res['fee_config_status'];
 													
 												}
 											}
