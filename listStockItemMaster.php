@@ -127,9 +127,7 @@
 													<th style="width:30px">Academic</th>
 													<th style="width:30px">Class</th>
                                                     <th style="width:30px">Itemcode</th>
-													<th style="width:40px">Item Name</th>
-
-                                                   										
+													<th style="width:40px">Item Name</th>                                                   										
 													<th style="width:20px">Price</th>
                                                     <th style="width:20px">UOM</th>
 													<th style="width:20px">Stock Qty</th>
@@ -156,7 +154,7 @@
 														$batchwise = $_GET['batchwise'];	
 														$sql = "SELECT id,itemcode,academic,class,category,itemname,description,price,stockinqty,price*stockinqty as stockvalue,
                                                         handler,uom,createdon,status 
-                                                        FROM stockItemMaster s
+                                                        FROM stockitemmaster s
                                                         WHERE 1=1";										                                            
 													 if(isset($_GET['classwise'])&&$_GET['classwise']!=''){
 	
@@ -175,7 +173,7 @@
 													
 														$sql = "SELECT id,itemcode,academic,class,category,itemname,description,price,stockinqty,price*stockinqty as stockvalue,
                                                         handler,uom,createdon,status 
-                                                        FROM stockItemMaster s
+                                                        FROM stockitemmaster s
                                                         ORDER BY id ASC";													}
 																											
 													$result = mysqli_query($dbcon,$sql);
@@ -201,7 +199,7 @@
 													
 												  
 													<?php
-													echo '<td><a href="editStockmaster.php?id=' . $row['id'] . '" class="btn btn-primary btn-sm" data-target="#modal_edit_user_5">
+													echo '<td><a href="editStockItemMaster.php?id=' . $row['id'] . '" class="btn btn-primary btn-sm" data-target="#modal_edit_user_5">
 														<i class="fa fa-pencil" aria-hidden="true"></i></a>
 													
 													<a onclick="delete_record(this);" id="deleteCustomerProfile" data-id="' . $row_id . '" class="btn btn-danger btn-sm"  data-title="Delete">
@@ -225,7 +223,7 @@
                                                  var row_id = $(x).attr('data-id');
                                                alert(row_id);
                                                 if (confirm('Confirm delete')) {
-                                                  window.location.href = 'deleteStudentProfile.php?id='+row_id;
+                                                  window.location.href = 'deleteStockItemMaster.php?id='+row_id;
                                                }
                                             }
 											$(document).ready(function () {

@@ -14,10 +14,10 @@ include('workers/getters/functions.php');
             <div class="row">
                 <div class="col-xl-12">
                     <div class="breadcrumb-holder">
-                        <h1 class="main-title float-left">Expenses Report</h1>
+                        <h1 class="main-title float-left">Students Attendance Report</h1>
                         <ol class="breadcrumb float-right">
                             <li class="breadcrumb-item">Home</li>
-                            <li class="breadcrumb-item active">Expenses Report</li>
+                            <li class="breadcrumb-item active">Students Attendance Report</li>
                         </ol>
                         <div class="clearfix"></div>
                     </div>
@@ -29,12 +29,18 @@ include('workers/getters/functions.php');
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <div class="card mb-3">
                         <div class="card-header">
+                        <span class="pull-right">
+										<a href="addStudentsAttendance.php" class="btn btn-success btn-sm"><i class="fa fa-calendar-check-o bigfonts" aria-hidden="true"></i>
+										Mark Attendance </a></span>
+									<i class="" aria-hidden="">Attendance Report</i>
+								</div>
 
 
-                            <h3><i class="fa fa-cart-plus bigfonts" aria-hidden="true"></i><b>&nbsp;Expenses Report </b></h3>
+                            <!--h3><i class="fa fa-cart-plus bigfonts" aria-hidden="true"></i><b>&nbsp;Students Attendance Report </b></h3-->
                         </div>
 
                         <div class="card-body">
+                        <form autocomplete="off" action="exportStudents.php"  method="post">
                             <div class="form-group row">
                                 <label for="staticEmail" class="col-sm-1 col-form-label">Date </label>
                                 <div class="col-sm-3">
@@ -46,26 +52,13 @@ include('workers/getters/functions.php');
                                     </span>
                                 </div>
                                 <div class="form-group col-md-3">
-                                    <select id="partywise" class="form-control select2" name="partywise">
-                                        <option value=''>--Select Payeename--</option>
+                                    <select id="partywise" class="form-control form-control-sm" name="partywise">
+                                        <option value=''>--Select Class--</option>
                                         <?php
-                                        $sql = mysqli_query($dbcon,"SELECT * FROM recordexpense");
+                                        $sql = mysqli_query($dbcon,"SELECT * FROM class");
                                         while ($row = $sql->fetch_assoc()){	
-                                            $partyname=$row['payee'];
+                                            $partyname=$row['class'];
                                             echo '<option  value="'.$partyname.'" >'.$partyname.'</option>';
-
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <select id="purposewise" class="form-control select2" name="purpose">
-                                        <option value=''>--Select Category/Purpose--</option>
-                                        <?php
-                                        $sql = mysqli_query($dbcon,"SELECT * FROM expenseacctmaster");
-                                        while ($row = $sql->fetch_assoc()){	
-                                            $category=$row['accountname'];
-                                            echo '<option  value="'.$category.'" >'.$category.'</option>';
 
                                         }
                                         ?>
@@ -75,8 +68,8 @@ include('workers/getters/functions.php');
                                     <button type="button" class="btn btn-primary btn-sm" onclick="get_po_reports();">Run Report</button>
                                 </div>
                             </div>
-
-                            <hr/>
+                            </form>
+                                    </hr>
                             <!-- Start coding here -->
                             <div class="row">
                                 <div class="col-md-12">
@@ -84,31 +77,30 @@ include('workers/getters/functions.php');
                                     <table id="po_reports" class="table table-bordered" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>Voucher ID</th>
-                                                <th> Payee Name</th>
-                                                <th> Payee Type</th>
-                                                <th> Category</th>
-												<th> Description</th>
-												  <th> Amount</th>
-												  <th>Payment Mode</th>
-												   <th>Reference</th>
-												  <!--th> Payee ID</th-->
-                                                <th> Created On</th>
-												<th> Created By</th>
-                                              <th> Notes</th>
+                                            <th style="width:30px">#</th>													
+													  <!--th style="width:30px">Picture</th-->
+													<th style="width:40px">Admn#</th>
+													<th style="width:30px">First Name</th>												
+													<th style="width:20px">Last Name</th>
+                                                    <th style="width:20px">Class</th>
+                                                    <th style="width:20px">Section</th>
+                                                    <th style="width:20px">Academic</th>
+                                                    <th style="width:40px">Parent</th>
+													<th style="width:20px">Mobile</th>                                                   
+												    <th style="width:20px">Created On</th>    
+                                                    <th style="width:20px">Attendance</th>            
                                                 </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            if((isset($_GET['st'])&&$_GET['st']!='')||(isset($_GET['end'])&&$_GET['end']!='')||(isset($_GET['partywise'])&&$_GET['partywise'])||(isset($_GET['purposewise'])&&$_GET['purposewise'])){
+                                            if((isset($_GET['st'])&&$_GET['st']!='')||(isset($_GET['end'])&&$_GET['end']!='')||(isset($_GET['partywise'])&&$_GET['partywise'])){
                                                 $timestamp = strtotime($_GET['st']);
                                                 $st = date('Y-m-d', $timestamp);
                                                 $timestamp = strtotime($_GET['end']);
                                                 $end = date('Y-m-d', $timestamp);
                                                 $partywise = $_GET['partywise'];
-                                                $purposewise =  $_GET['purposewise'];
 
-                                                $sql = "SELECT * from recordexpense p where 1=1 ";
+                                                $sql = "SELECT * from studentsattendance p where 1=1 ";
                                                 if($_GET['st']!=''){
                                                     if($st==$end){
                                                         $sql.= " and p.createdon ='$st' ";   
@@ -118,71 +110,76 @@ include('workers/getters/functions.php');
                                                 }
                                                 if(isset($_GET['partywise'])&&$_GET['partywise']!=''){
                                                     // echo $_GET['vendorwise'];
-                                                    $sql.=" and p.payee='".$_GET['partywise']."'";    
-                                                }
-                                                if(isset($_GET['purposewise'])&&$_GET['purposewise']!=''){
-                                                    // echo $_GET['vendorwise'];
-                                                    $sql.=" and p.category='".$_GET['purposewise']."'";    
+                                                    $sql.=" and p.class='".$_GET['partywise']."'";    
                                                 }
 
                                                 $sql.=" ;"; 
 
                                             }else{
-                                                $sql = "SELECT * from recordexpense ;";    
+                                                $sql = "SELECT * from studentsattendance ;";    
                                             }
 
                                             $result = mysqli_query($dbcon,$sql);
                                             if ($result->num_rows > 0){
-                                                while ($row =$result-> fetch_assoc()){
-                                                    echo '                           <tr>
-                                                <td>'.$row['voucherid'].'</td>
-                                                <td>'.$row['payee'].'</td>
-                                                <td>'.$row['payeetype'].'</td>
-												<td>'.$row['category'].'</td>
-												<td>'.$row['description'].'</td>
-												<td>'.$row['amount'].'</td>
-												 <td>'.$row['paymentmode'].'</td>
-												  <td>'.$row['reference'].'</td>
-												<td>'.$row['createdon'].'</td>												
-                                                <td>'.$row['createdby'].'</td>
-												  <td>'.$row['notes'].'</td>
-                                              
-                                               </tr>';  
-                                                }
-                                            }
-                                            ?>
+                                            while ($row =$result-> fetch_assoc()){
+                                                $row_id=$row['id'];
+                                                echo "<tr>";
+                                                echo '<td>'.$row['id'].'<br /></td>';
+                                            // echo '<td><input type="checkbox" class="checkBoxClass" name="selectedCheckbox[]" value='.$row['id'].'/></td>';
+                                        //	echo '<td>'.$row['id'].'<br /></td>';
+                                            
+                                            //echo '<td><a href="editCustomerProfile.php?id='.$row_id.'" >'.$row['custid'] .'</a></td>';
+                                    //		echo '<td><img style="max-width:50px; height:35px;" src="'.$row['image'].'"/>';
+                                            echo '<td>'.$row['admissionno'].'<br /></td>';													
+                                            echo '<td>'.$row['firstname'].'</td>';
+                                            echo '<td>'.$row['lastname'].'</td>';
+                                            echo '<td>'.$row['class'].'</td>';
+                                            echo '<td>'.$row['section'].'</td>';
+                                            echo '<td>'.$row['academic'].'</td>';
+                                            echo '<td>'.$row['fathername'].'</td>';
+                                            echo '<td>'.$row['mobile'].'</td>';												
+                                            echo '<td>'.$row['createdon'].'</td>';
+                                          //  echo '<td>'.$row['attendance'].'</td>';
+                                            
+                                            
+                                                ?>
+                                            <td><?php if($row['attendance']=='P'){
+                                                            echo '<span style="background-color:green;text-align:center;">
+                                                            <span style="color:white;text-align:center;">Present';
+                                                        }else if($row['attendance']=='A'){
+                                                            echo '<span style="background-color:red;text-align:center;">
+                                                            <span style="color:white;text-align:center;">Absent';
+                                                        }else{
+                                                            echo "";
+                                                        }	 ?>
+                                            </td>
+                                          
+                                            <?php
+                                            //echo '<td><a href="editAttendance.php?id=' . $row['id'] . '" class="btn btn-primary btn-sm" data-target="#modal_edit_user_5">
+                                            //	<i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                            
+                                            //<a onclick="delete_record(this);" id="deleteCustomerProfile" data-id="' . $row_id . '" class="btn btn-danger btn-sm"  data-title="Delete">
+                                        //	<i class="fa fa-trash-o" aria-hidden="true"></i></a-->
+                                        
+                                        //		<a onclick="print_record(this);" id="printStudentProfile" data-id="' . $row_id . '" class="btn btn-secondary btn-sm"  data-title="Print">
+                                        //	<i class="fa fa-print" aria-hidden="true"></i></a></td-->';                                               
+                                                
+                                                echo "</tr>";
+                                    }
+                                }
+                                ?>	
 
 
                                         </tbody>
                                         <tfoot>
-                                            <tr>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                             
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div><!-- end card-->
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                                        </div>
+									
+                                    </div>		
+                                
+                                </div><!-- end card-->	
+                                
+                                  
+                                </div>			
 
 
 
@@ -190,11 +187,9 @@ include('workers/getters/functions.php');
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 <script>
-    
+    var page_partywise = "<?php if(isset($_GET['partywise'])){ echo $_GET['partywise']; } ?>";
     var page_st = "<?php if(isset($_GET['st'])){ echo $_GET['st']; } ?>";
     var page_end = "<?php if(isset($_GET['end'])){ echo $_GET['end']; } ?>";
-    var page_partywise = "<?php if(isset($_GET['partywise'])){ echo $_GET['partywise']; } ?>";
-    var page_purposewise = "<?php if(isset($_GET['purposewise'])){ echo $_GET['purposewise']; } ?>";
 
 
     $(document).ready(function() {
@@ -232,14 +227,12 @@ include('workers/getters/functions.php');
             $("#reset-date").hide();
         });
 
-        
-
 
         var date_range = $('#daterange').val(); 
-        var party_var = $('#purposewise').val();         
-        var printhead = party_var!=''?'<p><b>Purpose: </b>'+party_var+'</p>':'';
-        printhead+= date_range!=''?'<p><b>Date Range: </b>'+date_range+'</p>':'';
-        var excel_printhead = party_var!=''?'Expenses Report : '+party_var:'';
+        var party_var = $('#partywise').val(); 
+        var printhead = party_var!=''?'<p><b>SClass: </b>'+party_var+'</p>':'';
+        printhead+= date_range!=''?'<p><b>Date : </b>'+date_range+'</p>':'';
+        var excel_printhead = party_var!=''?'Students Attendance Report : '+party_var:'';
         excel_printhead+= '  ';
         excel_printhead+= date_range!=''?'Date : '+date_range:'';
 
@@ -281,7 +274,7 @@ include('workers/getters/functions.php');
                         $(win.document.body)
                             .css( 'font-size', '10pt' )
                             .prepend(
-                            '<p><img src="<?php echo $baseurl;?>assets/images/logo/logo@0,25x.png" style="width:50px;height:50px;" /></p><p class="lead text-center"><b>Expenses Report</b><br/></p>'+printhead+'</div>'
+                            '<p><img src="<?php echo $baseurl;?>assets/images/logo/logo@0,25x.png" style="width:50px;height:50px;" /></p><p class="lead text-center"><b>Students Attendance Report</b><br/></p>'+printhead+'</div>'
                         );
 
                         $(win.document.body).find( 'table' )
@@ -292,14 +285,14 @@ include('workers/getters/functions.php');
                 {
                     extend: 'excel',
                     text:'<span class="fa fa-file-excel-o"></span>',
-                    title:'Expenses Report', footer: true ,
+                    title:'Students Attendance Report', footer: true ,
                     messageTop: excel_printhead   
 
                 },
                 {
                     extend: 'pdf',
                     text:'<span class="fa fa-file-pdf-o"></span>',
-                    title:'Expenses Report', footer: true ,
+                    title:'Students Attendance Report', footer: true ,
                     messageTop: excel_printhead   
 
                 },
@@ -330,8 +323,7 @@ include('workers/getters/functions.php');
         }
 
         var partywise = $('#partywise').val();
-        var purposewise = $('#purposewise').val();
-        location.href="expenseReport.php?st="+st+"&end="+end+"&partywise="+partywise+"&purposewise="+purposewise;
+        location.href="StudentAttendanceReport.php?st="+st+"&end="+end+"&partywise="+partywise;
 
     }
 
@@ -342,6 +334,8 @@ include('workers/getters/functions.php');
         $("#reset-date").show();
     }
 </script>
+</div>
 <?php
 include('footer.php');
 ?>
+

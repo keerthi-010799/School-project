@@ -40,14 +40,14 @@
                             <tbody>
                                 <!-- foreach ($order->lineItems as $line) or some such thing here -->
                                 <tr>
-                                    <td><a href="expensesReport.php">
+                                    <td><a href="expenseReport.php">
                                         <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> Expenses Report&nbsp;</a></td>
                                     <!--td class="text-left"><a  href="SalesOrderReports.php">
                                         <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Fees Collection Report</a>
                                     </td-->
 
-                                    <td class="text-center"><a  href="StockInwardReports.php">
-                                        <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Inventory(Inward) Stock Report</a> &nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="Raw Material Purchase Item Master/Stock Inward Report."></i>
+                                    <td class="text-center"><a  href="stockReport.php">
+                                        <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Inventory - Stock Report</a> &nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="Raw Material Purchase Item Master/Stock Inward Report."></i>
                                     </td>
 
                                     <td class="text-right">  <a  href="studentsReport.php">

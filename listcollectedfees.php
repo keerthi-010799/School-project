@@ -50,8 +50,7 @@
 											</tr>
 										</thead>										
 										<tbody>
-										
-										
+																				
 											<?php
 												
 													include("database/db_conection.php");//make connection here
@@ -59,33 +58,40 @@
 													$result = mysqli_query($dbcon,$sql);
 													
 													if ($result->num_rows > 0){
-													while ($row =$result-> fetch_assoc()){
-														$id = $row['fee_student_id'];
-														$sql1 = "SELECT * FROM studentprofile where id = $id";
-														if($result = mysqli_query($dbcon,$sql1)){
-														$row1 = mysqli_fetch_assoc($result);
-														if(mysqli_num_rows($result)>0){
-															$admissionno = $row1['admissionno'];
-														}
-													}	
+													while ($row =$result-> fetch_assoc()){																				
 													echo "<tr>";
 													echo '<td>' .$row['fee_id'] . '</td>';
 													echo '<td>'.$row['fee_class'].' </td>';
 													echo '<td>'.$row['fee_academic_year'].' </td>';
-													echo '<td>'.$admissionno.' </td>';
+													echo '<td>'.$row['fee_admission_no'].' </td>';
 													echo '<td>'.$row['fee_type'].' </td>';
 													echo '<td>'.$row['fee_total_amt'].' </td>';
 													echo '<td>'.$row['fees_paid'].' </td>';
-													echo '<td> Created </td>';
-													 echo '													 																										 													 
-													 <td>
-													 <a class="dropdown-item"  href="#" onclick="ToPrint(this);" data-template="printreciept" data-code="'.$row['fee_id'].'" data-img="assets/images/logo.png"  data-id="po_print"><i class="fa fa-print" aria-hidden="true"></i>&nbsp; Print</a>  
-													 <a href="editFeesConfig.php?id=' . $row['fee_id'] . '" class="btn btn-primary btn-sm" data-target="#modal_edit_user_5">
-														<i class="fa fa-pencil" aria-hidden="true"></i></a>
-													
-													 <a href="javascript:deleteRecord_8(' . $row['fee_id'] . ');" class="btn btn-danger btn-sm" data-placement="top" data-toggle="tooltip" data-title="Delete">
-													 <i class="fa fa-trash-o" aria-hidden="true"></i></a></td>';
-													 echo "</tr>";
+													echo '<td> '.$row['fee_status'].' </td>';													 												
+													echo '<td>';
+													echo '    <div class="dropdown">
+					  <button type="button" class="btn btn-light btn-xs dropdown-toggle" data-toggle="dropdown">
+					  </button>
+	  					<div class="dropdown-menu">
+	  						<a class="dropdown-item"  href="#" onclick="ToPrint(this);" data-template="printreciept" data-code="'.$row['fee_id'].'" data-img="assets/images/logo.png"  data-id="po_print"><i class="fa fa-print" aria-hidden="true"></i>&nbsp; Print</a>  ';
+	
+													if($row['fee_status']=="Created"){
+														echo ' <a class="dropdown-item" href="addInvoice.php?inv_code=' . $row['fee_id'] . '&action=edit&type=invoices" class="btn btn-primary btn-sm" data-target="#modal_edit_user_5"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp; Edit</a>';   
+														echo '
+															<a class="dropdown-item"  href="#" onclick="deleteRecord_8(this);" data-id="'.$row['fee_id'].'" class="btn btn-danger btn-sm" data-placement="top" data-toggle="tooltip" data-title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp; Delete</a>';
+	
+														echo '
+															<a class="dropdown-item"  href="workers/setters/invconverter.php?fee_id='.$row['fee_id'].'&fee_status=Verified" data-id="'.$row['fee_id'].'" class="btn btn-danger btn-sm" data-placement="top" data-toggle="tooltip" data-title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp; Verified</a>';
+	
+													}
+	
+													if($row['fee_status']=="Verified"){
+															echo '
+															<a class="dropdown-item"  href="#" onclick="deleteRecord_8(this);" data-id="'.$row['fee_id'].'" class="btn btn-danger btn-sm" data-placement="top" data-toggle="tooltip" data-title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp; Delete</a>';
+														}
+													echo '    </div></div>';	
+													echo ' </td>';
+													echo "</tr>";
 													}
 													}
 													?>															
@@ -101,8 +107,7 @@
                         var template= $(el).attr('data-template');
                                 window.location.href = template+'.php?fees_id='+code;
 
-                     }
-
+                     }					
 													</script>
 														
 									</tbody>

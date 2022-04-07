@@ -1,6 +1,6 @@
 <?php
 include("database/db_conection.php");//make connection here
-
+session_start();
 if(isset($_POST['fees_id']) || isset($_GET['fees_id']))
 {
     $fees_id = isset($_POST['fees_id']) ? $_POST['fees_id'] : $_GET['fees_id'];
@@ -93,8 +93,6 @@ function displaywords($number){
       $number = floor($no % $divider);
       $no = floor($no / $divider);
       $i += ($divider == 10) ? 1 : 2;
- 
- 
       if ($number) {
          $plural = (($counter = count($str)) && $number > 9) ? 's' : null;
          $hundred = ($counter == 1 && $str[0]) ? ' ' : null;
@@ -108,35 +106,15 @@ function displaywords($number){
    }
    $str = array_reverse($str);
    $result = implode('', $str);
- 
- 
    $points = ($point) ?
      "" . $words[floor($point / 10) * 10] . " " . 
            $words[$point = $point % 10] : ''; 
- 
    if($points != ''){        
    return $result . "rupees  " . $points . " paise Only";
  } else {
- 
      return $result . "rupees Only";
  }
- 
  }
-
-function print_duedate($payterm, $payterm_desc, $inv_date){
-
-    if($payterm_desc=='Advance'){
-        $due_date ='';
-    }else if($payterm_desc == 'Immediate' || $payterm_desc == 'Due on Receipt'){
-        $date=date_create($inv_date);
-        $due_date =  date_format($date,"d/m/Y");    
-    }else{
-        $due_date =  Date('d/m/Y', strtotime($inv_date." + ".$payterm." days"));
-    }
-
- return $due_date;
-
-}
 ?> 
 
 <html>
@@ -157,7 +135,7 @@ function print_duedate($payterm, $payterm_desc, $inv_date){
         <div style="text-align:left"><img  style="position:absolute" src=<?php echo $row3['image'] ?> width="100px" height="100px"/>  </div>
        <div style="text-align:center;color:#8B008B"><?php echo $row3['instname'] ?><div style="text-align:center">       
        </div> </h3>
-       <div style="text-align:center">
+       <div style="margin-left:15px;text-align:center">
        <?php echo $row3['address']; ?><br/>
                         <?php echo $row3['city']; ?>-<?php echo $row3['zip']; ?>&nbsp;
                         <br/>
@@ -165,19 +143,18 @@ function print_duedate($payterm, $payterm_desc, $inv_date){
                         <b>E-mail:&nbsp;</b><?php echo $row3['email'];?><br/>
         </h3>
         </div>
-        <div style="text-align:center">FEES RECIEPT</div> 
-        <div><span style="text-align:left;">date: </span>   <span style="margin-left:500px;text-align:left;">reciept no:</span></div>
+        <br/>
+        <div style="text-align:center"><h3>FEES RECIEPT</h3></div> 
+        <div><span style="text-align:left;">date: </span>   <span style="margin-left:500px;text-align:left;">reciept no:<?php echo $row2['reciept_no'];?></span></div>
         <div><span style="text-align:left;">Admissionno: <?php echo $row['admissionno'];?> </span> <span style="margin-left:160px;text-align:left;">student name:<?php echo $row['firstname'];?></span> <span style="margin-left:120px;text-align:left;">  class:<?php echo $row['class'];?> </span></div>
 
                 <table width="100%" style="">
-                    <thead style="border:1px solid #000;text-align:center;">
-                        <th style=" width:10%;padding:10px;border:1px solid #000;">#</th>
-                        <th style="width:50%;padding:10px;border:1px solid #000;">Fees Id</th>
-                        <th style="width:15%;padding:10px;border:1px solid #000;">Fees Type</th>
-                        <th style="width:10%;padding:10px;border:1px solid #000;">Fees Particulars</th>
-                        <th style="width:15%;padding:10px;border:1px solid #000;">Amount</th>
+                    <thead style="text-align:center;">
+                        <th style=" width:10%;padding:10px;border-right:1px solid #000;border-left:1px solid #000;border-top:1px solid #000;">#</th>
+                        <th style="width:15%;padding:10px;border-right:1px solid #000;border-bottom:1px solid #000;border-top:1px solid #000;">Fees Name</th>
+                        <th style="width:15%;padding:10px;border-right:1px solid #000;border-bottom:1px solid #000;border-top:1px solid #000;">Amount</th>
                     </thead>
-                    <tbody>
+                    <tbody style="text-align:center;">
                         <?php
                         // $total = array();
                         // for($i=0;$i<count();$i++){
@@ -186,39 +163,21 @@ function print_duedate($payterm, $payterm_desc, $inv_date){
                             <td style="padding:10px;padding-left:5%;border:1px solid #000;">
                                 <?php echo 1;?>
                             </td>     
-                            <td style="padding:10px;padding-left:5%;border-right:1px solid #000;border-bottom:1px solid #000;">
-                                <?php echo $row2['fee_id'];?>
-                            </td>    
                             <td style="padding:10px;padding-left:3%;border-right:1px solid #000;border-bottom:1px solid #000;">
                                 <?php echo $row2['fee_type'];?>
-                            </td>    
-                            <td style="padding:10px;padding-left:1%;border-right:1px solid #000;border-bottom:1px solid #000;">
-                                <?php echo 'value';?>
-
                             </td>    
                             <td style="padding:10px;padding-left:3%;border-right:1px solid #000;border-bottom:1px solid #000;">
                                 <?php echo $row2['fees_paid'];?>
 
                             </td>
-                        </tr>
-                        <!-- <php
-                        array_push($total,nf($inv_items_arr[$i]->rwqty));
-                        $uom = $inv_items_arr[$i]->uom;                        
-                        }
-                        $inv_total = array_sum($total);                        
-                        ?>         -->
+                        </tr>                      
                     </tbody>
                 </table>
                 <table class="p_table" width="100%" style="">
                     <tbody>
                         <tr>
                             <td width="100%" style="border:1px solid #000;padding:10px;">
-                                <p><?php 
-                                    // $podiscount = $inv_items_arr[0]->podiscount==""?0:$inv_items_arr[0]->podiscount;
-                                    // $invadjustmentval = $inv_items_arr[0]->poadjustmentval==""?0:$inv_items_arr[0]->poadjustmentval;
-                                    // $grdttl = (get_total($inv_items_arr)-$podiscount)+($invadjustmentval);
-                                    // $whole = floor($grdttl);      // 1
-                                    // $fraction = ($grdttl - $whole)*100; 
+                                <p><?php                                 
                                     $paise = convertNumberToWord(round($row2['fees_paid']));
                                     echo "<b>AMOUNT IN WORDS: </b> ( ";
                                   echo ucfirst(displaywords($row2['fees_paid'])).")"; 
@@ -230,7 +189,13 @@ function print_duedate($payterm, $payterm_desc, $inv_date){
                 <table class="p_table" width="100%">
                     <tbody>
                         <tr>
-                            <div>Created by:  <span style="margin-left:500px;text-align:left;">Verified by:</span></div>
+                            <div>Created by:<?php
+                            $userid = $_SESSION['userid'];
+                            $user = "SELECT * FROM userprofile WHERE id = '$userid'";
+                            $result = mysqli_query($dbcon,$user);
+                            $row = $result-> fetch_assoc();
+                            $name = $row['firstname'];
+                              echo $name; ?> <span style="margin-left:400px;text-align:left;">Verified by:<?php echo $name;?></span></div>
                             <td width="100%" style="padding:10px;">
                                 <p style="text-align: center;">***-This  is computer generated receipt hence seal and signature not required ***</p>
                             </td>

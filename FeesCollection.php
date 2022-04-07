@@ -1,12 +1,14 @@
 
 <?php
 include("database/db_conection.php");
-if(isset($_POST['submit']))
-{
+if(isset($_POST['submit'])){
   $academic=$_POST['academic'];
   $class=$_POST['class'];
   $student = $_POST['student'];
-	$feestype=$_POST['FeesType'];
+  $admno = $_POST['admno'];
+  $itemname = $_POST['itemcode'];
+  $price = $_POST['price'];
+  $feestype=$_POST['FeesType'];
 	$stdid = $_POST['std_id'];
   $total1 =$_POST['term1total'];
   $total2 =$_POST['term2total'];
@@ -41,7 +43,7 @@ if(isset($_POST['submit']))
  }elseif($feestype == 'VanFees'){
   $amount=$_POST['van_fee'];
  }elseif($feestype == 'OtherFees'){
-  $amount=$_POST['other_fee'];
+  $amount=$_POST['price'];
  }
 
  if($feestype == 'Term1Fees' && isset($_POST['term1total']) && $_POST['term1total'] != null){
@@ -55,7 +57,8 @@ if(isset($_POST['submit']))
  }elseif($feestype == 'VanFees'){
   $total_amount=$_POST['van_fee_total'];
  }elseif($feestype == 'OtherFees'){
-  $total_amount=$_POST['other_fee_total'];
+   $feestype = 'otherFees'.$itemname;
+  $total_amount=$_POST['price'];
  }
 
  $sql="SELECT MAX(fee_id) as id FROM fees_management ORDER BY id DESC";
@@ -65,17 +68,19 @@ if(isset($_POST['submit']))
 		 	$maxid = $row['id'];
  	 	$maxid += 1;
  	$fees_id= $maxid;
+   $rec = 'INV-'.$maxid;
  	 }
 	 else{
 		$maxid = 0;
 		$maxid += 1;
 		 $fees_id = $maxid;
+     $rec = 'INV-'.$maxid;
 	}
  }
 
 
-$sql = "INSERT INTO `fees_management`(`fee_id`,`fee_class`,`fee_type`,`fee_student_id`,`fee_total_amt`,`fee_academic_year`, `fees_paid`) 
-VALUES ('$fees_id','$class','$feestype','$stdid','$total_amount','$academic','$amount')";
+$sql = "INSERT INTO `fees_management`(`fee_id`,`fee_class`,`fee_type`,`fee_student_id`,`fee_total_amt`,`fee_academic_year`, `fees_paid`,`fee_status`,`fee_admisssion_no`,`reciept_no`) 
+VALUES ('$fees_id','$class','$feestype','$stdid','$total_amount','$academic','$amount','Created','$admno','$rec')";
 if(mysqli_query($dbcon,$sql))
 	{
 
@@ -104,17 +109,13 @@ if($result = mysqli_query($dbcon,$sq)){
    }elseif($feetype == 'VanFees'){
     $vanfeescollected=$totalcollected;
     $vanbalance = $total_amount - $vanfeescollected;
-   }elseif($feetype == 'OtherFees'){
-    $othercollected=$totalcollected;
-    $otherbalance = $total_amount - $otherfeescollected;
-   }
   }
 }
 
 $stats = array("Termfees"=>array("Term1"=>array("TotalFees"=>$_POST['term1total'],"Feescollected"=>$term1feescollected,"Balancetopay"=>"$term1balance"),
 "Term2"=>array("TotalFees"=>$_POST['term2total'],"Feescollected"=>$term2feescollected,"Balancetopay"=>"$term2balance"),
 "Term3"=>array("TotalFees"=>$_POST['term3total'],"Feescollected"=>$term3feescollected,"Balancetopay"=>"$term3balance")),
-"Vanfees"=>array("TotalFees"=>$_POST['van_fee_total'],"Feescollected"=>$vanfeescollected,"Balancetopay"=>"$vanbalance"),"Otherfees"=>array());
+"Vanfees"=>array("TotalFees"=>$_POST['van_fee_total'],"Feescollected"=>$vanfeescollected,"Balancetopay"=>"$vanbalance"),"Otherfees"=>array("itemname"=>"$itemname","price"=>"$price"));
 $status = json_encode($stats);
 
 $checkstatus = "SELECT * from fee_status WHERE Fee_student_id = $stdid";
@@ -136,8 +137,7 @@ if(mysqli_query($dbcon,$sql1))
 	}
 	die;
 }
-
-
+}
 ?>
 <?php include('header.php');?>
 
@@ -300,25 +300,35 @@ if(mysqli_query($dbcon,$sql1))
                                                   <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Other Fees</span><span class="text-danger">*</span></label>
                                                  
-                                                  <table  class="table table-hover small-text" id="tb">
+                                                  <table style="width: 1000px;" class="table table-hover small-text" id="tb">
                                     <tr class="tr-header">
-                                        <th width="20%">Class</th>
-                                        <th width="11%">Student</th>
-                                        <th width="25%">Academic Year</th>
-                                        <th width="12%">Item Code</th>
-                                        <th width="25%">Item Name</th>
-                                        <th width="25%">Total fees</th>
-                                        <th width="25%" >Fees collected</th>
+                                        <th width="15%">Item Name</th>
+                                        <th width="15%">class</th>
+                                        <th width="15%">Academic Year</th>
+                                        <th width="15%">Description</th>
+                                        <th width="15%">Catogery</th>
+                                        <th width="15%">Price</th>
                                     </tr>  
-                                    <tr id="table">
-                                      <!-- <td id = "ofstclass"></td>
-                                      <td id = "ofstname"></td>
-                                      <td id = "ofstitemcode"></td>
-                                      <td id = "ofstitemname"></td>
-                                      <td id = "ofstacademic"></td> -->
-                                      <!-- <td> <input type="hidden" id = "ofsttotal" name="other_fee_total"/></td>
-                                      <td><input id="other_fee" name="other_fee"/></td> -->
-                                    </tr>
+                                    <tr>
+                                      <td>
+                                    <select name="itemcode"  class="form-control form-control-sm itemcode" onchange="changeOtherFees();" id="itemname">
+                                                <option value="" name="" selected>Item Code</option>
+                                                <?php 
+                                                include("database/db_conection.php");//make connection here
+                                                $sql = mysqli_query($dbcon, "SELECT * from stockitemmaster");
+                                                while ($row = $sql->fetch_assoc()){	
+                                                    echo $name=$row['itemname'];                                                    
+                                                    echo '<option onchange="'.$row[''].'" value="'.$name.'" >'.$name.'</option>';                                                        
+                                                  }                                                                                                                                                                                   
+                                               ?>
+                                              </select>
+                                              </td>                                                                                                                                        
+                                                <td><input class="form-control form-control-sm" value="" id="cls"/></td>
+                                                <td><input class="form-control form-control-sm" value="" id="acyear"/></td>
+                                                <td><input class="form-control form-control-sm" value="" id="desc"/></td>
+                                                <td><input class="form-control form-control-sm" value=""  id="category"/></td>
+                                                <td><input class="form-control form-control-sm" value="" name="price"id="price"/></td>                                                                                                
+                                    </tr>                                    
                                                 </table>  
                                                 </div>
                                                   </div>
@@ -391,10 +401,7 @@ if(mysqli_query($dbcon,$sql1))
         else if(feesType == "OtherFees"){
             $("#otherfeesform").css('display','block');
             $("#termfeesform").css('display','none');
-            $("#vanfeesform").css('display','none');
-            changeOtherFees();
-            
-
+            $("#vanfeesform").css('display','none');                
 
         }
     }
@@ -429,10 +436,12 @@ if(mysqli_query($dbcon,$sql1))
             });
          }
          function changeOtherFees(){
+           console.log('otherfees')
         var ofstname = $('#student').val();
         var ofstclass = $('#class').val();
+        var itemna = $('#itemname').val();
        $.ajax({
-      url: "workers/getters/otherfees.php?student=" + ofstname+"&class="+ofstclass,
+      url: "workers/getters/otherfees.php?student=" + ofstname+"&class="+ofstclass+"&itemname="+itemna,
                 type: "post",
                 //async: false,
                 success: function(x) {
@@ -444,17 +453,12 @@ if(mysqli_query($dbcon,$sql1))
                       var id = output.std_id;
                       var academic = output.academicyear
                       console.log(cls,std,academic,output.values);
-                      for(var i=0;i<output.values.length;i++){                
-                      //  $('#ofstclass').html(cls);
-                      //  $('#ofstname').html(std);
-                      //  $('#ofstacademic').html(academic);
-                      //  $('#ofstitemcode').html(vals.itemcode);
-                      //  $('#ofstitemname').html(vals.itemname);
-                      //  $('#ofsttotal').val(vals.price);                      
-                      //  $('#std_id').val(id);                       
-                       var tbl = '<div><td>'+cls+'</td><td>'+std+'</td><td>'+academic+'</td><td>'+output.values[i].itemcode+'</td><td>'+output.values[i].itemname+'</td><td>'+output.values[i].price+'</td></div>';
-                       $('#table').append(tbl);
-                    } 
+                      var vals = output.values[0];  
+                      $('#cls').val(vals.class);
+                      $('#acyear').val(academic);
+                      $('#desc').val(vals.description);
+                      $('#category').val(vals.category);
+                      $('#price').val(vals.price);                    
                   }
                 }
             });

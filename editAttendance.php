@@ -116,7 +116,7 @@ VALUES('".$createdon."',
                                             $id=$_GET['id'];
 
                                             //selecting data associated with this particular id
-                                            $result = mysqli_query($dbcon, "SELECT * FROM studentprofile WHERE id=$id");
+                                            $result = mysqli_query($dbcon, "SELECT * FROM studentsattendance WHERE id=$id");
                                             while($res = mysqli_fetch_array($result))
                                             {
                                                 $createdon =	$res['createdon'];
@@ -128,7 +128,7 @@ VALUES('".$createdon."',
 												$section  =	$res['section'];												
 												$fathername = $res['fathername'];											
 												$mobile 	 =	$res['mobile']; 
-											//	$attendance 	 =	$res['attendance'];		
+												$attendance 	 =	$res['attendance'];		
                                                 $status 	 =	$res['status'];										
 
                                             }
@@ -139,14 +139,14 @@ VALUES('".$createdon."',
                                 <div class="form-row">
 									<div class="form-group col-md-12">
 									   <label for="datepicker1">Attendance Date</label><span class="text-danger">*</span>
-									  <input type="date" class="form-control form-control-sm"  name="createdon" value="<?php echo date("Y-m-d");?>" >							
+									  <input type="date" class="form-control form-control-sm"  readonly name="createdon" value="<?php echo date("Y-m-d");?>" >							
 									</div>
 									</div>
                                     
 									<div class="form-row">
                                     <div class="form-group col-md-7">
                                     <label for="inputState">Academic<span class="text-danger">*</span></label>
-                                                <select  id="academic" onchange="onlocode(this)"  class="form-control form-control-sm" name="academic">
+                                                <select  id="academic" onchange="onlocode(this)"  readonly class="form-control form-control-sm" name="academic">
                                                     <?php 
                                                     include("database/db_conection.php");//make connection here
 
@@ -166,18 +166,18 @@ VALUES('".$createdon."',
 
                                     <div class="form-group col-md-5">
                                         <label>Admission No.<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-sm" name="admissionno"   class="form-control" autocomplete="off" value="<?php echo $admissionno;?>" />
+                                        <input type="text" class="form-control form-control-sm" readonly name="admissionno"   class="form-control" autocomplete="off" value="<?php echo $admissionno;?>" />
                                     </div>
                                 </div>
                                 
                                 <div class="form-row">
                                     <div class="form-group col-md-7">
                                         <label>First Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-sm" name="firstname" class="form-control" value="<?php echo $firstname;?>" />        
+                                        <input type="text" class="form-control form-control-sm" readonly name="firstname" class="form-control" value="<?php echo $firstname;?>" />        
                                     </div>
                                     <div class="form-group col-md-5">
                                         <label>Last Name<span class="text-danger"></span></label>
-                                        <input type="text" class="form-control form-control-sm" name="lastname" value="<?php echo $lastname;?>" /> 
+                                        <input type="text" class="form-control form-control-sm" readonly name="lastname" value="<?php echo $lastname;?>" /> 
                                     </div>                                    
                                 </div>
                                 
@@ -186,7 +186,7 @@ VALUES('".$createdon."',
                                     <div class="form-row">
                                     <div class="form-group col-md-6">
                                        <label for="inputState">Class/Course<span class="text-danger">*</span></label>
-                                                <select id="class" onchange="onlocode(this)"  class="form-control form-control-sm" name="class">
+                                                <select id="class" onchange="onlocode(this)" readonly class="form-control form-control-sm" name="class">
                                                     <?php 
                                                     include("database/db_conection.php");//make db connection here
 
@@ -206,7 +206,7 @@ VALUES('".$createdon."',
                                         
                                 <div class="form-group col-md-6">
                                         <label for="inputState">Section</label>
-                                                <select id="section" onchange="onlocode(this)"  class="form-control form-control-sm" name="section">
+                                                <select id="section" onchange="onlocode(this)"  readonly  class="form-control form-control-sm" name="section">
                                                     <?php 
                                                     include("database/db_conection.php");//make connection here
 
@@ -231,14 +231,14 @@ VALUES('".$createdon."',
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label>Father Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-sm" name="fathername" placeholder=""  class="form-control" value="<?php echo $fathername;?>" />
+                                        <input type="text" class="form-control form-control-sm" readonly name="fathername" placeholder=""  class="form-control" value="<?php echo $fathername;?>" />
                                     </div>
                                                 
                                    
                                
                                     <div class="form-group col-md-6">
                                         <label>Mobile<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-sm" name="mobile"  class="form-control" value="<?php echo $mobile;?>" />
+                                        <input type="text" class="form-control form-control-sm" readonly name="mobile"  class="form-control" value="<?php echo $mobile;?>" />
                                     </div>                                                                     
                                 </div>
 									
@@ -255,28 +255,40 @@ VALUES('".$createdon."',
 									&nbsp;&nbsp;Absent <input type="radio" name="attendance" value="A"  <?php echo ($attendance=='A')?"checked":"";?> />
 								</div>
 								 </div--> 
-                                 <div class="form-row">
-                                <div class="col-md-12 col-md-offset-12">
-                                    <div class="checkbox"><label> Mark Attendance &nbsp;&nbsp;</label>
-                                        Present <input type="radio" name="attendance" value="P" class=class="fa fa-check-square-o" checked >	
-                                       &nbsp;&nbsp; Absent <input type="radio" name="attendance" value="A" class=class="fa fa-check-square-o"  >	
-                                    </div>
-                                </div>                                   
+                                <div class="form-row">
+								<div class="col-md-12 col-md-offset-12">
+								<div class="checkbox"><!--label>Change/Edit Attendnace&nbsp;&nbsp;-->
+									Present <input type="radio" name="attendance" value="P"  <?php echo ($attendance=='P')?"checked":"";?> />	
+				&nbsp;&nbsp;Absent <input type="radio" name="attendance" value="A" <?php echo ($attendance=='A')?"checked":"";?> />
+								</div>
+								 </div>
+								 </div> </br>
+                                                    </br>
                                   
                                  
                                  <div class="form-row">                                
-                                    <h5 class="col-md-12 text-muted text-info">Edit Student's Status Active/Inactive&nbsp;</h5>
-                                </div>
+                                    <h5 class="col-md-12 text-muted text-info">Edit Attendnace Record Active/Inactive&nbsp;</h5>
+                                
                             </div>
-                                                    
+
+                           
+                                          
+                            <div class="form-row">
+								<div class="col-md-12 col-md-offset-12">
+								<div class="checkbox"><label>Edit Student's Current Status</label>&nbsp;&nbsp;
+									Active <input type="radio" name="status" value="Y"  <?php echo ($status=='Y')?"checked":"";?> />	
+								&nbsp;&nbsp;Inactive <input type="radio" name="status" value="N" <?php echo ($status=='N')?"checked":"";?> />
+								</div>
+								 </div>
+								 </div>
                                     
-                                    <div class="form-row">
+                                    <!--div class="form-row">
 								<div class="col-md-12 col-md-offset-12">
 								<div class="checkbox"><label>Student's Current Status</label>&nbsp;&nbsp;
 									Active <input type="radio" name="status" value="Y"  <?php echo ($status=='Y')?"checked":"";?> />	
 				&nbsp;&nbsp;Inactive <input type="radio" name="status" value="N" <?php echo ($status=='N')?"checked":"";?> />
 								</div>
-								 </div>
+								 </div-->
                                                   
                                     
                                                    

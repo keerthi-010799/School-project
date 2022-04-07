@@ -6,17 +6,19 @@ if (isset($_GET['student'])) {
     if (isset($_GET['class'])) {
     $student = $_GET['student'];
     $class = $_GET['class'];
+    $itemname = $_GET['itemname'];
     $academic;
   $sql1 = mysqli_query($dbcon, "SELECT * FROM studentprofile WHERE firstname = '$student' and class = '$class'");
   while ($row = $sql1->fetch_assoc()){
         $academic = $row['academic'];
         $std_id = $row['id'];
+        $admno = $row['']
 
     }
 }
     $return=array();
     $values=array();
-            $sql = "SELECT * FROM stockitemmaster where class = '$class'";
+            $sql = "SELECT * FROM stockitemmaster where itemname = '$itemname' and class = '$class'";
     $result = mysqli_query($dbcon, $sql);
     $values = sql_fetch_all($result);
 
