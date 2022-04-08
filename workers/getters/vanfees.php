@@ -12,6 +12,7 @@ if (isset($_GET['student'])) {
         $areaname1 = $row['areaname'];
         $academic = $row['academic'];
         $std_id = $row['id'];
+        $admno = $row['admissionno'];
     }
 }
     $return=array();

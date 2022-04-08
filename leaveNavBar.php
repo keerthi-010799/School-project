@@ -12,7 +12,7 @@
 					<div class="col-xl-12">
 							<div class="breadcrumb-holder">
                             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Admin</a>
+  <a class="navbar-brand" href="#">HR</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -21,30 +21,25 @@
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
-        
       </li>
-      
       <li class="nav-item">
-        <a class="nav-link" href="listStudentProfile.php">People</a>
+        <a class="nav-link" href="listEmployees.php">People</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Fees Management
+          leave
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <!--a class="dropdown-item" href="listAcademic.php">Academic</a-->
-          <a class="dropdown-item" href="listFeesHead.php">Fees Heads</a>
+          <a class="dropdown-item" href="listLeaveRequests.php">Requests</a>
           <!--a class="dropdown-item" href="listLeaveType.php">Leave Types</a-->
-          <a class="dropdown-item" href="listFeesConfig.php">Fees Configuration</a>
-		   <a class="dropdown-item" href="discReport.php">Assign/Manage Discounts</a>
-          <a class="dropdown-item" href="listcollectedfees.php">Fees Collection</a>
-          <!-- <a class="dropdown-item" href="feestatus.php">Fees status</a> -->
-
-         
-          
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="listFeesConfig.php">Diveder</a>
-        </div>
+          <a class="dropdown-item" href="listLeavePolicies.php">Policies</a>
+		   <a class="dropdown-item" href="listLeaveEntitlement.php">Leave Entitlements</a>
+          <a class="dropdown-item" href="#">Holidays</a>
+          <a class="dropdown-item" href="calendar.php">Calendar</a>
+          <!--div class="dropdown-divider"></div>
+          <!--div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div-->
       </li>
       
       <li class="nav-item">

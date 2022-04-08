@@ -395,6 +395,16 @@ if(isset($_SESSION['login_email'])){
                                 <li><a href="StudentAttendanceReport.php"><i class="fa fa-bar-chart bigfonts" aria-hidden="true"></i> Attendance Report</a> </li>
                                     <!--li><a href="importArea.php"><i class="fa fa-upload bigfonts"></i>Area Upload</a-->                                                                                     
                         </ul></li>
+
+                        <li class="submenu">
+                                <a href="#"> <i class="fa fa-calendar bigfonts" aria-hidden="true"></i> Leave Manegemet<span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">								
+                                    <li><a href="leaveNavBar.php"><i class="fa fa-user"> </i>HR</a></li>	
+                                    <li><a href="leaveSettings.php"><i class="fa fa-cog bigfonts" aria-hidden="true"></i>Leave Settings</a></li>								
+                                    <!--li><a href="recordExpenses.php"><i class="fa fa-plus-circle"></i>add Expense</a></li-->								
+                                    <!--li><a href=""><i class="fa fa-circle-o"></i>list Accounts</a></li-->
+                                </ul>
+                            </li>	
                         
 						
                     <li class="submenu">
@@ -409,7 +419,7 @@ if(isset($_SESSION['login_email'])){
                             <li><a href="listFeesHead.php"><i class="fa fa-rupee bigfonts"></i>Fees Heads</a></li>
 							 <li><a href="listDesignation.php"><i class="fa fa-user-circle-o bigfonts" aria-hidden="true"></i>Designation</a></li>
 							 <li><a href="listCategory.php"><i class="fa fa-minus-square bigfonts" aria-hidden="true"></i>Discount Category</a></li>
-                             <!--li><a href="feesNavBar.php"><i class=""></i>Fees Management</a></li-->                                                        
+                             <li><a href="listLeaveType.php"><i class=""></i>List Leave Types</a></li-->                                                        
                         </ul>
                     </li>
 

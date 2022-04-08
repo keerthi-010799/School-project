@@ -1,6 +1,6 @@
 <?php
 include_once('../../database/db_conection.php');
-
+$percent =null ;
 if (isset($_GET['student'])) {
     if (isset($_GET['class'])) {
     $student = $_GET['student'];
@@ -10,8 +10,15 @@ if (isset($_GET['student'])) {
     $sql1 = mysqli_query($dbcon, "SELECT * FROM studentprofile WHERE firstname = '$student' and class = '$class'");
   while ($row = $sql1->fetch_assoc()){
         $std_id = $row['id'];
+        $admno = $row['admissionno'];
+
     }
 }
+$sql1 = mysqli_query($dbcon, "SELECT * FROM studentsdiscount WHERE admissionno = '$admno'");
+while ($row = $sql1->fetch_assoc()){
+      $percent = $row['discountpercentage'];      
+  }
+
     $return=array();
     $values=array();
             $sql = "SELECT * FROM feesconfig where fee_config_class = '$class'";
@@ -23,12 +30,12 @@ if (isset($_GET['student'])) {
         $return['values']=$values;
         $return['class'] = $class;
         $return['std_id'] = $std_id;
-
+        $return['admissionno'] = $admno;
+        $return['dispercent'] = $percent;
     }else{
         $return['status']=false;
         $return['error']=mysqli_error($dbcon);
     }
-
 }
 function sql_fetch_all($result){
 

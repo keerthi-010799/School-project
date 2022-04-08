@@ -12,8 +12,7 @@ if (isset($_GET['student'])) {
   while ($row = $sql1->fetch_assoc()){
         $academic = $row['academic'];
         $std_id = $row['id'];
-        $admno = $row['']
-
+        $admno = $row['admissionno'];
     }
 }
     $return=array();
@@ -28,6 +27,7 @@ if (isset($_GET['student'])) {
         $return['class'] = $class;
         $return['std'] = $student;
         $return['academicyear'] = $academic;
+        $return['admissionno'] = $admno;
         $return['std_id'] = $std_id;
 
 

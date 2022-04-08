@@ -81,6 +81,21 @@
 											   </select>
 											   
 									   </div>
+
+                                       <?php 
+												   include("database/db_conection.php");//make connection here
+
+												   $sql = mysqli_query($dbcon, "SELECT * FROM fee_status where fee_status_id = 2");
+												   while ($row = $sql->fetch_assoc()){	
+													$date=$row['fee_bal_status'];	
+                                                    //echo $date;
+                                                    echo 'blue';
+                                                    $s = json_decode($date,true);
+                                                    print_r($s,true);
+                                                    echo 'red';
+                                                    echo $s['Termfees'];
+												   }
+												   ?>
 									   <div class="form-group col-md-3">
 											<input type="button" class="btn btn-primary btn-sm" name="search" value="Search" onclick="search_filter();">
 									</div>
@@ -127,8 +142,8 @@
 													}                                                    
 													}else{
 													$sql = "SELECT * FROM fees_management";
-													}
-													$result = mysqli_query($dbcon,$sql);
+													}													                                                                                                        
+                                                    $result = mysqli_query($dbcon,$sql);
 													
 													if ($result->num_rows > 0){
 													while ($row =$result-> fetch_assoc()){																				
@@ -463,7 +478,10 @@ $(document).ready(function() {
 	table.buttons().container()
 		.appendTo( '#po_reports_div');
 	});											
-	</script>
+												
+
+</script>
+
 
 <?php include('footer.php'); ?>
 

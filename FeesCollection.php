@@ -6,8 +6,8 @@ if(isset($_POST['submit'])){
   $class=$_POST['class'];
   $student = $_POST['student'];
   $admno = $_POST['admno'];
-  $itemname = $_POST['itemcode'];
-  $price = $_POST['price'];
+  $itemname ='';
+  $price = '';
   $feestype=$_POST['FeesType'];
 	$stdid = $_POST['std_id'];
   $total1 =$_POST['term1total'];
@@ -16,16 +16,16 @@ if(isset($_POST['submit'])){
   $total_amount;
   $amount;
   $fees_id;
-  $term1feescollected;
-  $term2feescollected;
-  $term3feescollected;
-  $vanfeescollected;
-  $othercollected;
-  $term1balance;
-  $term2balance;
-  $term3balance;
-  $vanbalance;
-  $otherbalance;
+  $term1feescollected = '';
+  $term2feescollected = '';
+  $term3feescollected= '';
+  $vanfeescollected= '';
+  $othercollected= '';
+  $term1balance= '';
+  $term2balance= '';
+  $term3balance= '';
+  $vanbalance= '';
+  $otherbalance= '';
 
  if($feestype == 'TermFees'){
   if(isset($_POST['term1'])&& $_POST['term1'] != null){
@@ -57,9 +57,11 @@ if(isset($_POST['submit'])){
  }elseif($feestype == 'VanFees'){
   $total_amount=$_POST['van_fee_total'];
  }elseif($feestype == 'OtherFees'){
-   $feestype = 'otherFees'.$itemname;
+   $feestype = 'otherFees ('.$itemname.')';
   $total_amount=$_POST['price'];
  }
+ $itemname = $_POST['itemcode'];
+ $price = $_POST['price'];
 
  $sql="SELECT MAX(fee_id) as id FROM fees_management ORDER BY id DESC";
   if($result = mysqli_query($dbcon,$sql)){
@@ -77,13 +79,12 @@ if(isset($_POST['submit'])){
      $rec = 'INV-'.$maxid;
 	}
  }
-
-
-$sql = "INSERT INTO `fees_management`(`fee_id`,`fee_class`,`fee_type`,`fee_student_id`,`fee_total_amt`,`fee_academic_year`, `fees_paid`,`fee_status`,`fee_admisssion_no`,`reciept_no`) 
-VALUES ('$fees_id','$class','$feestype','$stdid','$total_amount','$academic','$amount','Created','$admno','$rec')";
-if(mysqli_query($dbcon,$sql))
-	{
-
+$date = date("d-m-Y");
+$sql0 = "INSERT INTO `fees_management`(`fee_id`,`fee_class`,`fee_type`,`fee_student_id`,`fee_total_amt`,`fee_academic_year`, `fees_paid`,`fee_status`,`fee_admission_no`,`reciept_no`,`collected_date`) 
+VALUES ('$fees_id','$class','$feestype','$stdid','$total_amount','$academic','$amount','Created','$admno','$rec','$date')";
+echo 'red',$result = mysqli_query($dbcon,$sql0);
+if(mysqli_query($dbcon,$sql0)){
+ echo 'success1';
 		// header("location:listFeesConfig.php");
     //  } else 
     //  { echo die('Error: ' . mysqli_error($dbcon).$sql );
@@ -110,7 +111,9 @@ if($result = mysqli_query($dbcon,$sq)){
     $vanfeescollected=$totalcollected;
     $vanbalance = $total_amount - $vanfeescollected;
   }
-}
+  
+} 
+
 
 $stats = array("Termfees"=>array("Term1"=>array("TotalFees"=>$_POST['term1total'],"Feescollected"=>$term1feescollected,"Balancetopay"=>"$term1balance"),
 "Term2"=>array("TotalFees"=>$_POST['term2total'],"Feescollected"=>$term2feescollected,"Balancetopay"=>"$term2balance"),
@@ -127,15 +130,15 @@ if($result = mysqli_query($dbcon,$checkstatus)){
     $sql1 = "INSERT into fee_status(`fee_status_id`,`Fee_student_id`,`fee_class`,`fee_acadamic_year`,`fee_bal_status`)
     values('$fees_id','$stdid','$class','$academic','$status')";
 }
-}
-if(mysqli_query($dbcon,$sql1))
-	{
+if(mysqli_query($dbcon,$sql1)){
 		header("location:listcollectedfees.php");
+    echo 'success2';
      } else 
-     { echo die('Error: ' . mysqli_error($dbcon).$sql );
+     { echo 'Error: ' . mysqli_error($dbcon).$sql1;
 		exit; 
 	}
 	die;
+}
 }
 }
 ?>
@@ -336,6 +339,7 @@ if(mysqli_query($dbcon,$sql1))
                               <div class="form-row">
                                     <div class="form-group  text-right m-b-12">
                                     <input type="hidden" id="std_id" name="std_id"/>
+                                    <input type="hidden" id="admno" name="admno"/>
                                         <button type="submit" name="submit" class="btn btn-primary btn-sm" >
 														            Make Fees Payment
                                                     </button>
@@ -429,7 +433,8 @@ if(mysqli_query($dbcon,$sql1))
                        $('#stacademic').html(academic);
                        $('#starea').html(area);
                        $('#sttotal').val(total);                       
-                       $('#std_id').val(id);                       
+                       $('#std_id').val(id);
+                       $('#admno').val(output.admissionno);                       
 
                     } 
                 }
@@ -458,7 +463,8 @@ if(mysqli_query($dbcon,$sql1))
                       $('#acyear').val(academic);
                       $('#desc').val(vals.description);
                       $('#category').val(vals.category);
-                      $('#price').val(vals.price);                    
+                      $('#price').val(vals.price);                   
+                      $('#admno').val(output.admissionno); 
                   }
                 }
             });
@@ -477,14 +483,18 @@ if(mysqli_query($dbcon,$sql1))
                       console.log(output.values[0].fee_config_amount);
                       var vals = output.values[0];
                       var id = output.std_id;
-                       $('#termtotal').val(vals.fee_config_amount);    
+                      var dic = output.dispercent != null ? output.dispercent : 0;
+                      var discount = (dic / 100) * vals.fee_config_amount;
+                      var totalfee = vals.fee_config_amount - discount;
+                       $('#termtotal').val(totalfee);    
                         var total = $("#termtotal").val();
                         var term = (total/3);
                         console.log("term",total);
                        $("#term1total").val(term);
                        $("#term2total").val(term);
                        $("#term3total").val(term);     
-                       $('#std_id').val(id);                                                        
+                       $('#std_id').val(id);
+                       $('#admno').val(output.admissionno);                                                        
                   }
                 }
             });

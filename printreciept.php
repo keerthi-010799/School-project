@@ -145,7 +145,8 @@ function displaywords($number){
         </div>
         <br/>
         <div style="text-align:center"><h3>FEES RECIEPT</h3></div> 
-        <div><span style="text-align:left;">date: </span>   <span style="margin-left:500px;text-align:left;">reciept no:<?php echo $row2['reciept_no'];?></span></div>
+        <div><span style="text-align:left;">date: <?php echo date("d-m-Y"); ?></span>   <span style="margin-left:450px;text-align:left;">reciept no:<?php echo $row2['reciept_no'];?></span></div>
+        <br/>
         <div><span style="text-align:left;">Admissionno: <?php echo $row['admissionno'];?> </span> <span style="margin-left:160px;text-align:left;">student name:<?php echo $row['firstname'];?></span> <span style="margin-left:120px;text-align:left;">  class:<?php echo $row['class'];?> </span></div>
 
                 <table width="100%" style="">
