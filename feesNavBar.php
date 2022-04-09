@@ -38,7 +38,7 @@
           <a class="dropdown-item" href="listFeesConfig.php">Fees Configuration</a>
 		   <a class="dropdown-item" href="discReport.php">Assign/Manage Discounts</a>
           <a class="dropdown-item" href="listcollectedfees.php">Fees Collection</a>
-          <!-- <a class="dropdown-item" href="feestatus.php">Fees status</a> -->
+          <a class="dropdown-item" href="feestatus.php">Fees status</a>
 
          
           

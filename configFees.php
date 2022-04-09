@@ -1,6 +1,8 @@
 <?php
 include("database/db_conection.php");//make connection here
 $feesConfig = '';
+$feesFound ='';
+
 if(isset($_POST['submit']))
 {
 	$feescode ="";
@@ -30,6 +32,15 @@ if(isset($_POST['submit']))
  }
 //   echo $feescode;
 
+$CheckFeesConfig="SELECT fee_config_name FROM  feesconfig WHERE fee_config_class='$class'";
+    $run_query=mysqli_query($dbcon,$CheckFeesConfig);
+	if(mysqli_num_rows($run_query)>0)
+    {	
+		$feesFound = "'$feesname'' is already been assigned to the class $class, Please try another class!";
+		
+	 }
+    else{	
+
 	$insert_feesconfig="INSERT INTO feesconfig (`fee_config_code`,`fee_config_academic_year`,`fee_config_class`,`fee_config_gender`,`fee_config_name`,`fee_config_amount`,`fee_config_duedate`) 
 	VALUES ('$feescode','$academic','$class','$gender','$feesname','$amount','$duedate')";													    
 	
@@ -40,6 +51,7 @@ if(isset($_POST['submit']))
 		exit; 
 	}
 	die;
+}
 }
 ?>
 <?php include('header.php');?>
@@ -73,7 +85,7 @@ if(isset($_POST['submit']))
 							<div class="card-header">
 								 <h3><i class="fa fa-calendar bigfonts" aria-hidden="true"></i> 
 								 Fees Configuration
-                                 <p class="text-danger"><?php echo $feesConfig;?></p> </h3>
+                                 <p class="text-danger"><?php echo $feesFound;?></p> </h3>
 									 </div>									 
 								
 							<div class="card-body">

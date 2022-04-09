@@ -133,9 +133,8 @@ function displaywords($number){
     <body onload="printInit();">
         <div><h3 > 
         <div style="text-align:left"><img  style="position:absolute" src=<?php echo $row3['image'] ?> width="100px" height="100px"/>  </div>
-       <div style="text-align:center;color:#8B008B"><?php echo $row3['instname'] ?><div style="text-align:center">       
-       </div> </h3>
-       <div style="margin-left:15px;text-align:center">
+       <div style="text-align:center;color:#8B008B"><?php echo $row3['instname'] ?> </h3>
+       <div style="margin-top:-15px;margin-left:15px;text-align:center">
        <?php echo $row3['address']; ?><br/>
                         <?php echo $row3['city']; ?>-<?php echo $row3['zip']; ?>&nbsp;
                         <br/>
@@ -145,9 +144,9 @@ function displaywords($number){
         </div>
         <br/>
         <div style="text-align:center"><h3>FEES RECIEPT</h3></div> 
-        <div><span style="text-align:left;">date: <?php echo date("d-m-Y"); ?></span>   <span style="margin-left:450px;text-align:left;">reciept no:<?php echo $row2['reciept_no'];?></span></div>
+        <div><span style="text-align:left;">Date: <?php echo date("d-m-Y"); ?></span>   <span style="margin-left:450px;text-align:left;">Reciept no:<?php echo $row2['reciept_no'];?></span></div>
         <br/>
-        <div><span style="text-align:left;">Admissionno: <?php echo $row['admissionno'];?> </span> <span style="margin-left:160px;text-align:left;">student name:<?php echo $row['firstname'];?></span> <span style="margin-left:120px;text-align:left;">  class:<?php echo $row['class'];?> </span></div>
+        <div><span style="text-align:left;">Admissionno: <?php echo $row['admissionno'];?> </span> <span style="margin-left:160px;text-align:left;">Student name:<?php echo $row['firstname'];?></span> <span style="margin-left:120px;text-align:left;">  Class:<?php echo $row['class'];?> </span></div>
 
                 <table width="100%" style="">
                     <thead style="text-align:center;">

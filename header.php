@@ -435,7 +435,7 @@ if(isset($_SESSION['login_email'])){
                     <li class="submenu">
                                 <a href="#"> <i class="fa fa-money bigfonts" aria-hidden="true"></i> Fees Manegemet<span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">								
-                                    <li><a href="feesNavBar.php"><i class="fa fa-institution bigfonts" aria-hidden="true"></i>Manage School Fees</a></li>	
+                                    <li><a href="feesNavBar.php"><i class="fa fa-institution bigfonts" aria-hidden="true"></i>Manage Fees</a></li>	
                                     <li><a href="listStockItemMaster.php"><i class="fa fa-building-o bigfonts" aria-hidden="true"></i>Manage Other Fees</a></li>								
                                     <!--li><a href="recordExpenses.php"><i class="fa fa-plus-circle"></i>add Expense</a></li-->								
                                     <!--li><a href=""><i class="fa fa-circle-o"></i>list Accounts</a></li-->

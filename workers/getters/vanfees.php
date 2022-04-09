@@ -28,6 +28,7 @@ if (isset($_GET['student'])) {
         $return['std'] = $student;
         $return['academicyear'] = $academic;
         $return['std_id'] = $std_id;
+        $return['admissionno'] = $admno;
 
     }else{
         $return['status']=false;

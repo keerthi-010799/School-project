@@ -79,7 +79,7 @@ if(isset($_POST['submit'])){
      $rec = 'INV-'.$maxid;
 	}
  }
-$date = date("m/d/Y");
+$date = date("d-m-Y");
 $sql0 = "INSERT INTO `fees_management`(`fee_id`,`fee_class`,`fee_type`,`fee_student_id`,`fee_total_amt`,`fee_academic_year`, `fees_paid`,`fee_status`,`fee_admission_no`,`reciept_no`,`collected_date`) 
 VALUES ('$fees_id','$class','$feestype','$stdid','$total_amount','$academic','$amount','Created','$admno','$rec','$date')";
 echo 'red',$result = mysqli_query($dbcon,$sql0);
@@ -220,6 +220,35 @@ if(mysqli_query($dbcon,$sql1)){
                         </div>
 <div class="card-body">
     <form action="" method="post">
+
+    <?php
+											include("database/db_conection.php");//make connection here
+ 
+											if(isset($_GET['id']))
+											{
+												$id=$_GET['id'];
+											  
+												//selecting data associated with this particular id
+												$result = mysqli_query($dbcon, "SELECT * FROM fees_management WHERE fee_id = $id");								 
+												while($res = mysqli_fetch_array($result))
+												{
+													//$feescode = $res['feescode'];
+													$academic1 = $res['fee_academic_year'];													
+													$class1 = $res['fee_class'];
+													$feestype1 = $res['fee_type'];													
+													$amount = $res['fee_total_amt'];
+													$paid = $res['fees_paid'];													
+                                                    $sid = $res['fee_student_id'];																										
+												}
+                                                $result1 = mysqli_query($dbcon, "SELECT * FROM studentprovile WHERE id = $sid");								 
+												while($res1 = mysqli_fetch_array($result1))
+												{
+                                                    $student1 = $res1['firstname'];
+                                                }
+											}
+												
+											?>			
+
     <div class="form-row">
                                                 <div class="form-group col-md-6">
                                     <label for="class"><span class="">Academic Year</span><span class="text-danger">*</span></label>
@@ -229,9 +258,14 @@ if(mysqli_query($dbcon,$sql1)){
                                                     include("database/db_conection.php");//make connection here
                                                     $sql = mysqli_query($dbcon, "SELECT DISTINCT academic FROM academic WHERE status='Y' order by 1 desc");
                                                     while ($row = $sql->fetch_assoc()){	
-                                                        echo $academicyear=$row['academic'];
-                                                        echo '<option onchange="'.$row[''].'" value="'.$academicyear.'" >'.$academicyear.'</option>';
-                                                    }
+                                                        echo $academicyear_get=$row['academic'];
+                                                        if($academicyear_get==$academic1){
+                                                            echo '<option value="'.$academicyear_get.'" selected>'.$academicyear_get.'</option>';
+                                                        } else {
+                                                            echo '<option value="'.$academicyear_get.'" >'.$academicyear_get.'</option>';
+                                                            
+                                                            }
+                                                     }
                                                     ?>
                                                 </select>
                                 </div>
@@ -245,8 +279,13 @@ if(mysqli_query($dbcon,$sql1)){
                                                     include("database/db_conection.php");//make connection here
                                                     $sql = mysqli_query($dbcon, "SELECT class FROM class ");
                                                     while ($row = $sql->fetch_assoc()){	
-                                                        echo $class=$row['class'];
-                                                        echo '<option onchange="'.$row[''].'" value="'.$class.'" >'.$class.'</option>';
+                                                        echo $class_get=$row['academic'];
+                                                        if($class_get==$class1){
+                                                            echo '<option value="'.$class_get.'" selected>'.$class_get.'</option>';
+                                                        } else {
+                                                            echo '<option value="'.$class_get.'" >'.$class_get.'</option>';
+                                                            
+                                                            }
                                                     }
 
                                                     ?>
@@ -264,9 +303,13 @@ if(mysqli_query($dbcon,$sql1)){
                                                     include("database/db_conection.php");//make connection here
                                                     $sql = mysqli_query($dbcon, "SELECT firstname,id FROM studentprofile where class = '$class'");
                                                     while ($row = $sql->fetch_assoc()){	
-                                                        echo $name=$row['firstname'];
-                                                        echo $std_id = $row['id'];
-                                                        echo '<option onchange="'.$row[''].'" value="'.$name.'" >'.$name.'</option>';                                                        
+                                                        echo $student_get=$row['firstname'];
+                                                        if($student_get==$student1){
+                                                            echo '<option value="'.$student_get.'" selected>'.$student_get.'</option>';
+                                                        } else {
+                                                            echo '<option value="'.$student_get.'" >'.$student_get.'</option>';
+                                                            
+                                                            }
                                                       }                                                                                                          
                                                     ?>
                                                 </select>
@@ -282,6 +325,26 @@ if(mysqli_query($dbcon,$sql1)){
                                                 <option value="TermFees" >Term Fees</option>
                                                 <option value="VanFees" >Van Fees</option>
                                                 <option value="OtherFees" >Other Fees</option>
+                                                <?php
+                                                if($feestype1=='Term1Fees'){
+                                                            echo '<option value="TermFees" selected>TermFees</option>';
+                                                        } elseif($feestype1=='Term1Fees'){
+                                                            echo '<option value="TermFees" selected>TermFees</option>';
+                                                            
+                                                            }
+                                                            elseif($feestype1=='Term2Fees'){
+                                                                echo '<option value="TermFees" selected>TermFees</option>';
+                                                                
+                                                                }
+                                                                elseif($feestype1=='Term3Fees'){
+                                                                    echo '<option value="TermFees" selected>TermFees</option>';
+                                                                    
+                                                                    }
+                                                                    elseif($feestype1=='VanFees'){
+                                                                        echo '<option value="VanFees" selected>VanFees</option>';
+                                                                        
+                                                                        }
+                                                            ?>
                                             </select>
                                                   </div>
                                                   </div>

@@ -33,6 +33,16 @@
 								
 									</div>
 									<div class="form-row">
+									<div class="col-sm-3">
+                                    <div class="input-group">
+                                        <input type="text" id="daterange" class="form-control-sm" placeholder="Select Date Range">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" id="reset-date">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
                                     <div class="form-group col-md-3">
                                          
                                          <select id="classwise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="class">
@@ -65,23 +75,7 @@
                                                 </select>
 												
                                         </div>
-										<div class="form-group col-md-3">
-                                        
-										<select id="datewise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="date">
-											<option value="">-Select Date-</option>
-												   <?php 
-												   include("database/db_conection.php");//make connection here
-
-												   $sql = mysqli_query($dbcon, "SELECT distinct collected_date FROM fees_management order by collected_date asc");
-												   while ($row = $sql->fetch_assoc()){	
-													   echo $date=$row['collected_date'];
-													   echo '<option onchange="'.$row[''].'" value="'.$date.'" >'.$date.'</option>';
-												   }
-												   ?>
-											   </select>
-											   
-									   </div>
-									   <div class="form-group col-md-3">
+																			   <div class="form-group col-md-3">
 											<input type="button" class="btn btn-primary btn-sm" name="search" value="Search" onclick="search_filter();">
 									</div>
 								
@@ -95,6 +89,7 @@
 												<th>Class</th>
 												<th>Academic Year</th>
 												<th>Admission No </th>
+												<th>Student</th>
 												<th>Fees Name</th>
 												<th>Total Fees</th>
                                                 <th>Fees Paid</th>
@@ -108,12 +103,27 @@
 											<?php
 												
 													include("database/db_conection.php");//make connection here
-													if((isset($_GET['classwise']) && $_GET['classwise']!=='')||(isset($_GET['academicwise'])&&$_GET['academicwise']!='')||(isset($_GET['castewise'])&&$_GET['castewise']!='')){
+													if((isset($_GET['st'])&&$_GET['st']!='')||
+													(isset($_GET['end'])&&$_GET['end']!='')||
+													(isset($_GET['classwise']) && $_GET['classwise']!=='')||
+													(isset($_GET['academicwise'])&&$_GET['academicwise']!='')||
+													(isset($_GET['castewise'])&&$_GET['castewise']!='')){
+														$timestamp = strtotime($_GET['st']);
+                                                $st = date('m/d/Y', $timestamp);
+                                                $timestamp = strtotime($_GET['end']);
+                                                $end = date('m/d/Y', $timestamp);
 														$classwise = $_GET['classwise'];
 														$studentwise = $_GET['studentwise'];
 														$datewise = $_GET['datewise'];	                                                        
 														$sql = "SELECT * FROM `fees_management` s where 1=1";										                                            
-													 if(isset($_GET['classwise'])&&$_GET['classwise']!=''){
+														if($_GET['st']!=''){
+															if($st==$end){
+																$sql.= " and s.collected_date='$st' ";   
+															}else{
+																$sql.=" and (s.collected_date BETWEEN '$st' AND '$end') ";   
+															}
+														}
+														if(isset($_GET['classwise'])&&$_GET['classwise']!=''){
 	
 														$sql.=" and s.fee_class='".$_GET['classwise']."'";    
 													}
@@ -132,11 +142,20 @@
 													
 													if ($result->num_rows > 0){
 													while ($row =$result-> fetch_assoc()){																				
-													echo "<tr>";
+													$adno = $row['fee_admission_no'];
+														echo "<tr>";
 													echo '<td>' .$row['fee_id'] . '</td>';
 													echo '<td>'.$row['fee_class'].' </td>';
 													echo '<td>'.$row['fee_academic_year'].' </td>';
 													echo '<td>'.$row['fee_admission_no'].' </td>';
+
+													$sql1 = "SELECT * FROM studentprofile where admissionno = '$adno'";
+													if($result1 = mysqli_query($dbcon,$sql1)){
+														$row1   = mysqli_fetch_assoc($result1);
+														if(mysqli_num_rows($result1)>0){												
+													echo '<td>'.$row1['firstname'].' </td>';
+												}
+											}
 													echo '<td>'.$row['fee_type'].' </td>';
 													echo '<td>'.$row['fee_total_amt'].' </td>';
 													echo '<td>'.$row['fees_paid'].' </td>';
@@ -150,10 +169,7 @@
 	  						<a class="dropdown-item"  href="#" onclick="ToPrint(this);" data-template="printreciept" data-code="'.$row['fee_id'].'" data-img="assets/images/logo.png"  data-id="po_print"><i class="fa fa-print" aria-hidden="true"></i>&nbsp; Print</a>  ';
 	
 													if($row['fee_status']=="Created"){
-														echo ' <a class="dropdown-item" href="addInvoice.php?inv_code=' . $row['fee_id'] . '&action=edit&type=invoices" class="btn btn-primary btn-sm" data-target="#modal_edit_user_5"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp; Edit</a>';   
-														echo '
-															<a class="dropdown-item"  href="#" onclick="deleteRecord_8(this);" data-id="'.$row['fee_id'].'" class="btn btn-danger btn-sm" data-placement="top" data-toggle="tooltip" data-title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp; Delete</a>';
-	
+														 echo ' <a class="dropdown-item" href ="editfeescollection.php?id = "'.$row['fee_id'].'" class="btn btn-primary btn-sm editbtn" data-target="#modal_edit_user_5"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp; Edit</a>';   														
 														echo '
 															<a class="dropdown-item"  href="workers/setters/invconverter.php?fee_id='.$row['fee_id'].'&fee_status=Verified" data-id="'.$row['fee_id'].'" class="btn btn-danger btn-sm" data-placement="top" data-toggle="tooltip" data-title="Delete">&nbsp; Verified</a>';
 	
@@ -183,6 +199,8 @@
 
                      }					
 													</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 													<script>
     var page_partywise = "<?php if(isset($_GET['partywise'])){ echo $_GET['partywise']; } ?>";
     var page_st = "<?php if(isset($_GET['st'])){ echo $_GET['st']; } ?>";
@@ -205,8 +223,7 @@
         $('#classwise').val(page_classwise);
         $('#datewise').val(page_datewise);
         $('#studentwise').val(page_studentwise);
-
-        $('#daterange').daterangepicker({
+		$('#daterange').daterangepicker({
             ranges: {
                 'Today': [moment(), moment()],
                 'This Quarter': [moment().startOf('quarter'), moment().endOf('quarter')],
@@ -222,22 +239,18 @@
         }, function(start, end, label) {
             $('#daterange').attr('readonly',true); 
             $("#reset-date").show();
-
         });
-
         if(page_end!=''){
             cb(page_st,page_end);
         }else{
             $('#daterange').val(''); 
         }
-
         $("#reset-date").click(function(){
             $('#daterange').val('');
             $('#daterange').attr('readonly',false); 
             $("#reset-date").hide();
         });
-
-
+        var date_range = $('#daterange').val(); 
         var table = $('#po_reports').DataTable( {
             lengthChange: false,
             "footerCallback": function ( row, data, start, end, display ) {
@@ -302,11 +315,50 @@
             .appendTo( '#po_reports_div');
         });											
 			function search_filter(){
+				var st = '';
+        var end = '';
+        var date_range_val = $('#daterange').val();
+        if(date_range_val!=''){
+            var date_range = date_range_val.replace(" ","").split('-');
+            //var filter = $('#filterby').val();
+            st = date_range[0].replace(" ","");
+            end = date_range[1].replace(" ","");
+        }		
+        
 			var classwise = $('#classwise').val();
 			var studentwise = $('#studentwise').val() ? $('#studentwise').val() : "";
             var datewise = $('#datewise').val() ? $('#datewise').val() : "";
-			location.href="listcollectedfees.php?classwise="+classwise+"&studentwise="+studentwise+"&datewise="+datewise;								
-			}											
+			location.href="listcollectedfees.php?st="+st+"&end="+end+"&classwise="+classwise+"&studentwise="+studentwise+"&datewise="+datewise;								
+			}	
+			function cb(start, end) {
+        $('#daterange').val(start+ ' - ' + end);
+        $('#daterange').attr('readonly',true); 
+        $("#reset-date").show();
+    }
+			
+</script>
+<script>
+			$(document).ready(function () {
+
+$('.editbtn').on('click', function () {
+
+	//$('#editmodal').modal('show');
+	console.log('red');
+
+	$tr = $(this).closest('tr');
+
+	var data = $tr.children("td").map(function () {
+		return $(this).text();
+	}).get();
+
+	console.log(data);
+
+	$('#update_id').val(data[0]);
+	$('#section1').val(data[1]);
+	$('#description').val(data[2]);
+   
+});
+});
 </script>
 
 														
@@ -327,11 +379,6 @@
 <?php include('footer.php'); ?>
 						
 						
-
-
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
 <script>
 var page_partywise = "<?php if(isset($_GET['partywise'])){ echo $_GET['partywise']; } ?>";
 var page_st = "<?php if(isset($_GET['st'])){ echo $_GET['st']; } ?>";
@@ -351,47 +398,7 @@ function delete_record(x){
 		}
 
 $(document).ready(function() {
-	$('#partywise').val(page_partywise);
-	$("#reset-date").hide();
-	$('#classwise').val(page_classwise);
-	$('#Communitywise').val(page_Communitywise);
-	$('#genderwise').val(page_genderwise);
-	$('#castewise').val(page_castewise);
-	$('#academicwise').val(page_academicwise);
 
-	$('#daterange').daterangepicker({
-		ranges: {
-			'Today': [moment(), moment()],
-			'This Quarter': [moment().startOf('quarter'), moment().endOf('quarter')],
-			'Last Quarter': [moment().subtract(1, 'quarter').startOf('quarter'), moment().subtract(1, 'quarter').endOf('quarter')],
-			'This Year': [moment().startOf('year'), moment().endOf('year')],
-			'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
-			'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-			'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-			'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-			'This Month': [moment().startOf('month'), moment().endOf('month')],
-			'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-		}
-	}, function(start, end, label) {
-		$('#daterange').attr('readonly',true); 
-		$("#reset-date").show();
-
-	});
-
-	if(page_end!=''){
-		cb(page_st,page_end);
-	}else{
-		$('#daterange').val(''); 
-	}
-
-	$("#reset-date").click(function(){
-		$('#daterange').val('');
-		$('#daterange').attr('readonly',false); 
-		$("#reset-date").hide();
-	});
-
-
-	var date_range = $('#daterange').val(); 
 	var party_var = $('#partywise').val(); 
 	var printhead = party_var!=''?'<p><b> </b></p>':'';
 	printhead+= date_range!=''?'<p><b> </b></p>':'';

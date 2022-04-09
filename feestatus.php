@@ -64,37 +64,11 @@
                                                     ?>
                                                 </select>
 												
-                                        </div>
-										<div class="form-group col-md-3">
-                                        
-										<select id="datewise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="date">
-											<option value="">-Select Date-</option>
-												   <?php 
-												   include("database/db_conection.php");//make connection here
-
-												   $sql = mysqli_query($dbcon, "SELECT distinct collected_date FROM fees_management order by collected_date asc");
-												   while ($row = $sql->fetch_assoc()){	
-													   echo $date=$row['collected_date'];
-													   echo '<option onchange="'.$row[''].'" value="'.$date.'" >'.$date.'</option>';
-												   }
-												   ?>
-											   </select>
-											   
-									   </div>
-
+                                        </div>										
                                        <?php 
 												   include("database/db_conection.php");//make connection here
 
-												   $sql = mysqli_query($dbcon, "SELECT * FROM fee_status where fee_status_id = 2");
-												   while ($row = $sql->fetch_assoc()){	
-													$date=$row['fee_bal_status'];	
-                                                    //echo $date;
-                                                    echo 'blue';
-                                                    $s = json_decode($date,true);
-                                                    print_r($s,true);
-                                                    echo 'red';
-                                                    echo $s['Termfees'];
-												   }
+												  
 												   ?>
 									   <div class="form-group col-md-3">
 											<input type="button" class="btn btn-primary btn-sm" name="search" value="Search" onclick="search_filter();">
@@ -110,12 +84,20 @@
 												<th>Class</th>
 												<th>Academic Year</th>
 												<th>Admission No </th>
-												<th>Fees Name</th>
-												<th>Total Fees</th>
-                                                <th>Fees Paid</th>
-												<th>Status</th>
-												<th>Collected Date</th>
-												<th>Action</th>
+												<th>term1 Total Fees</th>
+                                                <th>term1 Fees Paid</th>
+                                                <th>term1 Fees balance</th>
+                                                <th>term2 Total Fees</th>
+                                                <th>term2 Fees Paid</th>
+                                                <th>term2 Fees balance</th>
+                                                <th>term3 Total Fees</th>
+                                                <th>term3 Fees Paid</th>
+                                                <th>term3 Fees Paid</th>
+                                                <th>van Total Fees</th>
+                                                <th>van Fees Paid</th>
+                                                <th>van Fees balance</th>
+												<th>other fees name </th>
+                                                <th>other fees price</th>
 											</tr>
 										</thead>										
 										<tbody>
@@ -123,66 +105,66 @@
 											<?php
 												
 													include("database/db_conection.php");//make connection here
-													if((isset($_GET['classwise']) && $_GET['classwise']!=='')||(isset($_GET['academicwise'])&&$_GET['academicwise']!='')||(isset($_GET['castewise'])&&$_GET['castewise']!='')){
-														$classwise = $_GET['classwise'];
-														$studentwise = $_GET['studentwise'];
-														$datewise = $_GET['datewise'];	                                                        
-														$sql = "SELECT * FROM `fees_management` s where 1=1";										                                            
-													 if(isset($_GET['classwise'])&&$_GET['classwise']!=''){
-	
-														$sql.=" and s.fee_class='".$_GET['classwise']."'";    
-													}
-													if(isset($_GET['studentwise'])&&$_GET['studentwise']!=''){
-	
-														$sql.=" and s.fee_student_id='".$_GET['studentwise']."'";    
-													}
-													if(isset($_GET['datewise'])&&$_GET['datewise']!=''){
-	
-														$sql.=" and s.collected_date='".$_GET['datewise']."'";    
-													}                                                    
-													}else{
-													$sql = "SELECT * FROM fees_management";
-													}													                                                                                                        
-                                                    $result = mysqli_query($dbcon,$sql);
 													
+                                                    //$sql = mysqli_query($dbcon, "SELECT * FROM fee_status where fee_status_id = 2");
+                                                    $sql = "SELECT * FROM fee_status";
+                                                    //while ($row = $sql->fetch_assoc()){	
+													// $date=$row['fee_bal_status'];	
+                                                    // echo $date;
+                                                    // $s = json_decode($date,true);
+                                                    // echo 'red';
+                                                    // print_r($s,true);
+                                                //  echo $s["Termfees"]["Term1"]["TotalFees"];
+                                                    // if((isset($_GET['classwise']) && $_GET['classwise']!=='')||(isset($_GET['academicwise'])&&$_GET['academicwise']!='')||(isset($_GET['castewise'])&&$_GET['castewise']!='')){
+													// 	$classwise = $_GET['classwise'];
+													// 	$studentwise = $_GET['studentwise'];
+													// 	$datewise = $_GET['datewise'];	                                                        
+													// 	$sql = "SELECT * FROM `fees_management` s where 1=1";										                                            
+													//  if(isset($_GET['classwise'])&&$_GET['classwise']!=''){
+	
+													// 	$sql.=" and s.fee_class='".$_GET['classwise']."'";    
+													// }
+													// if(isset($_GET['studentwise'])&&$_GET['studentwise']!=''){
+	
+													// 	$sql.=" and s.fee_student_id='".$_GET['studentwise']."'";    
+													// }
+													// if(isset($_GET['datewise'])&&$_GET['datewise']!=''){
+	
+													// 	$sql.=" and s.collected_date='".$_GET['datewise']."'";    
+													// }                                                    
+													// }else{
+													// $sql = "SELECT * FROM fees_management";
+													// }							
+                                                    						                                                                                                        
+                                                    $result = mysqli_query($dbcon,$sql);													
 													if ($result->num_rows > 0){
-													while ($row =$result-> fetch_assoc()){																				
+													while ($row =$result-> fetch_assoc()){	
+                                                        $date=$row['fee_bal_status'];	
+                                                    //echo $date;
+                                                    $s = json_decode($date,true);
+                                                    print_r($s,true);																			
 													echo "<tr>";
-													echo '<td>' .$row['fee_id'] . '</td>';
+													echo '<td>' .$row['fee_status_id'] . '</td>';
 													echo '<td>'.$row['fee_class'].' </td>';
-													echo '<td>'.$row['fee_academic_year'].' </td>';
-													echo '<td>'.$row['fee_admission_no'].' </td>';
-													echo '<td>'.$row['fee_type'].' </td>';
-													echo '<td>'.$row['fee_total_amt'].' </td>';
-													echo '<td>'.$row['fees_paid'].' </td>';
-													echo '<td> '.$row['fee_status'].' </td>';
-													echo '<td> '.$row['collected_date'].' </td>';													 																									 												
-													echo '<td>';
-													echo '    <div class="dropdown">
-					  <button type="button" class="btn btn-light btn-xs dropdown-toggle" data-toggle="dropdown">
-					  </button>
-	  					<div class="dropdown-menu">
-	  						<a class="dropdown-item"  href="#" onclick="ToPrint(this);" data-template="printreciept" data-code="'.$row['fee_id'].'" data-img="assets/images/logo.png"  data-id="po_print"><i class="fa fa-print" aria-hidden="true"></i>&nbsp; Print</a>  ';
-	
-													if($row['fee_status']=="Created"){
-														echo ' <a class="dropdown-item" href="addInvoice.php?inv_code=' . $row['fee_id'] . '&action=edit&type=invoices" class="btn btn-primary btn-sm" data-target="#modal_edit_user_5"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp; Edit</a>';   
-														echo '
-															<a class="dropdown-item"  href="#" onclick="deleteRecord_8(this);" data-id="'.$row['fee_id'].'" class="btn btn-danger btn-sm" data-placement="top" data-toggle="tooltip" data-title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp; Delete</a>';
-	
-														echo '
-															<a class="dropdown-item"  href="workers/setters/invconverter.php?fee_id='.$row['fee_id'].'&fee_status=Verified" data-id="'.$row['fee_id'].'" class="btn btn-danger btn-sm" data-placement="top" data-toggle="tooltip" data-title="Delete">&nbsp; Verified</a>';
-	
+													echo '<td>'.$row['fee_acadamic_year'].' </td>';
+													 echo '<td>row[fee_admission_no] </td>';
+													echo '<td>'.$s["Termfees"]["Term1"]["TotalFees"].' </td>';
+													echo '<td>'.$s["Termfees"]["Term1"]["Feescollected"].' </td>';
+                                                    echo '<td>'.$s["Termfees"]["Term1"]["Balancetopay"].' </td>';
+                                                    echo '<td>'.$s["Termfees"]["Term2"]["TotalFees"].' </td>';
+													echo '<td>'.$s["Termfees"]["Term2"]["Feescollected"].' </td>';
+                                                    echo '<td>'.$s["Termfees"]["Term2"]["Balancetopay"].' </td>';
+                                                    echo '<td>'.$s["Termfees"]["Term3"]["TotalFees"].' </td>';
+													echo '<td>'.$s["Termfees"]["Term3"]["Feescollected"].' </td>';
+                                                    echo '<td>'.$s["Termfees"]["Term3"]["Balancetopay"].' </td>';
+                                                    echo '<td>'.$s["Vanfees"]["TotalFees"].' </td>';
+													echo '<td>'.$s["Vanfees"]["Feescollected"].' </td>';
+                                                    echo '<td>'.$s["Vanfees"]["Balancetopay"].' </td>';
+                                                    echo '<td>'.$s["Otherfees"]["itemname"].' </td>';
+                                                    echo '<td>'.$s["Otherfees"]["price"].' </td>';                                        
+                                        											//	}
 													}
-	
-													if($row['fee_status']=="Verified"){
-															echo '
-															<a class="dropdown-item"  href="#" onclick="deleteRecord_8(this);" data-id="'.$row['fee_id'].'" class="btn btn-danger btn-sm" data-placement="top" data-toggle="tooltip" data-title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp; Delete</a>';
-														}
-													echo '    </div></div>';	
-													echo ' </td>';
-													echo "</tr>";
-													}
-													}
+                                                }
 													?>															
 															<script>
 															function deleteRecord_8(RecordId)
