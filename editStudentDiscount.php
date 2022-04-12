@@ -181,7 +181,7 @@ if(isset($_POST['stuProfEdit']))
                                        
                                 <div class="form-row">
                                 <div class="form-group col-md-7">
-                                       <label for="inputState">Discount Category<span class="text-danger">*</span></label>
+                                       <label for="category">Discount Category<span class="text-danger">*</span></label>
                                                 <select id="category" onchange="onlocode(this)"   class="form-control form-control-sm" name="category">
                                                     <?php 
                                                     include("database/db_conection.php");//make db connection here
@@ -191,9 +191,9 @@ if(isset($_POST['stuProfEdit']))
                                                         echo $category_get=$row['category'];
                                                         echo $id_get=$row['id'];
                                                         if($id_get==$category){
-                                                            echo '<option value="'.$id_get.'" selected>'.$category_get.'</option>';
+                                                            echo '<option value="'.$category_get.'" selected>'.$category_get.'</option>';
                                                         } else {
-                                                            echo '<option value="'.$id_get.'" >'.$category_get.'</option>';
+                                                            echo '<option value="'.$category_get.'" >'.$category_get.'</option>';
                                                             
                                                             }
                                                         }
@@ -213,9 +213,9 @@ if(isset($_POST['stuProfEdit']))
                                                         echo $percentage_get=$row['discountpercentage'];
                                                         echo $academic_get=$row['id'];
                                                         if($academic_get==$discountpercentage){
-                                                            echo '<option value="'.$academic_get.'" selected>'.$percentage_get.'</option>';
+                                                            echo '<option value="'.$percentage_get.'" selected>'.$percentage_get.'</option>';
                                                         } else {
-                                                            echo '<option value="'.$academic_get.'" >'.$percentage_get.'</option>';
+                                                            echo '<option value="'.$percentage_get.'" >'.$percentage_get.'</option>';
                                                             
                                                             }
                                                         }

@@ -6,7 +6,7 @@ if(isset($_POST['c_id'])) {
   if(mysqli_num_rows($res) > 0) {
  //   echo "<option value=''>------- Select --------</option>";
     while($row = mysqli_fetch_object($res)) {
-      echo "<option value='".$row->id."'>".$row->discountpercentage."</option>";
+      echo "<option value='".$row->discountpercentage."'>".$row->discountpercentage."</option>";
     }
   }
 } else {

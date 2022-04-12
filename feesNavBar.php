@@ -20,7 +20,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="index.php">Dashboard <span class="sr-only">(current)</span></a>
         
       </li>
       
@@ -37,18 +37,18 @@
           <!--a class="dropdown-item" href="listLeaveType.php">Leave Types</a-->
           <a class="dropdown-item" href="listFeesConfig.php">Fees Configuration</a>
 		   <a class="dropdown-item" href="discReport.php">Assign/Manage Discounts</a>
-          <a class="dropdown-item" href="listcollectedfees.php">Fees Collection</a>
-          <a class="dropdown-item" href="feestatus.php">Fees status</a>
-
-         
+          <a class="dropdown-item" href="listcollectedfees.php">Fees Collection</a>       
           
-          <div class="dropdown-divider"></div>
+          <!--div class="dropdown-divider"></div>
           <a class="dropdown-item" href="listFeesConfig.php">Diveder</a>
-        </div>
+        </div-->
       </li>
       
       <li class="nav-item">
-        <a class="nav-link " href="#">Reports</a>
+        <a class="nav-link " href="feestatus.php">Reports</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="listStockItemMaster.php">Manage Inventory</a>
       </li>
       <li class="nav-item">
         <a class="nav-link " href="#">Help</a>

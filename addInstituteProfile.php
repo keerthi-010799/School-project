@@ -23,6 +23,7 @@ if(isset($_POST['submit']))
     $signature 	 =	$_POST['signature'];
     $primaryflag 	 =	$_POST['primaryflag'];
     $image 	 =	$_POST['image'];
+    $openingbalance 	 =	$_POST['openingbalance'];
 
     //Primaryflag for all correspeondance radio button implementation
     $field = isset($_POST['primaryflag']) ? $_POST['primaryflag'] : false;
@@ -65,8 +66,8 @@ if(isset($_POST['submit']))
     }	
 
     $insert_instprofile="INSERT INTO instprofile(orgid,instname,instype,address,city,state,country,zip,workphone,mobile,email,web,regno,regdon,signature,
-    primaryflag,image) 
-	VALUES('$orgid','$instname','$instype','$address','$city','$state','$country','$zip','$workphone','$mobile','$email','$web','$regno','$regdon','$signature','$primaryflag','$target_file')";
+    primaryflag,openingbalance,image) 
+	VALUES('$orgid','$instname','$instype','$address','$city','$state','$country','$zip','$workphone','$mobile','$email','$web','$regno','$regdon','$signature','$primaryflag','$openingbalance','$target_file')";
 
     echo "$insert_instprofile";
 
@@ -290,7 +291,17 @@ if(isset($_POST['submit']))
                                     </div>
                                 </div-->
 
-								
+                                <div class="form-row">
+                                <div class="form-group col-md-9">
+                                    <h4 class="col-md-12 text-muted"> Institutes's Opening Balance</h4>
+                                </div>
+                            </div>
+
+								<div class="form-group row">
+                                <div class="col-md-11"> 
+                                    <input type="text" placeholder="Enter openingbalance" required name="openingbalance" class="form-control form-control-sm"> 
+                                </div>
+                            </div>
 
                             <div class="form-row">
                                 <div class="form-group col-md-9">

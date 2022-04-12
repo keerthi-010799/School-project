@@ -167,12 +167,10 @@
 														$academicwise = $_GET['academicwise'];
 														$batchwise = $_GET['batchwise'];	
 														$sql = "SELECT d.discid,d.id,d.admissionno,s.firstname,s.lastname,s.class,
-														d.academic,c.category,c.discountpercentage,d.status,d.approvedby,d.createdon,
+														d.academic,d.category,d.discountpercentage,d.status,d.approvedby,d.createdon,
                                                         d.createdby
-                                                        FROM `studentprofile` s , `studentsdiscount` d,`category` c
-                                                        WHERE d.admissionno = s.admissionno
-														AND c.id = d.category
-                                                        AND d.academic = s.academic
+                                                        FROM `studentprofile` s , `studentsdiscount` d
+                                                        WHERE d.admissionno = s.admissionno                                                       
                                                         AND  1=1";										                                            
 													 if(isset($_GET['classwise'])&&$_GET['classwise']!=''){
 	
@@ -190,13 +188,11 @@
 													}else{
 													
 														$sql = "SELECT d.discid,d.id,d.admissionno,s.firstname,s.lastname,s.class,
-														d.academic,c.category,c.discountpercentage,d.status,d.approvedby,d.createdon,
+														d.academic,d.category,d.discountpercentage,d.status,d.approvedby,d.createdon,
                                                         d.createdby
-                                                        FROM `studentprofile` s , `studentsdiscount` d,`category` c
-                                                        WHERE d.admissionno = s.admissionno
-														AND c.id = d.category
-                                                        AND d.academic = s.academic
-														ORDER BY class ASC";													}
+                                                        FROM `studentprofile` s , `studentsdiscount` d
+                                                        WHERE d.admissionno = s.admissionno                                                        
+														ORDER BY d.id ASC";													}
 																											
 													$result = mysqli_query($dbcon,$sql);
 													if ($result->num_rows > 0){

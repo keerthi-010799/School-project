@@ -407,7 +407,42 @@ if(isset($_SESSION['login_email'])){
                             </li>	
                         
 						
+                   
+
+                  
+                    <!--li class="submenu">                  
+                        <a href="feesNavBar.php"> <i class="fa fa-money bigfonts" aria-hidden="true"></i>Fees Management</span></a>
+                 
+                    </li-->   
+
                     <li class="submenu">
+                                <a href="feesNavBar.php"> <i class="fa fa-money bigfonts" aria-hidden="true"></i> Fees Manegemet<span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">								
+                                    <li><a href="feesNavBar.php"><i class="fa fa-institution bigfonts" aria-hidden="true"></i>Manage Fees</a></li>	
+                                    <li><a href="listStockItemMaster.php"><i class="fa fa-building-o bigfonts" aria-hidden="true"></i>Stock Master</a></li>								
+                                    <!--li><a href="recordExpenses.php"><i class="fa fa-plus-circle"></i>add Expense</a></li-->								
+                                    <!--li><a href=""><i class="fa fa-circle-o"></i>list Accounts</a></li-->
+                                </ul>
+                            </li>
+
+                           
+
+
+                    <li class="submenu">
+                        <a><i class="fa fa-credit-card bigfonts" aria-hidden="true"></i>Expense Management<span class="menu-arrow"></span></a>	                        
+                        <ul class="list-unstyled">	                            
+							<!--li><a href="listPayeeMaster.php"><i class="fa fa-user-md bigfonts" aria-hidden="true"></i>Record Payee</a></li-->
+                            <li><a href="listVouchers.php"><i class="fa fa-money bigfonts" aria-hidden="true"></i> Record Expenses</a></li>
+                            <li><a href="expenseReport.php"><i class="fa fa-fw fa-table"></i> <span> Expenses Report</span></a></li>
+							<li><a href="expenseTransactionHistory.php"><i class="fa fa-fw fa-table"></i> <span> Expenses Transaction History log Report</span></a></li>
+                        </ul>
+                </li>
+
+                <li class="submenu">
+                        <a href="addComposeSMS.php"><i class="fa fa-envelope bigfonts" aria-hidden="true"></i>Compose SMS<span class="menu-arrow"></span></a>                                      
+                    </li>
+
+                <li class="submenu">
                         <!--a href="#"><i class="fa fa-th-list bigfonts" aria-hidden="true"></i><span>Books/Resources</span></a-->
                         <a href="#"><i class="fa fa-th-list bigfonts" aria-hidden="true"></i>Masters<span class="menu-arrow"></span></a>	                        
                         <ul class="list-unstyled">	
@@ -423,40 +458,13 @@ if(isset($_SESSION['login_email'])){
                         </ul>
                     </li>
 
-                    <li class="submenu">
-                        <a href="addComposeSMS.php"><i class="fa fa-envelope bigfonts" aria-hidden="true"></i>Compose SMS<span class="menu-arrow"></span></a>                                      
-                    </li>
-
-                    <!--li class="submenu">                  
-                        <a href="feesNavBar.php"> <i class="fa fa-money bigfonts" aria-hidden="true"></i>Fees Management</span></a>
-                 
-                    </li-->   
-
-                    <li class="submenu">
-                                <a href="#"> <i class="fa fa-money bigfonts" aria-hidden="true"></i> Fees Manegemet<span class="menu-arrow"></span></a>
-                                <ul class="list-unstyled">								
-                                    <li><a href="feesNavBar.php"><i class="fa fa-institution bigfonts" aria-hidden="true"></i>Manage Fees</a></li>	
-                                    <li><a href="listStockItemMaster.php"><i class="fa fa-building-o bigfonts" aria-hidden="true"></i>Manage Other Fees</a></li>								
-                                    <!--li><a href="recordExpenses.php"><i class="fa fa-plus-circle"></i>add Expense</a></li-->								
-                                    <!--li><a href=""><i class="fa fa-circle-o"></i>list Accounts</a></li-->
-                                </ul>
-                            </li>
-
-                    <li class="submenu">
-                        <a><i class="fa fa-credit-card bigfonts" aria-hidden="true"></i>Expense Management<span class="menu-arrow"></span></a>	                        
-                        <ul class="list-unstyled">	                            
-							<!--li><a href="listPayeeMaster.php"><i class="fa fa-user-md bigfonts" aria-hidden="true"></i>Record Payee</a></li-->
-                            <li><a href="listVouchers.php"><i class="fa fa-money bigfonts" aria-hidden="true"></i> Record Expenses</a></li>
-                            <li><a href="expenseReport.php"><i class="fa fa-fw fa-table"></i> <span> Expenses Report</span></a></li>
-							<li><a href="expenseTransactionHistory.php"><i class="fa fa-fw fa-table"></i> <span> Expenses Transaction History log Report</span></a></li>
-                        </ul>
-                </li>
-
                 <?php 
                     if($_SESSION['groupname']=="Admin"){
                         echo '<li class="submenu"><a href="Reports.php"><i class="fa fa-line-chart bigfonts" aria-hidden="true"></i><span>Reports</span></a></li>';
                     }
                     ?>
+
+
                 
             <!--li class="submenu">
                         <a href="#"><i class="fa fa-bar-chart-o"></i>Reports<span class="menu-arrow"></span></a>	                        

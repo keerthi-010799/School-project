@@ -16,6 +16,7 @@ if(isset($_POST['submit'])){
   $total_amount;
   $amount;
   $fees_id;
+  $fee_id;
   $term1feescollected = '';
   $term2feescollected = '';
   $term3feescollected= '';
@@ -43,6 +44,8 @@ if(isset($_POST['submit'])){
  }elseif($feestype == 'VanFees'){
   $amount=$_POST['van_fee'];
  }elseif($feestype == 'OtherFees'){
+  $itemname1 = $_POST['itemcode'];
+  $feestype = 'OtherFees('.$itemname1.')';
   $amount=$_POST['price'];
  }
 
@@ -57,12 +60,9 @@ if(isset($_POST['submit'])){
  }elseif($feestype == 'VanFees'){
   $total_amount=$_POST['van_fee_total'];
  }elseif($feestype == 'OtherFees'){
-   $feestype = 'otherFees ('.$itemname.')';
-  $total_amount=$_POST['price'];
+  $price1 = $_POST['price']; 
+  $total_amount=$price1;
  }
- $itemname = $_POST['itemcode'];
- $price = $_POST['price'];
-
  $sql="SELECT MAX(fee_id) as id FROM fees_management ORDER BY id DESC";
   if($result = mysqli_query($dbcon,$sql)){
  	$row   = mysqli_fetch_assoc($result);
@@ -82,13 +82,13 @@ if(isset($_POST['submit'])){
 $date = date("m/d/Y");
 $sql0 = "INSERT INTO `fees_management`(`fee_id`,`fee_class`,`fee_type`,`fee_student_id`,`fee_total_amt`,`fee_academic_year`, `fees_paid`,`fee_status`,`fee_admission_no`,`reciept_no`,`collected_date`) 
 VALUES ('$fees_id','$class','$feestype','$stdid','$total_amount','$academic','$amount','Created','$admno','$rec','$date')";
-echo 'red',$result = mysqli_query($dbcon,$sql0);
 if(mysqli_query($dbcon,$sql0)){
  echo 'success1';
 }
+echo $stdid;
   $sqll = "SELECT * FROM fee_status where fee_student_id = $stdid";						                                                                                                        
   if ($result = mysqli_query($dbcon,$sqll)){
-  $row =mysqli_fetch_assoc($result);	
+  $row = mysqli_fetch_assoc($result);	
   if(mysqli_num_rows($result)>0){
   $date=$row['fee_bal_status'];	
   $s = json_decode($date,true);
@@ -108,6 +108,21 @@ if(mysqli_query($dbcon,$sql0)){
   $s["Otherfees"]["itemname"];
   $s["Otherfees"]["price"];            
    
+  $sq0="SELECT MAX(fee_id) as id FROM fee_status ORDER BY fee_status_id DESC";
+  if($result3 = mysqli_query($dbcon,$sq0)){
+ 	$row3   = mysqli_fetch_assoc($result3);
+ 	if(mysqli_num_rows($result3)>0){
+		 	$maxid = $row['id'];
+ 	 	$maxid += 1;
+ 	$fee_id= $maxid;
+ 	 }
+	 else{
+		$maxid = 0;
+		$maxid += 1;
+		 $fee_id = $maxid;
+	}
+ }
+
   $sq = "SELECT SUM(fees_paid) AS Totalcollected,fee_type FROM fees_management WHERE fee_student_id = '$stdid' AND fee_type = '$feestype'";
 if($result = mysqli_query($dbcon,$sq)){
   $row = mysqli_fetch_assoc($result);
@@ -159,6 +174,18 @@ if($result = mysqli_query($dbcon,$sq)){
     $itemname = $s["Otherfees"]["itemname"];
     $price =  $s["Otherfees"]["price"];
   }
+  elseif($feetype == 'OtherFees'){
+    $term1feescollected =   $s["Termfees"]["Term1"]["Feescollected"];
+    $term1balance = $s["Termfees"]["Term1"]["Balancetopay"];
+    $term2feescollected =   $s["Termfees"]["Term2"]["Feescollected"];
+    $term2balance = $s["Termfees"]["Term2"]["Balancetopay"];
+    $term3feescollected =   $s["Termfees"]["Term3"]["Feescollected"];
+    $term3balance =   $s["Termfees"]["Term3"]["Balancetopay"];
+    $vanfeescollected =   $s["Vanfees"]["Feescollected"];
+    $vanbalance =   $s["Vanfees"]["Balancetopay"];
+    $itemname = $itemname1;
+    $price =  $price1;
+  }
 } 
 
 }}
@@ -176,9 +203,8 @@ if($result = mysqli_query($dbcon,$checkstatus)){
   $sql1 = "UPDATE fee_status set  `fee_bal_status`='$status' WHERE Fee_student_id = '$stdid'";
 }else{
     $sql1 = "INSERT into fee_status(`fee_status_id`,`Fee_student_id`,`fee_class`,`fee_acadamic_year`,`fee_bal_status`)
-    values('$fees_id','$stdid','$class','$academic','$status')";
+    values('$fee_id','$stdid','$class','$academic','$status')";
 }
-echo 'blue',mysqli_query($dbcon,$sql1);
 if(mysqli_query($dbcon,$sql1)){
 		header("location:listcollectedfees.php");
     echo 'success2';
@@ -224,7 +250,7 @@ if(mysqli_query($dbcon,$sql1)){
                                                 <div class="form-group col-md-6">
                                     <label for="class"><span class="">Academic Year</span><span class="text-danger">*</span></label>
                                          <select required id="academic" data-parsley-trigger="change"  class="form-control form-control-sm"  name="academic" >
-                                         <option value="0" selected>Select Academic Year</option>
+                                         <!-- <option value="0" selected>Select Academic Year</option> -->
                                                     <?php 
                                                     include("database/db_conection.php");//make connection here
                                                     $sql = mysqli_query($dbcon, "SELECT DISTINCT academic FROM academic WHERE status='Y' order by 1 desc");
@@ -239,14 +265,14 @@ if(mysqli_query($dbcon,$sql1)){
     <div class="form-row">
                             <div class="form-group col-md-6">
                                     <label for="class"><span class="">Class</span><span class="text-danger">*</span></label>
-                                         <select required id="class" data-parsley-trigger="change"  class="form-control form-control-sm"  name="class" >
+                                         <select required id="class" data-parsley-trigger="change"  class="form-control form-control-sm" onchange="classchange()"  name="class" >
                                          <option value="0" selected>Select Class</option>
                                                     <?php                                                     
                                                     include("database/db_conection.php");//make connection here
                                                     $sql = mysqli_query($dbcon, "SELECT class FROM class ");
                                                     while ($row = $sql->fetch_assoc()){	
-                                                        echo $class=$row['class'];
-                                                        echo '<option onchange="'.$row[''].'" value="'.$class.'" >'.$class.'</option>';
+                                                        echo $class1=$row['class'];
+                                                        echo '<option onchange="'.$row[''].'" value="'.$class1.'" >'.$class1.'</option>';
                                                     }
 
                                                     ?>
@@ -254,20 +280,27 @@ if(mysqli_query($dbcon,$sql1)){
                                 </div>
                                                 </div>                                                                
                     
-
+                                                <?php 
+                                                echo " <script>var r = $('#class').val();
+                                                console.log('red');
+                                                </script>";                                   
+                              ?>
                 <div class="form-row">
                             <div class="form-group col-md-6">
+                             
                                     <label for="student"><span class="">Students</span><span class="text-danger">*</span></label>
                                          <select required id="student" data-parsley-trigger="change"  class="form-control form-control-sm"  name="student" >
                                          <option value="0" selected>Select Student</option>
                                                     <?php
-                                                    include("database/db_conection.php");//make connection here
-                                                    $sql = mysqli_query($dbcon, "SELECT firstname,id FROM studentprofile where class = '$class'");
-                                                    while ($row = $sql->fetch_assoc()){	
-                                                        echo $name=$row['firstname'];
-                                                        echo $std_id = $row['id'];
-                                                        echo '<option onchange="'.$row[''].'" value="'.$name.'" >'.$name.'</option>';                                                        
-                                                      }                                                                                                          
+                                                  //   include("database/db_conection.php");//make connection here
+                                                  //   $sql = mysqli_query($dbcon, "SELECT firstname,id FROM studentprofile");
+                                                  //   while ($row = $sql->fetch_assoc()){	
+                                                  //       echo $name=$row['firstname'];
+                                                  //       echo $std_id = $row['id'];
+                                                  //       echo '<option onchange="'.$row[''].'" value="'.$name.'" >'.$name.'</option>';                                                        
+                                                  //     }     
+                                                  // //   }
+                                                  // // }                                                                                                     
                                                     ?>
                                                 </select>
                                             </div>
@@ -303,6 +336,10 @@ if(mysqli_query($dbcon,$sql1)){
                                                   <input type="text" style="width:100px" class="form-control form-control-sm" readonly id="discount" />
                                                 </div>
                                                 <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class=""> Discount Name</span><span class="text-danger">*</span></label>
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" readonly id="discountname" />
+                                                </div>
+                                                <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Discounted Amount</span><span class="text-danger">*</span></label>
                                                   <input type="text" style="width:100px" class="form-control form-control-sm" readonly id="termtotal" name="termtotal"/>
                                                 </div>
@@ -311,21 +348,21 @@ if(mysqli_query($dbcon,$sql1)){
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 1</span><span class="text-danger">*</span></label>                                        
                                                   <input type="text" style="width:100px" class="form-control form-control-sm" name="term1total" id="term1total" readonly placeholder=""  class="form-control" autocomplete="off" />
-                                                  <input type="text" class="form-control form-control-sm" name="term1" placeholder=""  class="form-control" autocomplete="off" />
+                                                  <input type="text" class="form-control form-control-sm" name="term1" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
                                                 </div>
                                                 </div>
                                                 <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 2</span><span class="text-danger">*</span></label>                                 
                                                   <input type="text" class="form-control form-control-sm" name="term2total" id="term2total" readonly placeholder=""  class="form-control" autocomplete="off" />       
-                                                  <input type="text" class="form-control form-control-sm" name="term2" placeholder=""  class="form-control" autocomplete="off" />
+                                                  <input type="text" class="form-control form-control-sm" name="term2" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
                                                 </div>
                                                 </div>
                                                 <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 3</span><span class="text-danger">*</span></label>                                 
                                                   <input type="text" class="form-control form-control-sm" name="term3total" id="term3total" readonly placeholder=""  class="form-control" autocomplete="off" />       
-                                                  <input type="text" class="form-control form-control-sm" name="term3" placeholder=""  class="form-control" autocomplete="off" />
+                                                  <input type="text" class="form-control form-control-sm" name="term3" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
                                                 </div>                                            
                                                   </div>
                                                 </div>
@@ -350,7 +387,7 @@ if(mysqli_query($dbcon,$sql1)){
                                        <td id="stacademic"></td>
                                        <td id="starea"></td>
                                        <td> <input type="text" style="border:none;overflow:none;outline:none;" id="sttotal" name="van_fee_total" /></td>
-                                       <td><input id="van_fee" name="van_fee"/></td>                                                            
+                                       <td><input id="van_fee" placeholder="Enter Amount" name="van_fee"/></td>                                                            
                                     </tr>
                                                 </table>
                                                 </div>
@@ -506,7 +543,7 @@ if(mysqli_query($dbcon,$sql1)){
          function changeOtherFees(){
            console.log('otherfees')
         var ofstname = $('#student').val();
-        var ofstclass = $('#class').val();
+        var ofstclass = $('#class').val();  
         var itemna = $('#itemname').val();
        $.ajax({
       url: "workers/getters/otherfees.php?student=" + ofstname+"&class="+ofstclass+"&itemname="+itemna,
@@ -520,13 +557,14 @@ if(mysqli_query($dbcon,$sql1)){
                       var std = output.std;
                       var id = output.std_id;
                       var academic = output.academicyear
-                      console.log(cls,std,academic,output.values);
+                      console.log(cls,std,academic,output.admissionno,output.values);
                       var vals = output.values[0];  
                       $('#cls').val(vals.class);
                       $('#acyear').val(academic);
                       $('#desc').val(vals.description);
                       $('#category').val(vals.category);
-                      $('#amount').val(vals.price);                   
+                      $('#amount').val(vals.price);   
+                      $('#std_id').val(id);                
                       $('#admno').val(output.admissionno); 
                   }
                 }
@@ -546,11 +584,13 @@ if(mysqli_query($dbcon,$sql1)){
                       console.log(output.values[0].fee_config_amount);
                       var vals = output.values[0];
                       var id = output.std_id;
+                      var name = output.name;
                       var dic = output.dispercent != null ? output.dispercent : 0;
                       var discount = (dic / 100) * vals.fee_config_amount;
                       var totalfee = vals.fee_config_amount - discount;
                       $('#termtotal').val(totalfee);
                       $('#discount').val(dic); 
+                      $('#discountname').val(name);
                       $('#termamount').val(vals.fee_config_amount);    
                         var total = $("#termtotal").val();
                         var term = (total/3);
@@ -564,6 +604,29 @@ if(mysqli_query($dbcon,$sql1)){
                 }
             });
          }
+
+
+         function classchange(){
+   console.log("res");
+           var class1 = $('#class').val();
+    console.log(class1);
+          $.ajax ({
+                    url: "workers/setters/classwisestudent.php?cls=" +class1,
+                    type: 'post',
+                    success:function(res){
+                      var output = JSON.parse(res);
+                          if(output.status){
+                              var vals = output.values;
+                              console.log(vals[0]);
+                              for(var i=0;i<vals.length;i++){
+                                console.log(vals[i]);
+                             var new_option ='<option value="'+vals[i]+'">'+vals[i]+'</option>';
+                             $('#student').append(new_option);      
+                            }                                          
+                    }
+                  }
+                });
+}
 
 
          $(function(){
@@ -590,6 +653,7 @@ if(mysqli_query($dbcon,$sql1)){
           var total = prc*qty;
            $('#price').val(total);       
            }
+           
   
 </script>
 <!-- BEGIN Java Script for this page -->

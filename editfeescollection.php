@@ -1,7 +1,10 @@
 
 <?php
 include("database/db_conection.php");
-if(isset($_POST['submit'])){
+if(isset($_GET['id']))
+{
+	$id=$_GET['id'];											
+  if(isset($_POST['submit'])){
   $academic=$_POST['academic'];
   $class=$_POST['class'];
   $student = $_POST['student'];
@@ -80,8 +83,7 @@ if(isset($_POST['submit'])){
 	}
  }
 $date = date("d-m-Y");
-$sql0 = "INSERT INTO `fees_management`(`fee_id`,`fee_class`,`fee_type`,`fee_student_id`,`fee_total_amt`,`fee_academic_year`, `fees_paid`,`fee_status`,`fee_admission_no`,`reciept_no`,`collected_date`) 
-VALUES ('$fees_id','$class','$feestype','$stdid','$total_amount','$academic','$amount','Created','$admno','$rec','$date')";
+$sql0 = "UPDATE `fees_management`  SET  `fees_paid` = '$amount' WHERE fee_id = '$id'";
 echo 'red',$result = mysqli_query($dbcon,$sql0);
 if(mysqli_query($dbcon,$sql0)){
  echo 'success1';
@@ -190,6 +192,7 @@ if(mysqli_query($dbcon,$sql1)){
 }
 }
 }
+}
 ?>
 <?php include('header.php');?>
 
@@ -223,11 +226,7 @@ if(mysqli_query($dbcon,$sql1)){
 
     <?php
 											include("database/db_conection.php");//make connection here
- 
-											if(isset($_GET['id']))
-											{
-												$id=$_GET['id'];
-											  
+ 																						
 												//selecting data associated with this particular id
 												$result = mysqli_query($dbcon, "SELECT * FROM fees_management WHERE fee_id = $id");								 
 												while($res = mysqli_fetch_array($result))
@@ -238,14 +237,13 @@ if(mysqli_query($dbcon,$sql1)){
 													$feestype1 = $res['fee_type'];													
 													$amount = $res['fee_total_amt'];
 													$paid = $res['fees_paid'];													
-                                                    $sid = $res['fee_student_id'];																										
-												}
-                                                $result1 = mysqli_query($dbcon, "SELECT * FROM studentprovile WHERE id = $sid");								 
+                          $sid = $res['fee_student_id'];																										
+                      }
+                      $result1 = mysqli_query($dbcon, "SELECT * FROM studentprofile WHERE id = $sid");								 
 												while($res1 = mysqli_fetch_array($result1))
 												{
                                                     $student1 = $res1['firstname'];
                                                 }
-											}
 												
 											?>			
 
@@ -255,12 +253,13 @@ if(mysqli_query($dbcon,$sql1)){
                                          <select required id="academic" data-parsley-trigger="change"  class="form-control form-control-sm"  name="academic" >
                                          <option value="0" selected>Select Academic Year</option>
                                                     <?php 
+                                                    echo $academic1;
                                                     include("database/db_conection.php");//make connection here
                                                     $sql = mysqli_query($dbcon, "SELECT DISTINCT academic FROM academic WHERE status='Y' order by 1 desc");
                                                     while ($row = $sql->fetch_assoc()){	
                                                         echo $academicyear_get=$row['academic'];
                                                         if($academicyear_get==$academic1){
-                                                            echo '<option value="'.$academicyear_get.'" selected>'.$academicyear_get.'</option>';
+                                                            echo '<option value="'.$academic1.'" selected>'.$academic1.'</option>';
                                                         } else {
                                                             echo '<option value="'.$academicyear_get.'" >'.$academicyear_get.'</option>';
                                                             
@@ -279,7 +278,7 @@ if(mysqli_query($dbcon,$sql1)){
                                                     include("database/db_conection.php");//make connection here
                                                     $sql = mysqli_query($dbcon, "SELECT class FROM class ");
                                                     while ($row = $sql->fetch_assoc()){	
-                                                        echo $class_get=$row['academic'];
+                                                        echo $class_get=$row['class'];
                                                         if($class_get==$class1){
                                                             echo '<option value="'.$class_get.'" selected>'.$class_get.'</option>';
                                                         } else {
@@ -301,11 +300,11 @@ if(mysqli_query($dbcon,$sql1)){
                                          <option value="0" selected>Select Student</option>
                                                     <?php
                                                     include("database/db_conection.php");//make connection here
-                                                    $sql = mysqli_query($dbcon, "SELECT firstname,id FROM studentprofile where class = '$class'");
+                                                    $sql = mysqli_query($dbcon, "SELECT firstname,id FROM studentprofile");
                                                     while ($row = $sql->fetch_assoc()){	
                                                         echo $student_get=$row['firstname'];
                                                         if($student_get==$student1){
-                                                            echo '<option value="'.$student_get.'" selected>'.$student_get.'</option>';
+                                                            echo '<option value="'.$student1.'" selected>'.$student1.'</option>';
                                                         } else {
                                                             echo '<option value="'.$student_get.'" >'.$student_get.'</option>';
                                                             
@@ -344,6 +343,10 @@ if(mysqli_query($dbcon,$sql1)){
                                                                         echo '<option value="VanFees" selected>VanFees</option>';
                                                                         
                                                                         }
+                                                                        elseif(startsWith($feestype1,'OtherFees')){
+                                                                          echo '<option value="OtherFees" selected>OtherFees</option>';
+                                                                          
+                                                                          }
                                                             ?>
                                             </select>
                                                   </div>
@@ -374,21 +377,27 @@ if(mysqli_query($dbcon,$sql1)){
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 1</span><span class="text-danger">*</span></label>                                        
                                                   <input type="text" style="width:100px" class="form-control form-control-sm" name="term1total" id="term1total" readonly placeholder=""  class="form-control" autocomplete="off" />
-                                                  <input type="text" class="form-control form-control-sm" name="term1" placeholder=""  class="form-control" autocomplete="off" />
+                                                  <input type="text" class="form-control form-control-sm" name="term1" placeholder=""  class="form-control" autocomplete="off" value="<?php if($feestype1=='Term1Fees'){
+                                                        echo $paid;                                                    
+                                                    }?>" />
                                                 </div>
                                                 </div>
                                                 <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 2</span><span class="text-danger">*</span></label>                                 
                                                   <input type="text" class="form-control form-control-sm" name="term2total" id="term2total" readonly placeholder=""  class="form-control" autocomplete="off" />       
-                                                  <input type="text" class="form-control form-control-sm" name="term2" placeholder=""  class="form-control" autocomplete="off" />
+                                                  <input type="text" class="form-control form-control-sm" name="term2" placeholder=""  class="form-control" autocomplete="off" value="<?php if($feestype1=='Term2Fees'){
+                                                        echo $paid;                                                    
+                                                    }?>" />
                                                 </div>
                                                 </div>
                                                 <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 3</span><span class="text-danger">*</span></label>                                 
                                                   <input type="text" class="form-control form-control-sm" name="term3total" id="term3total" readonly placeholder=""  class="form-control" autocomplete="off" />       
-                                                  <input type="text" class="form-control form-control-sm" name="term3" placeholder=""  class="form-control" autocomplete="off" />
+                                                  <input type="text" class="form-control form-control-sm" name="term3" placeholder=""  class="form-control" autocomplete="off" value="<?php if($feestype1=='Term2Fees'){
+                                                        echo $paid;                                                    
+                                                    }?>" />
                                                 </div>                                            
                                                   </div>
                                                 </div>
@@ -413,7 +422,9 @@ if(mysqli_query($dbcon,$sql1)){
                                        <td id="stacademic"></td>
                                        <td id="starea"></td>
                                        <td> <input type="text" style="border:none;overflow:none;outline:none;" id="sttotal" name="van_fee_total" /></td>
-                                       <td><input id="van_fee" name="van_fee"/></td>                                                            
+                                       <td><input id="van_fee" name="van_fee" value="<?php if($feestype1=='VanFees'){
+                                                        echo $paid;                                                    
+                                                    }?>" /></td>                                                            
                                     </tr>
                                                 </table>
                                                 </div>
@@ -439,14 +450,21 @@ if(mysqli_query($dbcon,$sql1)){
                                     <tr>
                                       <td>
                                     <select name="itemcode"  class="form-control form-control-sm itemcode" onchange="changeOtherFees();" id="itemname">
-                                                <option value="" name="" selected>Item Code</option>
+                                                <option name="" selected>Item Code</option>
                                                 <?php 
+                                                $text = $feestype1;
+                                                preg_match('#\((.*?)\)#', $text, $match);
+                                                $name2 = $match[1];
                                                 include("database/db_conection.php");//make connection here
                                                 $sql = mysqli_query($dbcon, "SELECT * from stockitemmaster");
                                                 while ($row = $sql->fetch_assoc()){	
-                                                    echo $name=$row['itemname'];                                                    
-                                                    echo '<option onchange="'.$row[''].'" value="'.$name.'" >'.$name.'</option>';                                                        
-                                                  }                                                                                                                                                                                   
+                                                    echo $name=$row['itemname'];                                                                                                      
+                                                  if($name2==$name){
+                                                      echo '<option value="'.$name2.'" selected>'.$name2.'</option>';
+                                                  } else {
+                                                      echo '<option value="'.$name.'" >'.$name.'</option>';                                                      
+                                                      }
+                                                }                                                                                                                                                                                   
                                                ?>
                                               </select>
                                               </td>                                                                                                                                        
@@ -627,8 +645,6 @@ if(mysqli_query($dbcon,$sql1)){
                 }
             });
          }
-
-
          $(function(){
          $('#addMore').on('click', function() {
            console.log('clicked');

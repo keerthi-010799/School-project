@@ -166,10 +166,10 @@
 					  <button type="button" class="btn btn-light btn-xs dropdown-toggle" data-toggle="dropdown">
 					  </button>
 	  					<div class="dropdown-menu">
-	  						<a class="dropdown-item"  href="#" onclick="ToPrint(this);" data-template="printreciept" data-code="'.$row['fee_id'].'" data-img="assets/images/logo.png"  data-id="po_print"><i class="fa fa-print" aria-hidden="true"></i>&nbsp; Print</a>  ';
+	  						<a class="dropdown-item"  href="#" onclick="ToPrint(this);" data-template="printreciept" data-code='.$row['fee_id'].'" data-img="assets/images/logo.png"  data-id="po_print"><i class="fa fa-print" aria-hidden="true"></i>&nbsp; Print</a>  ';
 	
 													if($row['fee_status']=="Created"){
-														 echo ' <a class="dropdown-item" href ="editfeescollection.php?id = "'.$row['fee_id'].'" class="btn btn-primary btn-sm editbtn" data-target="#modal_edit_user_5"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp; Edit</a>';   														
+														 echo ' <a class="dropdown-item" href="editfeescollection.php?id='.$row['fee_id'].'"  data-target="#modal_edit_user_5"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp; Edit</a>';   														
 														echo '
 															<a class="dropdown-item"  href="workers/setters/invconverter.php?fee_id='.$row['fee_id'].'&fee_status=Verified" data-id="'.$row['fee_id'].'" class="btn btn-danger btn-sm" data-placement="top" data-toggle="tooltip" data-title="Delete">&nbsp; Verified</a>';
 	
@@ -216,104 +216,7 @@
             window.location.href = 'deleteStudentProfile.php?id='+row_id;
                     }
             }
-
-    $(document).ready(function() {
-        $('#partywise').val(page_partywise);
-        $("#reset-date").hide();
-        $('#classwise').val(page_classwise);
-        $('#datewise').val(page_datewise);
-        $('#studentwise').val(page_studentwise);
-		$('#daterange').daterangepicker({
-            ranges: {
-                'Today': [moment(), moment()],
-                'This Quarter': [moment().startOf('quarter'), moment().endOf('quarter')],
-                'Last Quarter': [moment().subtract(1, 'quarter').startOf('quarter'), moment().subtract(1, 'quarter').endOf('quarter')],
-                'This Year': [moment().startOf('year'), moment().endOf('year')],
-                'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-            }
-        }, function(start, end, label) {
-            $('#daterange').attr('readonly',true); 
-            $("#reset-date").show();
-        });
-        if(page_end!=''){
-            cb(page_st,page_end);
-        }else{
-            $('#daterange').val(''); 
-        }
-        $("#reset-date").click(function(){
-            $('#daterange').val('');
-            $('#daterange').attr('readonly',false); 
-            $("#reset-date").hide();
-        });
-        var date_range = $('#daterange').val(); 
-        var table = $('#po_reports').DataTable( {
-            lengthChange: false,
-            "footerCallback": function ( row, data, start, end, display ) {
-                var api = this.api(), data;
-                var intVal = function ( i ) {
-                    return typeof i === 'string' ?
-                        i.replace(/[\$,]/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
-                };
-                var grossval = api
-                .column( 4 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 ).toFixed(2);
-
-
-                $( api.column( 0 ).footer() ).html('Total');
-                $( api.column( 4 ).footer() ).html(grossval);                
-            },
-            buttons: [
-                {
-                    extend: 'print',
-                    title: '',
-                    text: '<span class="fa fa-print"></span>',
-                    footer: true ,
-                    customize: function ( win ) {
-                        $(win.document.body)
-                            .css( 'font-size', '10pt' )
-                            .prepend(
-                            '<p><img src="<?php echo $baseurl;?>assets/images/logo/logo@0,25x.png" style="width:50px;height:50px;" /></p><p class="lead text-center"><b>List collected fees</b><br/></p>'+printhead+'</div>'
-                        );
-
-                        $(win.document.body).find( 'table' )
-                            .addClass( 'compact' )
-                            .css( 'font-size', 'inherit' );
-                    }
-                }, 
-                {
-                    extend: 'excel',
-                    text:'<span class="fa fa-file-excel-o"></span>',
-                    title:'list Collected Fees', footer: true ,
-                    messageTop: excel_printhead   
-
-                },
-                {
-                    extend: 'pdf',
-                    text:'<span class="fa fa-file-pdf-o"></span>',
-                    title:'list Collected Fees', footer: true ,
-                    messageTop: excel_printhead   
-
-                },
-                {
-                    extend: 'colvis',
-                    text:'Show/Hide', footer: true 
-                }
-            ]
-        } );
-
-        table.buttons().container()
-            .appendTo( '#po_reports_div');
-        });											
+											
 			function search_filter(){
 				var st = '';
         var end = '';
@@ -340,9 +243,8 @@
 <script>
 			$(document).ready(function () {
 
-$('.editbtn').on('click', function () {
+$('.edit').on('click', function () {
 
-	//$('#editmodal').modal('show');
 	console.log('red');
 
 	$tr = $(this).closest('tr');
@@ -372,10 +274,6 @@ $('.editbtn').on('click', function () {
 							</div><!-- end card-->			
 							</div>
 
-
-
-
-
 <?php include('footer.php'); ?>
 						
 						
@@ -402,7 +300,7 @@ $(document).ready(function() {
 	var party_var = $('#partywise').val(); 
 	var printhead = party_var!=''?'<p><b> </b></p>':'';
 	printhead+= date_range!=''?'<p><b> </b></p>':'';
-	var excel_printhead = party_var!=''?'Vendor : '+party_var:'';
+	var excel_printhead = party_var!=''?' : ':'';
 	excel_printhead+= '  ';
 	excel_printhead+= date_range!=''?'Date : '+date_range:'';
 
@@ -448,14 +346,14 @@ $(document).ready(function() {
 			{
 				extend: 'excel',
 				text:'<span class="fa fa-file-excel-o"></span>',
-				title:'Students Report', footer: true ,
+				title:'List Fees Collected', footer: true ,
 				messageTop: excel_printhead   
 
 			},
 			{
 				extend: 'pdf',
 				text:'<span class="fa fa-file-pdf-o"></span>',
-				title:'Students Report', footer: true ,
+				title:'List Fees Collected', footer: true ,
 				messageTop: excel_printhead   
 
 			},
@@ -469,9 +367,147 @@ $(document).ready(function() {
 
 	table.buttons().container()
 		.appendTo( '#po_reports_div');
-	});											
+	});	
+
 	</script>
 
 <?php include('footer.php'); ?>
+							
+							
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<script>
+    var page_partywise = "<?php if(isset($_GET['partywise'])){ echo $_GET['partywise']; } ?>";
+    var page_st = "<?php if(isset($_GET['st'])){ echo $_GET['st']; } ?>";
+    var page_end = "<?php if(isset($_GET['end'])){ echo $_GET['end']; } ?>";
+    var page_classwise = "<?php if(isset($_GET['classwise'])){ echo $_GET['classwise']; } ?>";
+    var page_Communitywise = "<?php if(isset($_GET['Communitywise'])){ echo $_GET['Communitywise']; } ?>";
+    var page_castewise = "<?php if(isset($_GET['castewise'])){ echo $_GET['castewise']; } ?>";
+    var page_genderwise = "<?php if(isset($_GET['genderwise'])){ echo $_GET['genderwise']; } ?>";
+    var page_academicwise = "<?php if(isset($_GET['academicwise'])){ echo $_GET['academicwise']; } ?>";
+		                                            
+    function delete_record(x){     
+            var row_id = $(x).attr('data-id');
+            alert(row_id);
+            if (confirm('Confirm delete')) {
+            window.location.href = 'deleteStudentProfile.php?id='+row_id;
+                    }
+            }
+
+    $(document).ready(function() {
+        $('#partywise').val(page_partywise);
+        $("#reset-date").hide();
+        $('#classwise').val(page_classwise);
+        $('#Communitywise').val(page_Communitywise);
+        $('#genderwise').val(page_genderwise);
+        $('#castewise').val(page_castewise);
+        $('#academicwise').val(page_academicwise);
+
+        $('#daterange').daterangepicker({
+            ranges: {
+                'Today': [moment(), moment()],
+                'This Quarter': [moment().startOf('quarter'), moment().endOf('quarter')],
+                'Last Quarter': [moment().subtract(1, 'quarter').startOf('quarter'), moment().subtract(1, 'quarter').endOf('quarter')],
+                'This Year': [moment().startOf('year'), moment().endOf('year')],
+                'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, function(start, end, label) {
+            $('#daterange').attr('readonly',true); 
+            $("#reset-date").show();
+
+        });
+
+        if(page_end!=''){
+            cb(page_st,page_end);
+        }else{
+            $('#daterange').val(''); 
+        }
+
+        $("#reset-date").click(function(){
+            $('#daterange').val('');
+            $('#daterange').attr('readonly',false); 
+            $("#reset-date").hide();
+        });
 
 
+        var date_range = $('#daterange').val(); 
+        var party_var = $('#partywise').val(); 
+        //var printhead = party_var!=''?'<p><b>Vendor : </b>'+party_var+'</p>':'';
+        var printhead = date_range!=''?'<p><b>Date : </b>'+date_range+'</p>':'';
+        var excel_printhead = '  ';
+        excel_printhead+= date_range!=''?'Date : '+date_range:'';
+
+        var table = $('#po_reports').DataTable( {
+            lengthChange: false,
+            "footerCallback": function ( row, data, start, end, display ) {
+                var api = this.api(), data;
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+                };
+                var grossval = api
+                .column( 4 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+
+
+                $( api.column( 0 ).footer() ).html('Total');
+                $( api.column( 4 ).footer() ).html(grossval);                
+            },
+            buttons: [
+                {
+                    extend: 'print',
+                    title: '',
+                    text: '<span class="fa fa-print"></span>',
+                    footer: true ,
+                    customize: function ( win ) {
+                        $(win.document.body)
+                            .css( 'font-size', '10pt' )
+                            .prepend(
+                            '<p><img src="<?php echo $baseurl;?>assets/images/logo/logo@0,25x.png" style="width:50px;height:50px;" /></p><p class="lead text-center"><b>List Fees Collected</b><br/></p>'+printhead+'</div>'
+                        );
+
+                        $(win.document.body).find( 'table' )
+                            .addClass( 'compact' )
+                            .css( 'font-size', 'inherit' );
+                    }
+                }, 
+                {
+                    extend: 'excel',
+                    text:'<span class="fa fa-file-excel-o"></span>',
+                    title:'List Fees Collected', footer: true ,
+                    messageTop: excel_printhead   
+
+                },
+                {
+                    extend: 'pdf',
+                    text:'<span class="fa fa-file-pdf-o"></span>',
+                    title:'List Fees Collected', footer: true ,
+                    messageTop: excel_printhead   
+
+                },
+                {
+                    extend: 'colvis',
+                    text:'Show/Hide', footer: true 
+                }
+            ]
+        } );
+
+
+        table.buttons().container()
+            .appendTo( '#po_reports_div');
+        });											
+														
+</script>
+<?php
+?>

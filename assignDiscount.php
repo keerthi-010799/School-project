@@ -201,9 +201,45 @@ $sql="SELECT MAX(id) as latest_id FROM studentsdiscount ORDER BY id DESC";
                                         Yes <input type="radio" name="status" value="Y" class=class="fa fa-check-square-o"  >	
                                        &nbsp;&nbsp; No <input type="radio" name="status" value="N" class=class="fa fa-check-square-o" checked >	
                                     </div>
-                                </div-->
+                                </div>
+
+                                <div class="form-group col-md-8 ">
+                                    <label for="inputState"><span class="">Select Category</span><span class="text-danger">*</span></label>
+                                         <select required id="category" data-parsley-trigger="change"  class="form-control form-control-sm"  name="category" >
+                                             
+                                             <!--select multiple name="academic" class="form-control form-control-sm" -->
+                                                    <!--option value="">-Select Academic-</option-->
+                                                    <?php 
+                                                    include("database/db_conection.php");//make connection here
+
+                                                    $sql = mysqli_query($dbcon, "SELECT category FROM category order by id DESC");
+                                                    while ($row = $sql->fetch_assoc()){	
+                                                        echo $category=$row['category'];
+                                                        echo '<option onchange="'.$row[''].'" value="'.$category.'" >'.$category.'</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+												</div>
+                                                <div class="form-group col-md-8">
+                                        <label for="discountpercentage">Select Dicount Percentage </label>
+                                        <select id="discountpercentage"  class="form-control select2"  required name="discountpercentage" autocomplete="off">
+                                            <option selected>-Select student -</option>
+                                            <?php 
+                                            include("database/db_conection.php");//make connection here
+                                            $sql = mysqli_query($dbcon, "SELECT discountpercentage,category FROM category order by id DESC");
+                                            while ($row = $sql->fetch_assoc()){	
+                                                echo $category=$row['category'];
+                                                echo $percentage=$row['discountpercentage'];
+                                             //   echo $class=$row['class'];
+                                              //  echo '<option onchange="'.$row[''].'" value="'.$admissionno.'" >'.$name.'</option>';
+                                              echo '<option  value="'.$percentage.'" >'.$percentage.' '.$category.' </option>';
+                                            }
+                                            ?>
+                                        </select>                                        
+                                                </div>
+                                        </div>
                             
-                            <div class="form-group col-md-8">
+                            <!--div class="form-group col-md-8">
                                     <label for="category"><span class="">Discount Category</span></label>
                                                 <select id="category"  class="form-control form-control-sm" name="category">
                                                     <option value="">-Select Discount Category-</option>
@@ -221,14 +257,14 @@ $sql="SELECT MAX(id) as latest_id FROM studentsdiscount ORDER BY id DESC";
 												
 												</div>
 												
-												
+                                                		
                                 
 
                                 <div class="form-group col-md-8">
                                 <label>Discount Percentage :</label>
                                 <select name="discountpercentage" id="discountpercentage">
                                     <option>------- Select --------</option></select>
-                                 </div>
+                                 </div-->
                                             
                                                 		
 								    <div class="form-row">
@@ -265,7 +301,7 @@ $sql="SELECT MAX(id) as latest_id FROM studentsdiscount ORDER BY id DESC";
 
     </div>
 
-    <script>
+    <!--script>
 $(document).ready(function() {
   $("#category").change(function() {
     var category_id = $(this).val();
@@ -284,7 +320,7 @@ $(document).ready(function() {
     }
   });
 });
-</script>
+</script-->
 	<!-- END content-page -->
 	<!-- BEGIN Java Script for this page -->
 <script src="assets/plugins/select2/js/select2.min.js"></script>

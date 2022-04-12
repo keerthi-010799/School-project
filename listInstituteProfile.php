@@ -45,7 +45,7 @@
 													<th style="width:40px">Inst. Type</th>
 													<th style="width:20px">Email</th>
 													<th style="width:20px">Mobile</th>
-												<th style="width:20px">Signature</th>
+											    	<th style="width:20px">Closing Balance</th>
 													<th style="width:40px">Actions</th>
 													</tr>
 										</thead>										
@@ -55,7 +55,7 @@
 													
 													//$sql = "select image,compcode,concat(title,name) as name,
 													//ctype,location,email,mobile,id from comprofile";
-													$sql = "SELECT image,orgid,instname,instype,email,mobile,signature,id from instprofile
+													$sql = "SELECT image,orgid,instname,instype,email,mobile,openingbalance,id from instprofile
 															order by id asc";
 													$result = mysqli_query($dbcon,$sql);
 													if ($result->num_rows > 0){
@@ -82,7 +82,7 @@
 													
 													echo '<td>'.$row['email'].'</td>';
 													echo '<td>'.$row['mobile'].'</td>';
-													echo '<td>'.$row['signature'].'</td>';
+													echo '<td>'.$row['openingbalance'].'</td>';
 													
 													
 													echo '<td><a href="editInstituteProfile.php?id=' . $row['id'] . '" class="btn btn-primary btn-sm" data-target="#modal_edit_user_5">
