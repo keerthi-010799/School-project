@@ -295,7 +295,7 @@ echo "$sql";
                                                     <?php 
                                                     include("database/db_conection.php");//make connection here
 
-                                                    $sql = mysqli_query($dbcon, "SELECT academic FROM academic order by id DESC");
+                                                    $sql = mysqli_query($dbcon, "SELECT academic FROM academic WHERE status='Y' order by id DESC");
                                                     while ($row = $sql->fetch_assoc()){	
                                                         echo $academic=$row['academic'];
                                                         echo '<option onchange="'.$row[''].'" value="'.$academic.'" >'.$academic.'</option>';
@@ -543,7 +543,7 @@ echo "$sql";
                                      </div>
                                 </div>
                                
-                                <div class="form-row">                                
+                                <!--div class="form-row">                                
                                     <h5 class="col-md-12 text-muted text-warning">Transport Details&nbsp;</h5>
                                 </div>
                                 
@@ -597,7 +597,7 @@ echo "$sql";
 						
 								
                                 </div>
-                                </div>
+                                </div-->
                                 
                                 <!--div class="form-row">
                                    <div class="form-group col-md-3">
@@ -615,7 +615,7 @@ echo "$sql";
                                 </div>
                             </div-->
                                 
-                            <div class="form-row">                                
+                            <!--div class="form-row">                                
                                     <h5 class="col-md-12 text-muted text-warning">Discount Details&nbsp;</h5>
                                 </div>
                                 
@@ -644,7 +644,7 @@ echo "$sql";
                                                 </select>
 												
 												</div>
-                                </div>
+                                </div-->
                                                 
                                                 
                                 

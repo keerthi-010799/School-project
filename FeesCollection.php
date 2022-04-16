@@ -10,24 +10,25 @@ if(isset($_POST['submit'])){
   $price = '';
   $feestype=$_POST['FeesType'];
 	$stdid = $_POST['std_id'];
-  $total1 =$_POST['term1total'];
-  $total2 =$_POST['term2total'];
-  $total3 =$_POST['term3total'];
+  $total1 = $_POST['term1total'];
+  $total2 = $_POST['term2total'];
+  $total3 = $_POST['term3total'];
   $total_amount;
   $amount;
   $fees_id;
   $fee_id;
+  $term1total= '';
+  $term2total= '';
+  $term3total= '';
+  $vantotal= '';
   $term1feescollected = '';
   $term2feescollected = '';
   $term3feescollected= '';
-  $vanfeescollected= '';
-  $othercollected= '';
+  $vanfeescollected= '';  
   $term1balance= '';
   $term2balance= '';
   $term3balance= '';
   $vanbalance= '';
-  $otherbalance= '';
-
  if($feestype == 'TermFees'){
   if(isset($_POST['term1'])&& $_POST['term1'] != null){
     $feestype = 'Term1Fees'; 
@@ -44,10 +45,9 @@ if(isset($_POST['submit'])){
  }elseif($feestype == 'VanFees'){
   $amount=$_POST['van_fee'];
  }elseif($feestype == 'OtherFees'){
-  $itemname1 = $_POST['itemcode'];
-  $feestype = 'OtherFees('.$itemname1.')';
+  $feestype = "OtherFees(".$_POST['itemname'].")";
   $amount=$_POST['price'];
- }
+}
 
  if($feestype == 'Term1Fees' && isset($_POST['term1total']) && $_POST['term1total'] != null){
     $total_amount=$total1;
@@ -59,9 +59,8 @@ if(isset($_POST['submit'])){
     $total_amount=$total3;
  }elseif($feestype == 'VanFees'){
   $total_amount=$_POST['van_fee_total'];
- }elseif($feestype == 'OtherFees'){
-  $price1 = $_POST['price']; 
-  $total_amount=$price1;
+ }elseif(substr($feestype,0,9) === "OtherFees"){
+  $total_amount=$amount;
  }
  $sql="SELECT MAX(fee_id) as id FROM fees_management ORDER BY id DESC";
   if($result = mysqli_query($dbcon,$sql)){
@@ -85,119 +84,86 @@ VALUES ('$fees_id','$class','$feestype','$stdid','$total_amount','$academic','$a
 if(mysqli_query($dbcon,$sql0)){
  echo 'success1';
 }
-echo $stdid;
-  $sqll = "SELECT * FROM fee_status where fee_student_id = $stdid";						                                                                                                        
+$sqll = "SELECT * FROM fee_status where fee_student_id = $stdid";						                                                                                                        
   if ($result = mysqli_query($dbcon,$sqll)){
   $row = mysqli_fetch_assoc($result);	
   if(mysqli_num_rows($result)>0){
   $date=$row['fee_bal_status'];	
   $s = json_decode($date,true);
   print_r($s,true);
-  $s["Termfees"]["Term1"]["TotalFees"];
-  $s["Termfees"]["Term1"]["Feescollected"];
-  $s["Termfees"]["Term1"]["Balancetopay"];
-  $s["Termfees"]["Term2"]["TotalFees"];
-  $s["Termfees"]["Term2"]["Feescollected"];
-  $s["Termfees"]["Term2"]["Balancetopay"];
-  $s["Termfees"]["Term3"]["TotalFees"];
-  $s["Termfees"]["Term3"]["Feescollected"];
-  $s["Termfees"]["Term3"]["Balancetopay"];
-  $s["Vanfees"]["TotalFees"];
-  $s["Vanfees"]["Feescollected"];
-  $s["Vanfees"]["Balancetopay"];
-  $s["Otherfees"]["itemname"];
-  $s["Otherfees"]["price"];            
-   
-  $sq0="SELECT MAX(fee_id) as id FROM fee_status ORDER BY fee_status_id DESC";
-  if($result3 = mysqli_query($dbcon,$sq0)){
- 	$row3   = mysqli_fetch_assoc($result3);
- 	if(mysqli_num_rows($result3)>0){
-		 	$maxid = $row['id'];
- 	 	$maxid += 1;
- 	$fee_id= $maxid;
- 	 }
-	 else{
-		$maxid = 0;
-		$maxid += 1;
-		 $fee_id = $maxid;
-	}
- }
-
-  $sq = "SELECT SUM(fees_paid) AS Totalcollected,fee_type FROM fees_management WHERE fee_student_id = '$stdid' AND fee_type = '$feestype'";
+  $term1feestotal = $s["Termfees"]["Term1"]["TotalFees"];
+  $term1feescollected = $s["Termfees"]["Term1"]["Feescollected"];
+  $term1balance = $s["Termfees"]["Term1"]["Balancetopay"];
+  $term2feestotal = $s["Termfees"]["Term2"]["TotalFees"];
+  $term2feescollected = $s["Termfees"]["Term2"]["Feescollected"];
+  $term2balance = $s["Termfees"]["Term2"]["Balancetopay"];
+  $term3feestotal = $s["Termfees"]["Term3"]["TotalFees"];
+  $term3feescollected = $s["Termfees"]["Term3"]["Feescollected"];
+  $term3balance = $s["Termfees"]["Term3"]["Balancetopay"];
+  $vanfeestotal = $s["Vanfees"]["TotalFees"];
+  $vanfeescollected = $s["Vanfees"]["Feescollected"];
+  $vanbalance = $s["Vanfees"]["Balancetopay"];
+  $itemname =  $s["Otherfees"]["itemname"];
+  $price =  $s["Otherfees"]["price"];            
+} 
+}
+  $sq = "SELECT SUM(fees_paid) AS Totalcollected,fee_type,fee_total_amt FROM fees_management WHERE fee_student_id = '$stdid' AND fee_type = '$feestype'";
 if($result = mysqli_query($dbcon,$sq)){
   $row = mysqli_fetch_assoc($result);
   if(mysqli_num_rows($result)>0){
+    $totalfeess =$row['fee_total_amt'];
     $feetype = $row['fee_type'];
     $totalcollected = $row['Totalcollected'];
    if($feetype == 'Term1Fees'){
+    $term1feestotal = $totalfeess; 
     $term1feescollected=$totalcollected;
-    $term1balance = $total_amount - $term1feescollected;
-    $term2feescollected =   $s["Termfees"]["Term2"]["Feescollected"];
-    $term2balance =   $s["Termfees"]["Term2"]["Balancetopay"];
-    $term3feescollected =   $s["Termfees"]["Term3"]["Feescollected"];
-    $term3balance =   $s["Termfees"]["Term3"]["Balancetopay"];
-    $vanfeescollected =   $s["Vanfees"]["Feescollected"];
-    $vanbalance =   $s["Vanfees"]["Balancetopay"];
-    $itemname =   $s["Otherfees"]["itemname"];
-    $price =   $s["Otherfees"]["price"];
+    $term1balance = $total_amount - $term1feescollected;        
   }elseif($feetype == 'Term2Fees'){
-    $term1feescollected =   $s["Termfees"]["Term1"]["Feescollected"];
-    $term1balance =   $s["Termfees"]["Term1"]["Balancetopay"];
+    $term2feestotal = $totalfeess;
     $term2feescollected=$totalcollected;
     $term2balance = $total_amount - $term2feescollected;
-    $term3feescollected =  $s["Termfees"]["Term3"]["Feescollected"];
-    $term3balance =   $s["Termfees"]["Term3"]["Balancetopay"];
-    $vanfeescollected =   $s["Vanfees"]["Feescollected"];
-    $vanbalance =   $s["Vanfees"]["Balancetopay"];
-    $itemname =   $s["Otherfees"]["itemname"];
-    $price =   $s["Otherfees"]["price"];
    }elseif($feetype == 'Term3Fees'){
-    $term1feescollected =   $s["Termfees"]["Term1"]["Feescollected"];
-    $term1balance =   $s["Termfees"]["Term1"]["Balancetopay"];
-    $term2feescollected =   $s["Termfees"]["Term2"]["Feescollected"];
-    $term2balance =   $s["Termfees"]["Term2"]["Balancetopay"];
+    $term3feestotal = $totalfeess;
     $term3feescollected=$totalcollected;
     $term3balance = $total_amount - $term3feescollected;    
-    $vanfeescollected =   $s["Vanfees"]["Feescollected"];
-    $vanbalance =   $s["Vanfees"]["Balancetopay"];
-    $itemname =   $s["Otherfees"]["itemname"];
-    $price =   $s["Otherfees"]["price"];
    }elseif($feetype == 'VanFees'){
-    $term1feescollected =   $s["Termfees"]["Term1"]["Feescollected"];
-    $term1balance = $s["Termfees"]["Term1"]["Balancetopay"];
-    $term2feescollected =   $s["Termfees"]["Term2"]["Feescollected"];
-    $term2balance = $s["Termfees"]["Term2"]["Balancetopay"];
-    $term3feescollected =   $s["Termfees"]["Term3"]["Feescollected"];
-    $term3balance =   $s["Termfees"]["Term3"]["Balancetopay"];
+    $vanfeestotal = $totalfeess;                                                                                                                                 
     $vanfeescollected = $totalcollected;
     $vanbalance = $total_amount - $vanfeescollected;
-    $itemname = $s["Otherfees"]["itemname"];
-    $price =  $s["Otherfees"]["price"];
+  }elseif(substr($feetype,0,9) === "OtherFees"){
+    $length = strlen($feetype);
+    $r = $length-11;
+    $item = substr($feetype,10,$r);
+    $itemname = $item;
+    $price =  $totalcollected;
   }
-  elseif($feetype == 'OtherFees'){
-    $term1feescollected =   $s["Termfees"]["Term1"]["Feescollected"];
-    $term1balance = $s["Termfees"]["Term1"]["Balancetopay"];
-    $term2feescollected =   $s["Termfees"]["Term2"]["Feescollected"];
-    $term2balance = $s["Termfees"]["Term2"]["Balancetopay"];
-    $term3feescollected =   $s["Termfees"]["Term3"]["Feescollected"];
-    $term3balance =   $s["Termfees"]["Term3"]["Balancetopay"];
-    $vanfeescollected =   $s["Vanfees"]["Feescollected"];
-    $vanbalance =   $s["Vanfees"]["Balancetopay"];
-    $itemname = $itemname1;
-    $price =  $price1;
+}
+}
+$sq0="SELECT MAX(fee_status_id) as id FROM fee_status ORDER BY fee_status_id DESC";
+if($result3 = mysqli_query($dbcon,$sq0)){
+ $row3   = mysqli_fetch_assoc($result3);
+ if(mysqli_num_rows($result3)>0){
+     $maxid = $row3['id'];
+    $maxid += 1;
+ $fee_id= $maxid;
   }
-} 
+ else{
+  $maxid = 0;
+  $maxid += 1;
+   $fee_id = $maxid;
+}
+}
 
-}}
-$stats = array("Termfees"=>array("Term1"=>array("TotalFees"=>$_POST['term1total'],"Feescollected"=>$term1feescollected,"Balancetopay"=>"$term1balance"),
-"Term2"=>array("TotalFees"=>$_POST['term2total'],"Feescollected"=>$term2feescollected,"Balancetopay"=>"$term2balance"),
-"Term3"=>array("TotalFees"=>$_POST['term3total'],"Feescollected"=>$term3feescollected,"Balancetopay"=>"$term3balance")),
-"Vanfees"=>array("TotalFees"=>$_POST['van_fee_total'],"Feescollected"=>$vanfeescollected,"Balancetopay"=>"$vanbalance"),"Otherfees"=>array("itemname"=>"$itemname","price"=>"$price"));
+$stats = array("Termfees"=>array("Term1"=>array("TotalFees"=>$term1feestotal,"Feescollected"=>$term1feescollected,"Balancetopay"=>"$term1balance"),
+"Term2"=>array("TotalFees"=>$term2feestotal,"Feescollected"=>$term2feescollected,"Balancetopay"=>"$term2balance"),
+"Term3"=>array("TotalFees"=>$term3feestotal,"Feescollected"=>$term3feescollected,"Balancetopay"=>"$term3balance")),
+"Vanfees"=>array("TotalFees"=>$vanfeestotal,"Feescollected"=>$vanfeescollected,"Balancetopay"=>"$vanbalance"),"Otherfees"=>array("itemname"=>"$itemname","price"=>"$price"));
 $status = json_encode($stats);
+
 
 $checkstatus = "SELECT * from fee_status WHERE Fee_student_id = $stdid";
 if($result = mysqli_query($dbcon,$checkstatus)){
-  $row   = mysqli_fetch_assoc($result);
+  $row = mysqli_fetch_assoc($result);
   $sql1;
   if(mysqli_num_rows($result)>0){
   $sql1 = "UPDATE fee_status set  `fee_bal_status`='$status' WHERE Fee_student_id = '$stdid'";
@@ -208,12 +174,12 @@ if($result = mysqli_query($dbcon,$checkstatus)){
 if(mysqli_query($dbcon,$sql1)){
 		header("location:listcollectedfees.php");
     echo 'success2';
+    echo $sql1;
      } else 
      { echo 'Error: ' . mysqli_error($dbcon).$sql1;
 		exit; 
 	}
 	die;
-}
 }
 }
 ?>
@@ -292,15 +258,6 @@ if(mysqli_query($dbcon,$sql1)){
                                          <select required id="student" data-parsley-trigger="change"  class="form-control form-control-sm"  name="student" >
                                          <option value="0" selected>Select Student</option>
                                                     <?php
-                                                  //   include("database/db_conection.php");//make connection here
-                                                  //   $sql = mysqli_query($dbcon, "SELECT firstname,id FROM studentprofile");
-                                                  //   while ($row = $sql->fetch_assoc()){	
-                                                  //       echo $name=$row['firstname'];
-                                                  //       echo $std_id = $row['id'];
-                                                  //       echo '<option onchange="'.$row[''].'" value="'.$name.'" >'.$name.'</option>';                                                        
-                                                  //     }     
-                                                  // //   }
-                                                  // // }                                                                                                     
                                                     ?>
                                                 </select>
                                             </div>
@@ -317,9 +274,7 @@ if(mysqli_query($dbcon,$sql1)){
                                                 <option value="OtherFees" >Other Fees</option>
                                             </select>
                                                   </div>
-                                                  </div>
-                                                </div>                                               
-                                                </div>                                               
+                                                  </div>                                                                                              
                                                 <div id="termfeesform" style="display:none">  
                                                 <div class="form-row">
                                                 <div class="form-group col-md-6">
@@ -347,23 +302,35 @@ if(mysqli_query($dbcon,$sql1)){
                                                   <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 1</span><span class="text-danger">*</span></label>                                        
-                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="term1total" id="term1total" readonly placeholder=""  class="form-control" autocomplete="off" />
-                                                  <input type="text" class="form-control form-control-sm" name="term1" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
+                                                  <input type="text" style="width:300px" class="form-control form-control-sm" name="term1total" id="term1total" readonly placeholder=""  class="form-control" autocomplete="off" />
+                                                  <input type="text" style="width:300px"class="form-control form-control-sm" name="term1" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Term 1 paid</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="term1paid" id="term1paid" readonly placeholder=""  class="form-control" autocomplete="off" />
                                                 </div>
                                                 </div>
                                                 <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 2</span><span class="text-danger">*</span></label>                                 
-                                                  <input type="text" class="form-control form-control-sm" name="term2total" id="term2total" readonly placeholder=""  class="form-control" autocomplete="off" />       
-                                                  <input type="text" class="form-control form-control-sm" name="term2" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
+                                                  <input type="text" style="width:300px" class="form-control form-control-sm" name="term2total" id="term2total" readonly placeholder=""  class="form-control" autocomplete="off" />       
+                                                  <input type="text" style="width:300px" class="form-control form-control-sm" name="term2" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Term 2 paid</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="term2paid" id="term2paid" readonly placeholder=""   class="form-control" autocomplete="off" />
                                                 </div>
                                                 </div>
                                                 <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 3</span><span class="text-danger">*</span></label>                                 
-                                                  <input type="text" class="form-control form-control-sm" name="term3total" id="term3total" readonly placeholder=""  class="form-control" autocomplete="off" />       
-                                                  <input type="text" class="form-control form-control-sm" name="term3" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
-                                                </div>                                            
+                                                  <input type="text" style="width:300px" class="form-control form-control-sm" name="term3total" id="term3total" readonly placeholder=""  class="form-control" autocomplete="off" />       
+                                                  <input type="text" style="width:300px" class="form-control form-control-sm" name="term3" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
+                                                </div>                 
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Term 3 paid</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="term3paid" id="term3paid" readonly placeholder=""  class="form-control" autocomplete="off" />
+                                                </div>                           
                                                   </div>
                                                 </div>
                                                 </div>
@@ -379,6 +346,7 @@ if(mysqli_query($dbcon,$sql1)){
                                         <th width="25%">Academic Year</th>
                                         <th width="12%">Area</th>
                                         <th width="20%">Total Fees</th>
+                                        <th width="20%">Van Fees Paid</th>
                                         <th width="25%" >Fees collected</th>
                                     </tr>  
                                     <tr>                                                                                                                                                    
@@ -387,6 +355,7 @@ if(mysqli_query($dbcon,$sql1)){
                                        <td id="stacademic"></td>
                                        <td id="starea"></td>
                                        <td> <input type="text" style="border:none;overflow:none;outline:none;" id="sttotal" name="van_fee_total" /></td>
+                                       <td> <input type="text" style="border:none;overflow:none;outline:none;" id="vanpaid" name="vanpaid" /></td>
                                        <td><input id="van_fee" placeholder="Enter Amount" name="van_fee"/></td>                                                            
                                     </tr>
                                                 </table>
@@ -412,7 +381,7 @@ if(mysqli_query($dbcon,$sql1)){
                                     </tr>  
                                     <tr>
                                       <td>
-                                    <select name="itemcode"  class="form-control form-control-sm itemcode" onchange="changeOtherFees();" id="itemname">
+                                    <select name="itemname"  class="form-control form-control-sm itemname" onchange="changeOtherFees();" id="itemname">
                                                 <option value="" name="" selected>Item Code</option>
                                                 <?php 
                                                 include("database/db_conection.php");//make connection here
@@ -436,6 +405,8 @@ if(mysqli_query($dbcon,$sql1)){
                                                 </div>
                                                   </div>
                                                 </div>
+                                                </div>                                               
+                                                </div> 
                               <div class="form-row">
                                     <div class="form-group  text-right m-b-12">
                                     <input type="hidden" id="std_id" name="std_id"/>
@@ -524,9 +495,10 @@ if(mysqli_query($dbcon,$sql1)){
                       var cls = output.class;
                       var std = output.std;
                       var academic = output.academicyear;
-                      var area = output.values[0].areaname;
-                      var total = output.values[0].amount;
+                      var area = output.areaname;
+                      var total = output.amount;
                       var id = output.std_id;
+                      var vanpaid = output.vanpaid;
                       console.log(cls,std,total,area);
                        $('#stclass').html(cls);
                        $('#stname').html(std);
@@ -535,7 +507,7 @@ if(mysqli_query($dbcon,$sql1)){
                        $('#sttotal').val(total);                       
                        $('#std_id').val(id);
                        $('#admno').val(output.admissionno);                       
-
+                       $('#vanpaid').val(vanpaid);
                     } 
                 }
             });
@@ -570,6 +542,7 @@ if(mysqli_query($dbcon,$sql1)){
                 }
             });
          }
+
          function changeTermFees(){
         var tfstclass = $('#class').val();
         var tfstname = $('#student').val();
@@ -585,6 +558,9 @@ if(mysqli_query($dbcon,$sql1)){
                       var vals = output.values[0];
                       var id = output.std_id;
                       var name = output.name;
+                      var term1paid = output.term1feespaid;
+                      var term2paid = output.term2feespaid;
+                      var term3paid = output.term3feespaid;
                       var dic = output.dispercent != null ? output.dispercent : 0;
                       var discount = (dic / 100) * vals.fee_config_amount;
                       var totalfee = vals.fee_config_amount - discount;
@@ -599,7 +575,10 @@ if(mysqli_query($dbcon,$sql1)){
                        $("#term2total").val(term);
                        $("#term3total").val(term);     
                        $('#std_id').val(id);
-                       $('#admno').val(output.admissionno);                                                        
+                       $('#admno').val(output.admissionno);
+                       $('#term1paid').val(term1paid);
+                       $('#term2paid').val(term2paid);                                                        
+                       $('#term3paid').val(term3paid);                                                                            
                   }
                 }
             });

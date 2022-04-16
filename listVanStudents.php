@@ -1,45 +1,48 @@
 <?php include('header.php');?>
-
-<?php include("database/db_conection.php");//make connection here
- 
-$message = '';
-
-if (isset($_POST["submit"])) {
+<?php
+include("database/db_conection.php");//make connection here
+$message ='';
+	if (isset($_POST["submit"])) {
     
-   // $fileName = $_FILES["file"]["tmp_name"];
-    
-    if ($_FILES['file']['name']) {
-		
-		$filename = explode(".",$_FILES['file']['name']);
-		
+	// $fileName = $_FILES["file"]["tmp_name"];
+	 
+	 if ($_FILES['file']['name']) {
+		 
+		 $filename = explode(".",$_FILES['file']['name']);
+		 
 		if(end($filename)=='csv'){
-            $handle = fopen($_FILES['file']['tmp_name'],"r");
-                while($data = fgetcsv($handle)){
-					
-					$academic =mysqli_real_escape_string($dbcon,$data[0]);
-					$admissionno =mysqli_real_escape_string($dbcon,$data[1]);
-					$firstname =mysqli_real_escape_string($dbcon,$data[2]);
-					$routeno =mysqli_real_escape_string($dbcon,$data[3]);
-					$areaname =mysqli_real_escape_string($dbcon,$data[4]);
-					$vanfees =mysqli_real_escape_string($dbcon,$data[5]);
-					$vanflag =mysqli_real_escape_string($dbcon,$data[6]);
-				
-				$query = "UPDATE studentprofile set academic='$academic',
-					admissionno = '$admissionno',
-					firstname ='$firstname',
-					routeno = '$routeno',
-					areaname = '$areaname',
-					vanfees = '$vanfees',
-					vanflag = '$vanflag'
-					WHERE admissionno ='$admissionno' ";
-					 mysqli_query($dbcon,$query);
-                }
-                   fclose($handle) ;
-			 echo "<script>alert('Import done');</script>";
-        }
-    }
-}
-?>
+			 $handle = fopen($_FILES['file']['tmp_name'],"r");
+				 while($data = fgetcsv($handle)){
+					 
+					 $academic =mysqli_real_escape_string($dbcon,$data[0]);
+					 $admissionno =mysqli_real_escape_string($dbcon,$data[1]);
+					 $studentname =mysqli_real_escape_string($dbcon,$data[2]);
+					 $class =mysqli_real_escape_string($dbcon,$data[3]);
+					 $routeno =mysqli_real_escape_string($dbcon,$data[4]);
+					 $areaname =mysqli_real_escape_string($dbcon,$data[5]);
+					 $vanflag =mysqli_real_escape_string($dbcon,$data[6]);
+					 //$vanfees =mysqli_real_escape_string($dbcon,$data[5]);
+				 
+				 $query = "INSERT INTO  vanstudents( 
+				  academic,
+					 admissionno,
+					 studentname,
+					 class,
+					 routeno ,
+					 areaname,
+					 vanflag )
+					 VALUES('$academic','$admissionno','$studentname','$class','$routeno','$areaname','$vanflag')";
+					   mysqli_query($dbcon,$query);
+				 }
+					fclose($handle) ;
+			 //print "Import Done";
+			//  echo "<script>alert('Import done');</script>";
+			$message = " Van Students Imported Successfully";
+		 }
+	 }
+ }
+ ?>
+
 
 
 
@@ -67,50 +70,57 @@ if (isset($_POST["submit"])) {
 				
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">						
 							<div class="card mb-3">
-								<div class="card-header">
+
+							<div class="card-header">
+							<h3><p class="text-success"><?php echo $message;?></p> </h3>
 								
-										<!--span class="pull-right">
-										<a href="addInstituteProfile.php" class="btn btn-primary btn-sm"><i class="fa fa-user-plus" aria-hidden="true"></i>
-										Add Institute Profile</a></span-->
-									<!--h3>Upload Van Students</h3--> 
-									
+								
+										<span class="pull-right">
+										<a href="assignVanStudents.php" class="btn btn-warning btn-sm"><i class="fa fa-user-plus" aria-hidden="true"></i>
+										Assign Van students</a></span>
+								
 
 									
 									<!--form autocomplete="off" action="#"-->
-								<form action="uploadVanStudents.php"  enctype="multipart/form-data" method="post" accept-charset="utf-8">
+									<form action=""  enctype="multipart/form-data" method="post" accept-charset="utf-8">
 
 								
-								<div class="form-row">                                 
-                                <div class="form-group">
-                                        <label>
-                                            <div class="fa-hover col-md-12 col-sm-8">
-                                                <i class="fa fa-folder-open bigfonts" aria-hidden="true"></i>IMPORT Van Students</div></label> 
-                                    
-                                        <!--input type="file" name="file" id="file" class="form-control" width="80" height="60"-->
-									<p>Upload CSV <input type='file' name='file'></p>
-									<!--p><button input type='submit'  name='submit' value='Import' class="fa fa-upload bigfonts" >Import</button></p-->
-                                    </div>
-									</div>
-                                
-								    <div class="form-row">
-								    <div class="form-group text-right m-b-8">
-                                                       &nbsp;<button class="fa fa-download bigfonts btn btn-primary btn-sm" name="submit" type="submit" value="Import">
-                                                            IMPORT VAN STUDENTS
-                                                        </button>
-                                                        <!--button type="button" name="cancel" class="btn btn-primary btn-sm" onclick="window.history.back();">Cancel
-                                                        </button-->
-										</div>
-										</div>		
-								</form>
-								</div>
-										<form autocomplete="off" action="exportVanStudentsFormat.php"  method="post">
+<div class="form-row">                                 
+<div class="form-group">
+		<label>
+			<div class="fa-hover col-md-12 col-sm-8">
+				<i class="fa fa-folder-open bigfonts" aria-hidden="true"></i>IMPORT Van Students</div></label> 
+	
+		<!--input type="file" name="file" id="file" class="form-control" width="80" height="60"-->
+	<p>Upload CSV <input type='file' name='file'></p>
+	<!--p><button input type='submit'  name='submit' value='Import' class="fa fa-upload bigfonts" >Import</button></p-->
+	</div>
+	</div>
+
+	<div class="form-row">
+	<div class="form-group text-right m-b-8">
+					   &nbsp;<button class="fa fa-download bigfonts btn btn-success btn-sm" name="submit" type="submit" value="Import">
+							IMPORT VAN STUDENTS
+						</button>
+						<button type="button" name="cancel" class="btn btn-secondary btn-sm" onclick="window.history.back();">Cancel
+						</button>
+						<br> <a href='download/vanstudents.csv'>Download Sample Van Students File Format</a>
+		</div>
+		</div>		
+</form>
+</br></div>
+										<!--form autocomplete="off" action="exportVanStudentsFormat.php"  method="post">
 										
 									<div class="form-row">
 										<div class="form-group col-md-8">
 								<input type="submit" class="btn btn-primary btn-sm"  name="exportVan" value="Export Van Students"/>
 										</div>
 									</div>
-								</form>
+								</form-->
+
+								
+									
+
 
 								<div class="form-row">
 							
@@ -120,7 +130,7 @@ if (isset($_POST["submit"])) {
 											<option value="">-Select Routeno-</option>
 												   <?php 
 												   include("database/db_conection.php");//make connection here
-												   $sql = mysqli_query($dbcon, "SELECT distinct routeno FROM route ORDER by routeno  asc");
+												   $sql = mysqli_query($dbcon, "SELECT  routeno FROM route ORDER by routeno  asc");
 												   while ($row = $sql->fetch_assoc()){	
 													   echo $route=$row['routeno'];
 													   echo '<option onchange="'.$row[''].'" value="'.$route.'" >'.$route.'</option>';
@@ -158,22 +168,18 @@ if (isset($_POST["submit"])) {
 													if((isset($_GET['routewise'])&&$_GET['routewise']!='')){
 													$routewise = $_GET['routewise'];
 
-													$sql = "SELECT s.id,s.status,s.academic,s.admissionno,s.firstname,
-													s.class,s.routeno,s.areaname,a.amount
-													FROM studentprofile s,areamaster a
-                                                    where a.areaname = s.areaname
-													and s.vanflag = 'Y'  AND s.status = 'Y' ";
+													$sql = "SELECT id,academic,admissionno,studentname,
+													class,routeno,areaname,amount,vanflag
+													FROM  vanstudents Where 1=1";
 
 													if(isset($_GET['routewise'])&&$_GET['routewise']!=''){
 	
-														$sql.=" and s.routeno='".$_GET['routewise']."'";    
+														$sql.=" and routeno='".$_GET['routewise']."'";    
 													}
 												}else{
-													$sql = "SELECT s.id,s.status,s.academic,s.admissionno,s.firstname,
-													s.class,s.routeno,s.areaname,a.amount
-													FROM studentprofile s,areamaster a
-                                                    where a.areaname = s.areaname
-													and s.vanflag = 'Y'  AND s.status = 'Y' ";
+													$sql = "SELECT id,academic,admissionno,studentname,
+													class,routeno,areaname,amount,vanflag
+													FROM  vanstudents";
 
 												}
 
@@ -185,13 +191,24 @@ if (isset($_POST["submit"])) {
 													echo '<td>'.$row['id'].' </td>';
 													echo '<td>'.$row['academic'].' </td>';
 													echo '<td>'.$row['admissionno'].' </td>';
-													echo '<td>'.$row['firstname'].' </td>';
+													echo '<td>'.$row['studentname'].' </td>';
 													echo '<td>'.$row['class'].' </td>';
 													echo '<td>'.$row['routeno'].' </td>';
 													echo '<td>'.$row['areaname'].' </td>';
 													echo '<td>'.$row['amount'].' </td>';
-													echo '<td>'.$row['status'].' </td>';
-													
+												//	echo '<td>'.$row['vanflag'].' </td>';
+													?>
+													<td><?php if($row['vanflag']=='Y'){
+																echo '<span style="background-color:green;text-align:center;">
+																<span style="color:white;text-align:center;">Assigned';
+																}else if($row['vanflag']=='N'){
+																	echo '<span style="background-color:red;text-align:center;">
+																	<span style="color:white;text-align:center;">Discontinued';
+																}else{
+																	echo "";
+																}	 ?>
+													</td>
+													<?php
 													
 													echo '<td><a href="editVanStudents.php?id=' . $row['id'] . '" class="btn btn-primary btn-sm" data-target="#modal_edit_user_5">
 														<i class="fa fa-pencil" aria-hidden="true"></i></a>

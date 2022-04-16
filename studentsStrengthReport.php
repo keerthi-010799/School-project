@@ -31,10 +31,10 @@ include('workers/getters/functions.php');
 						<div class="row">
 									<div class="col-xl-12">
 											<div class="breadcrumb-holder">
-													<h1 class="main-title float-left">Students Report</h1>
+													<h1 class="main-title float-left">Students Strength Report</h1>
 													<ol class="breadcrumb float-right">
 														<li class="breadcrumb-item">Home</li>
-														<li class="breadcrumb-item active">Students Report</li>
+														<li class="breadcrumb-item active">Students Strength Report</li>
 													</ol>
 													<div class="clearfix"></div>
 											</div>
@@ -47,20 +47,20 @@ include('workers/getters/functions.php');
 							<div class="card mb-3">
 								<div class="card-header">
 								
-										<span class="pull-right">
+										<!--span class="pull-right">
 										<a href="addStudentProfile.php" class="btn btn-primary btn-sm"><i class="fa fa-user-plus" aria-hidden="true"></i>
 										Add Student Profile</a></span>
-									<i class="" aria-hidden="">Students Reports</i>
+									<i class="" aria-hidden="">Students Reports</i-->
 								</div>
 								
 								<div class="card-body">
                                     
                                     <form autocomplete="off" action="exportStudents.php"  method="post">
 										
-									<div class="form-row">
+									<!--div class="form-row">
 										<div class="form-group col-md-8">
 								<input type="submit" class="btn btn-primary btn-sm"  name="exportStudents" value="Export Students"/>
-										</div>
+										</div-->
 									</div>
 								
 																															
@@ -98,7 +98,7 @@ include('workers/getters/functions.php');
                                         </div>
 										<div class="form-group col-md-3">
                                         
-										<select id="Communitywise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="academic">
+										<!--select id="Communitywise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="academic">
 											<option value="">-Select Community-</option>
 												   <?php 
 												   include("database/db_conection.php");//make connection here
@@ -143,7 +143,7 @@ include('workers/getters/functions.php');
 												   ?>
 											   </select>
 											   
-									   </div>
+									   </div-->
 											<div class="form-group col-md-3">
 											<input type="button" class="btn btn-primary btn-sm" name="search" value="Search" onclick="search_filter();">
 								
@@ -158,19 +158,14 @@ include('workers/getters/functions.php');
 									<table id="po_reports" class="table table-bordered table-hover display" style="overflow-x:hidden;">
 										<thead>
 											<tr>
-													<th style="width:30px">#</th>													
-													  <th style="width:30px">Picture</th>
-													<th style="width:40px">Academic</th>
-													<th style="width:30px">Admn#</th>
-													<th style="width:40px">Name</th>
-													<th style="width:20px">Class/Course</th>
+													<th style="width:30px">#</th>	
+                                                    <th style="width:30px">Academic</th>												
+													  <th style="width:30px">Class</th>
+													<th style="width:40px">Male</th>
+													<th style="width:30px">Female</th>
+													<th style="width:40px">Total</th>
 													<th style="width:20px">Community</th>
-													<th style="width:20px">Caste</th>
-													<th style="width:20px">Gender</th>
-													<th style="width:20px">Parent</th>
-												    <th style="width:20px">Mobile</th>
-													<!--th style="width:20px">Academic</th-->												  
-													<th style="width:230px">Status</th>
+													<th style="width:20px">Total</th>												
 													
 													</tr>
 										</thead>										
@@ -183,9 +178,10 @@ include('workers/getters/functions.php');
 														$Communitywise = $_GET['Communitywise'];	
                                                         $castewise = $_GET['castewise'];	
 														$genderwise = $_GET['genderwise'];	
-														$sql = "SELECT id,image,admissionno,concat(firstname,' ',lastname) 
-														as name,concat(class,' / ',section) as classsec,community,caste,gender,
-														fathername,mobile,batch,academic,status FROM `studentprofile` s where 1=1";										                                            
+														$sql = "select id,academic,class, count(case when gender = 'M' then 1 end) as Male, 
+                                                        count(case when gender = 'F' then 1 end) as Female, 
+                                                        COUNT(*) AS Total ,community,COUNT(*) as Total2 
+                                                        from studentprofile s group by class,community order by id  ";										                                            
 													 if(isset($_GET['classwise'])&&$_GET['classwise']!=''){
 	
 														$sql.=" and s.class='".$_GET['classwise']."'";    
@@ -209,10 +205,10 @@ include('workers/getters/functions.php');
 	
 													}else{
 													
-														$sql = "SELECT id,image,admissionno,concat(firstname,' ',lastname) 
-														as name,concat(class,' / ',section) as classsec,community,caste,gender,
-														fathername,mobile,batch,academic,status FROM `studentprofile` 
-														ORDER BY id ASC";													}
+														$sql = "select id,academic,class, count(case when gender = 'M' then 1 end) as Male, 
+                                                        count(case when gender = 'F' then 1 end) as Female, 
+                                                        COUNT(*) AS Total ,community,COUNT(*) as Total2 
+                                                        from studentprofile s group by class,community order by id ";													}
 																											
 													$result = mysqli_query($dbcon,$sql);
 													if ($result->num_rows > 0){
@@ -220,40 +216,24 @@ include('workers/getters/functions.php');
 														$row_id=$row['id'];
 														echo "<tr>";
 														echo '<td>'.$row['id'].'<br /></td>';
-													// echo '<td><input type="checkbox" class="checkBoxClass" name="selectedCheckbox[]" value='.$row['id'].'/></td>';
-												//	echo '<td>'.$row['id'].'<br /></td>';
 													
-													//echo '<td><a href="editCustomerProfile.php?id='.$row_id.'" >'.$row['custid'] .'</a></td>';
-													echo '<td><img style="max-width:50px; height:35px;" src="'.$row['image'].'"/>';
-													echo '<td>'.$row['academic'].'<br /></td>';
-													echo '<td>'.$row['admissionno'].'<br /></td>';
-													//echo '<td>'.$row['custype'].'</td>';
-													echo '<td>'.$row['name'].'</td>';
-													echo '<td>'.$row['classsec'].'</td>';
-													echo '<td>'.$row['community'].'</td>';
-													echo '<td>'.$row['caste'].'</td>';
-													echo '<td>'.$row['gender'].'</td>';
-													echo '<td>'.$row['fathername'].'</td>';
-													echo '<td>'.$row['mobile'].'</td>';
-													//echo '<td>'.$row['academic'].'</td>';
+                                                        echo '<td>'.$row['academic'].'<br /></td>';
+                                                        echo '<td>'.$row['class'].'<br /></td>';
+                                                        echo '<td>'.$row['Male'].'<br /></td>';
 													
-													
+                                                        echo '<td>'.$row['Female'].'</td>';
+                                                        echo '<td>'.$row['Total'].'</td>';
+                                                        echo '<td>'.$row['community'].'</td>';
+                                                        echo '<td>'.$row['Total2'].'</td>';
 														?>
-													<td><?php if($row['status']=='Y'){
-																	echo 'Active';
-																}else if($row['status']=='N'){
-																	echo 'Inactive';
-																}else{
-																	echo "";
-																}	 ?>
-													</td>
+													
 												  
 													<?php
 													echo '<!--td><a href="editStudentProfile.php?id=' . $row['id'] . '" class="btn btn-primary btn-sm" data-target="#modal_edit_user_5">
 														<i class="fa fa-pencil" aria-hidden="true"></i></a>
 													
 													<a onclick="delete_record(this);" id="deleteCustomerProfile" data-id="' . $row_id . '" class="btn btn-danger btn-sm"  data-title="Delete">
-													<i class="fa fa-trash-o" aria-hidden="true"></i></a>
+													<i class="fa fa-trash-o" aria-hidden="true"></i></a-->
                                                 
 														<!--a onclick="print_record(this);" id="printStudentProfile" data-id="' . $row_id . '" class="btn btn-secondary btn-sm"  data-title="Print">
 													<i class="fa fa-print" aria-hidden="true"></i></a></td-->';                                               
@@ -263,7 +243,22 @@ include('workers/getters/functions.php');
                                         }
                                         ?>
 												 </script>
+                                                 
 									</tbody>
+                                    <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                             
+                                            
+                                             
+                                            </tr>
+                                        </tfoot>
 									</table>
 									
 									</div>
@@ -342,9 +337,9 @@ include('workers/getters/functions.php');
 
         var date_range = $('#daterange').val(); 
         var party_var = $('#partywise').val(); 
-        var printhead = party_var!=''?'<p><b>Vendor : </b>'+party_var+'</p>':'';
-        printhead+= date_range!=''?'<p><b>Date : </b>'+date_range+'</p>':'';
-        var excel_printhead = party_var!=''?'Vendor : '+party_var:'';
+       var printhead = party_var!=''?'<p><b> : </b>'+party_var+'</p>':'';
+        printhead+= date_range!=''?'<p><b> : </b>'+date_range+'</p>':'';
+        var excel_printhead = party_var!=''?' : '+party_var:'';
         excel_printhead+= '  ';
         excel_printhead+= date_range!=''?'Date : '+date_range:'';
 
@@ -359,15 +354,15 @@ include('workers/getters/functions.php');
                         i : 0;
                 };
                 var grossval = api
-                .column( 4 )
+                .column( 5 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
-                }, 0 ).toFixed(2);
+                }, 0 ).toFixed(0);
 
 
-                $( api.column( 0 ).footer() ).html('Total');
-                $( api.column( 4 ).footer() ).html(grossval);                
+                $( api.column( 4 ).footer() ).html('Total Strength');
+                $( api.column( 5 ).footer() ).html(grossval);                
             },
             buttons: [
                 {
@@ -379,7 +374,7 @@ include('workers/getters/functions.php');
                         $(win.document.body)
                             .css( 'font-size', '10pt' )
                             .prepend(
-                            '<p><img src="<?php echo $baseurl;?>assets/images/logo/logo@0,25x.png" style="width:50px;height:50px;" /></p><p class="lead text-center"><b>Payee Transactions</b><br/></p>'+printhead+'</div>'
+                            '<p><img src="<?php echo $baseurl;?>assets/images/logo/logo@0,25x.png" style="width:50px;height:50px;" /></p><p class="lead text-center"><b> Gender & Community wise Students Strength Report</b><br/></p>'+printhead+'</div>'
                         );
 
                         $(win.document.body).find( 'table' )
@@ -390,14 +385,14 @@ include('workers/getters/functions.php');
                 {
                     extend: 'excel',
                     text:'<span class="fa fa-file-excel-o"></span>',
-                    title:'Students Report', footer: true ,
+                    title:'Gender & Community wise Students Strength Report', footer: true ,
                     messageTop: excel_printhead   
 
                 },
                 {
                     extend: 'pdf',
                     text:'<span class="fa fa-file-pdf-o"></span>',
-                    title:'Students Report', footer: true ,
+                    title:'Gender & Community wise Students Strength Report', footer: true ,
                     messageTop: excel_printhead   
 
                 },
@@ -418,7 +413,7 @@ include('workers/getters/functions.php');
                                                 var genderwise = $('#genderwise').val() ? $('#genderwise').val() : "";
 												var castewise = $('#castewise').val() ? $('#castewise').val() : "";                                            
 												var academicwise = $('#academicwise').val();
-												location.href="studentsReport.php?classwise="+classwise+"&Communitywise="+Communitywise+"&academicwise="+academicwise+"&genderwise="+genderwise+"&castewise="+castewise;
+												location.href="studentsStrengthReport.php?classwise="+classwise+"&Communitywise="+Communitywise+"&academicwise="+academicwise+"&genderwise="+genderwise+"&castewise="+castewise;
 											}																				
 														
 

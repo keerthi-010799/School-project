@@ -15,16 +15,15 @@ if (isset($_POST["submit"])) {
 					
 					$academic =mysqli_real_escape_string($dbcon,$data[0]);
 					$admissionno =mysqli_real_escape_string($dbcon,$data[1]);
-					$firstname =mysqli_real_escape_string($dbcon,$data[2]);
-					$routeno =mysqli_real_escape_string($dbcon,$data[3]);
-					$areaname =mysqli_real_escape_string($dbcon,$data[4]);
-					$vanflag =mysqli_real_escape_string($dbcon,$data[5]);
+				//	$firstname =mysqli_real_escape_string($dbcon,$data[2]);
+					$routeno =mysqli_real_escape_string($dbcon,$data[2]);
+					$areaname =mysqli_real_escape_string($dbcon,$data[3]);
+					$vanflag =mysqli_real_escape_string($dbcon,$data[4]);
 					//$vanfees =mysqli_real_escape_string($dbcon,$data[5]);
 				
-				$query = "UPDATE studentprofile 
+				$query = "UPDATE vanstudents 
 				set academic='$academic',
-					admissionno = '$admissionno',
-					firstname ='$firstname',
+					admissionno = '$admissionno',				
 					routeno = '$routeno',
 					areaname = '$areaname',
 					vanflag = '$vanflag'

@@ -73,7 +73,7 @@
                                     </td>
 
                                     <td class="text-center">
-                                        <a href="StudentAttendanceReport.php">
+                                        <a href="listStudentsAttendance.php">
                                             <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Students Attendance Report</a>
                                     </td>                                                 
 
@@ -82,14 +82,17 @@
 
                                 <tr>
                                     <td> 
+                                   
                                         
                                     </td>
                                     
                                     
 
                                     <td class="text-left">
-                                        <!--a href="listExpenses.php">
-<i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Expenses by Payee c</a-->
+                                    <td class="text-center">
+                                        <a href="studentsStrengthReport.php">
+                                            <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Students Strength Report</a>
+                                    </td>     
                                     </td>
 
                                     <!--td class="text-center">

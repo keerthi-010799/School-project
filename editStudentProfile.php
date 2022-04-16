@@ -503,7 +503,7 @@ if(isset($_POST['stuProfEdit']))
                                     
                                     
 									
-                                    <div class="form-row">                                
+                                    <!--div class="form-row">                                
                                     <h5 class="col-md-12 text-muted text-info">Edit Van Details&nbsp;</h5>
                                 </div>
                                     

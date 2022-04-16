@@ -18,16 +18,14 @@ $message ='';
 					 
 					 $academic =mysqli_real_escape_string($dbcon,$data[0]);
 					 $admissionno =mysqli_real_escape_string($dbcon,$data[1]);
-					 $firstname =mysqli_real_escape_string($dbcon,$data[2]);
 					 $routeno =mysqli_real_escape_string($dbcon,$data[3]);
 					 $areaname =mysqli_real_escape_string($dbcon,$data[4]);
 					 $vanflag =mysqli_real_escape_string($dbcon,$data[5]);
 					 //$vanfees =mysqli_real_escape_string($dbcon,$data[5]);
 				 
-				 $query = "UPDATE studentprofile 
+				 $query = "UPDATE vanstudents 
 				 set academic='$academic',
 					 admissionno = '$admissionno',
-					 firstname ='$firstname',
 					 routeno = '$routeno',
 					 areaname = '$areaname',
 					 vanflag = '$vanflag'
@@ -170,12 +168,10 @@ $message ='';
 												  	<!--th style="width:20px">Logo</th-->
 													<!--th style="width:10px">Mark All&nbsp;<input type="checkbox" id="ckbCheckAll"></th-->
 													<th style="width:30px">#</th>													
-													  <th style="width:30px">Picture</th>
+													
 													<th style="width:40px">Admission#</th>
 													<th style="width:30px">Student Name</th>
-													<th style="width:40px">Class/Section</th>
-													
-													<th style="width:20px">Parent Mobile</th>
+													<th style="width:40px">Class</th>
 													<th style="width:20px">Route/Bus#</th>
 													<th style="width:20px">Pickup Area</th>
 												    <th style="width:20px">Driver Name</th>
@@ -195,10 +191,11 @@ $message ='';
 														$routewise = $_GET['routewise'];
 													//	$academicwise = $_GET['academicwise'];
 													//	$batchwise = $_GET['batchwise'];	
-														$sql = "SELECT s.id,s.image,s.admissionno,concat(s.firstname,' ',s.lastname) as name,
-														concat(s.class,' / ',s.section) as classsec,s.areaname,s.mobile,s.routeno,s.status,
-														r.drivername,r.mobile as dmobile,r.pickuppoints
-														FROM studentprofile s, route r WHERE 1=1 AND s.vanflag='Y' AND s.routeno = r.routeno";										                                            
+														$sql = "SELECT v.id,v.academic,v.admissionno,concat(s.firstname,' ',s.lastname) as studentname,
+														s.class,v.routeno,v.areaname,a.amount,v.vanflag
+														FROM  vanstudents v, studentprofile s,areamaster a
+														WHERE a.areaname = v.areaname
+														AND  s.admissionno = v.admissionno AND 1=1";										                                            
 													 if(isset($_GET['routewise'])&&$_GET['routewise']!=''){
 	
 														$sql.=" and s.routeno='".$_GET['routewise']."'";    
@@ -214,13 +211,11 @@ $message ='';
 	
 													}else{
 													
-														$sql = "SELECT s.id,s.image,s.admissionno,concat(s.firstname,' ',s.lastname) as name,
-														 concat(s.class,' / ',s.section) as classsec,s.areaname, s.mobile,
-														 s.routeno,s.status,r.drivername,r.mobile as dmobile,r.pickuppoints
-														 FROM studentprofile s,route r 
-														 WHERE s.vanflag = 'Y' 
-														 AND r.routeno = s.routeno
-														 ORDER BY routeno ASC";													}
+														$sql = "SELECT v.id,v.academic,v.admissionno,concat(s.firstname,' ',s.lastname) as studentname,
+														s.class,v.routeno,v.areaname,a.amount,v.vanflag
+														FROM  vanstudents v, studentprofile s,areamaster a,route r
+														WHERE a.areaname = v.areaname
+														AND  s.admissionno = v.admissionno AND 1=1";													}
 																											
 													$result = mysqli_query($dbcon,$sql);
 													if ($result->num_rows > 0){
@@ -232,26 +227,26 @@ $message ='';
 												//	echo '<td>'.$row['id'].'<br /></td>';
 													
 													//echo '<td><a href="editCustomerProfile.php?id='.$row_id.'" >'.$row['custid'] .'</a></td>';
-													echo '<td><img style="max-width:50px; height:35px;" src="'.$row['image'].'"/>';
+												//	echo '<td><img style="max-width:50px; height:35px;" src="'.$row['image'].'"/>';
 												//	echo '<td>'.$row['academic'].'<br /></td>';
 													echo '<td>'.$row['admissionno'].'<br /></td>';
 													//echo '<td>'.$row['custype'].'</td>';
-													echo '<td>'.$row['name'].'</td>';
-													echo '<td>'.$row['classsec'].'</td>';
-                                                    echo '<td>'.$row['mobile'].'</td>';
+													echo '<td>'.$row['studentname'].'</td>';
+													echo '<td>'.$row['class'].'</td>';
+                                                 //   echo '<td>'.$row['mobile'].'</td>';
 													echo '<td>'.$row['routeno'].'</td>';
 													echo '<td>'.$row['areaname'].'</td>';
-													echo '<td>'.$row['drivername'].'</td>';
-													echo '<td>'.$row['dmobile'].'</td>';
-                                                    echo '<td>'.$row['pickuppoints'].'</td>';
+												//	echo '<td>'.$row['drivername'].'</td>';
+												//	echo '<td>'.$row['dmobile'].'</td>';
+                                                  //  echo '<td>'.$row['pickuppoints'].'</td>';
 													//echo '<td>'.$row['academic'].'</td>';
 													
 													
 														?>
-													<td><?php if($row['status']=='Y'){
-																	echo 'Active';
+													<td><?php if($row['vanflag']=='Y'){
+																	echo 'assigned';
 																}else if($row['status']=='N'){
-																	echo 'Inactive';
+																	echo 'unassigned';
 																}else{
 																	echo "";
 																}	 ?>

@@ -23,7 +23,10 @@
         <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="listEmployees.php">People</a>
+        <a class="nav-link" href="listEmployees.php">Employees</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="assignSalary.php">Assign Salaries</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -41,7 +44,9 @@
           <a class="dropdown-item" href="#">Something else here</a>
         </div-->
       </li>
-      
+      <li class="nav-item">
+        <a class="nav-link" href="listEmployees.php">Generate Payroll</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link " href="#">Reports</a>
       </li>

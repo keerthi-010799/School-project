@@ -7,18 +7,17 @@ if(isset($_POST['stuProfEdit']))
     extract($_POST);
     
 
-    $updateStudentProfile = "UPDATE `vanstudents` SET `academic`= '".$academic."',	
+    $updateStudentProfile = "UPDATE `studentsattendance` SET `academic`= '".$academic."',	
                                                         `admissionno`= '".$admissionno."',
-                                                            `vanflag`= '".$vanflag."',
-                                                            `routeno`= '".$routeno."',
-                                                            `areaname`= '".$areaname."'
+                                                            `attendance`= '".$attendance."',
+                                                            `createdon`= '".$createdon."'                                                           
                                         WHERE `id` =".$stuId;
               
     
 	if(mysqli_query($dbcon,$updateStudentProfile))
     {
         
-        header("location:listVanStudents.php");
+        header("location:listStudentsAttendance.php");
     } else { echo die('Error: ' . mysqli_error($dbcon).$updateStudentProfile );
 	   
             exit; //echo "<script>alert('Company Profile creation unsuccessful ')</script>";
@@ -44,10 +43,10 @@ if(isset($_POST['stuProfEdit']))
                 <div class="row">
 					<div class="col-xl-12">
 							<div class="breadcrumb-holder">
-                                    <h1 class="main-title float-left">Edit Student Profile </h1>
+                                    <h1 class="main-title float-left">Edit Student Attendance </h1>
                                     <ol class="breadcrumb float-right">
 									<a  href="index.php"><li class="breadcrumb-item">Home</a></li>
-										<li class="breadcrumb-item active">Edit Student Profile</li>
+										<li class="breadcrumb-item active">Edit Students Attendance</li>
                                     </ol>
                                     <div class="clearfix"></div>
                             </div>
@@ -68,11 +67,11 @@ if(isset($_POST['stuProfEdit']))
 							<div class="card-header">
 								<!--h3><i class="fa fa-check-square-o"></i>Create Company </h3-->
 								<h5><div class="text-muted font-light">
-								<i class="fa fa-pencil-square-o bigfonts" aria-hidden="true"></i>&nbsp;Edit Student Profile<span class="text-muted"></span></div></h5>						
+								<i class="fa fa-pencil-square-o bigfonts" aria-hidden="true"></i>&nbsp;Edit Students Attendance<span class="text-muted"></span></div></h5>						
 							</div>
 								
 							<div class="card-body">
-								<form autocomplete="off" action="editVanStudents.php" enctype="multipart/form-data" method="post">
+								<form autocomplete="off" action="editStudentsAttendance.php" enctype="multipart/form-data" method="post">
 								<?php
                                         include("database/db_conection.php");//make connection here
 
@@ -83,15 +82,15 @@ if(isset($_POST['stuProfEdit']))
                                             //selecting data associated with this particular id
                                             $result = mysqli_query($dbcon, "SELECT concat(s.firstname,' ',s.lastname) name,
                                             s.class,v.academic,v.admissionno,
-                                            v.vanflag,v.routeno,v.areaname
-                                            FROM vanstudents v,studentprofile s WHERE v.id=$id");
+                                            v.attendance,v.createdon,v.createdby
+                                            FROM studentsattendance v,studentprofile s WHERE v.id=$id");
                                             while($res = mysqli_fetch_array($result))
                                             {
 												$academic =	$res['academic'];
-												$admissionno = $res['admissionno'];
-                                                $routeno 	 =	$res['routeno'];
-                                                $areaname 	 =	$res['areaname'];                                           
-												$vanflag 	 =	$res['vanflag'];
+                                              
+                                                $createdon =	$res['createdon'];
+												$admissionno = $res['admissionno'];                                                                                      
+												$attendance 	 =	$res['attendance'];
                                                 $name 	 =	$res['name'];
                                                 $class 	 =	$res['class'];
 											
@@ -99,7 +98,15 @@ if(isset($_POST['stuProfEdit']))
                                         }
 
                                         ?>	
-                                    
+
+                                    	<div class="form-row">
+                                    <div class="form-group col-md-8">
+                                        <label>Date
+                                            <span class="text-danger"></span></label>
+                                        <input type="date" class="form-control form-control-sm" name="createdon"  value="<?php echo $createdon;?>" />
+                                    </div>
+                                    </div>
+
 									<div class="form-row">
                                     <div class="form-group col-md-4">
                                     <label for="inputState">Academic<span class="text-danger">*</span></label>
@@ -141,69 +148,24 @@ if(isset($_POST['stuProfEdit']))
                                     
 									
                                     <div class="form-row">                                
-                                    <h5 class="col-md-12 text-muted text-info">Edit Van Details&nbsp;</h5>
-                                    <p class="col-md-12 text-muted text-danger">Before changing  van status, please make sure you have 
-                                        collected van outstanding</br> fees upto date. &nbsp;<//p>
-                                
+                                    <h5 class="col-md-12 text-muted text-info">Edit Attendance&nbsp;</h5>
+                                   
                                 </div>
                                     
                                      
                                     
                                     <div class="form-row">
 								<div class="form-group col-md-8">
-								<div class="checkbox"><label> Student's Current Van Status</label>&nbsp;&nbsp;
-									Continue Van <input type="radio" name="vanflag" value="Y"  <?php echo ($vanflag=='Y')?"checked":"";?> />	
-									&nbsp;&nbsp;Discontinue Van <input type="radio" name="vanflag" value="N"  <?php echo ($vanflag=='N')?"checked":"";?> />
+								<div class="checkbox"><label> Student's Current Attendance Status</label>&nbsp;&nbsp;
+									Present <input type="radio" name="attendance" value="P"  <?php echo ($attendance=='P')?"checked":"";?> />	
+									&nbsp;&nbsp;Absent <input type="radio" name="attendance" value="A"  <?php echo ($attendance=='A')?"checked":"";?> />
 								</div>
 								 </div>
                                  
 								 </div>
 
                                     
-                                    <div class="form-row">
-                                    <div class="form-group col-md-4">
-                                    <label for="inputState">Route#<span class="text-danger"></span></label>
-                                                <select  id="academic" onchange="onlocode(this)"  class="form-control form-control-sm" name="routeno">
-                                                    <?php 
-                                                    include("database/db_conection.php");//make connection here
-
-                                                    $sql = mysqli_query($dbcon, "SELECT routeno FROM route");
-                                                    while ($row = $sql->fetch_assoc()){	
-                                                        echo $route_get=$row['routeno'];
-                                                        if($route_get==$routeno){
-                                                            echo '<option value="'.$route_get.'" selected>'.$route_get.'</option>';
-                                                        } else {
-                                                            echo '<option value="'.$route_get.'" >'.$route_get.'</option>';
-                                                            
-                                                            }
-                                                        }
-                                                    ?>
-                                                </select>
-                                </div>
-                                        
-                                    <div class="form-group col-md-4">
-                                    <label for="inputState">Areaname<span class="text-danger"></span></label>
-                                                <select  id="areaname" onchange="onlocode(this)" 
-                                                        class="form-control form-control-sm" name="areaname">
-                                                    <?php 
-                                                    include("database/db_conection.php");//make connection here
-                                                    $sql = mysqli_query($dbcon, "SELECT areaname FROM areamaster");
-                                                    while ($row = $sql->fetch_assoc()){	
-                                                       // echo $area_get=$row['areacode'];
-                                                        echo $areaname_get=$row['areaname'];
-                                                        if($areaname_get==$areaname){
-                                                            echo '<option value="'.$areaname_get.'" selected>'.$areaname_get.'</option>';
-                                                        } else {
-                                                           // echo '<option value="'.$area_get.'" >'value="'.$area_get.'" //>'.$areaname_get.'</option>';
-                                                            
-                                                            echo '<option  value="'.$areaname_get.'" >'.$areaname_get.'</option>';
-                                                            
-                                                            }
-                                                        }
-                                                    ?>
-                                                </select>
-                                </div>
-                                    </div> 
+                                    
                                     
                                     <!--div class="form-row">
                                    <div class="form-group col-md-12">

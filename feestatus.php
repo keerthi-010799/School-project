@@ -1,44 +1,41 @@
-<?php include('header.php'); 
+<?php
+include('header.php');
 include('workers/getters/functions.php');
+
 ?>
 
-<!-- End Sidebar -->
+<div class="content-page">
+
+    <!-- Start content -->
+    <div class="content">
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="breadcrumb-holder">
+                        <h1 class="main-title float-left"> Fees Status</h1>
+                        <ol class="breadcrumb float-right">
+                            <li class="breadcrumb-item">Home</li>
+                            <li class="breadcrumb-item active">Fees Status</li>
+                        </ol>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+            <div class="row">
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="card mb-3">
+                        <div class="card-header">
 
 
-    <div class="content-page">
-	
-		<!-- Start content -->
-        <div class="content">
-            
-			<div class="container-fluid">
-					
-						<div class="row">
-									<div class="col-xl-12">
-											<div class="breadcrumb-holder">
-													<h1 class="main-title float-left"><i class="fa fa-calendar-o bigfonts" aria-hidden="true"></i>List Fees Collected</h1>
-													<ol class="breadcrumb float-right">
-														<li class="breadcrumb-item">Home</li>
-														<li class="breadcrumb-item active"><a href="feesNavBar.php">Fees Navigation Menu Bar</li></a></li>
-													</ol>
-													<div class="clearfix"></div>
-											</div>
-									</div>
-						</div>
-						<!-- end row -->
-						<div class="row">
-				
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">						
-							<div class="card mb-3">
-								<div class="card-header">
-											<span class="pull-right">
-										<a href="FeesCollection.php" class="btn btn-primary btn-sm"><i class="fa fa-user-plus" aria-hidden="true"></i>
-										Fees Collection</a></span>
-								
-									</div>
-									<div class="form-row">
-                                    <div class="form-group col-md-3">
-                                         
-                                         <select id="classwise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="class">
+                            <h3><i class="fa fa-cart-plus bigfonts" aria-hidden="true"></i><b>&nbsp;Fees Status</b></h3>
+                        </div>
+                        <div class="form-group row">
+                        <div class="form-group col-md-3">
+                        <select id="classwise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="class">
                                              <option value="">-Select Class-</option>
                                                     <?php 
                                                     include("database/db_conection.php");//make connection here
@@ -50,10 +47,11 @@ include('workers/getters/functions.php');
                                                     }
                                                     ?>
                                                 </select>
-                                        </div>
-										<div class="form-group col-md-3">
-                                        
-                                         <select id="studentwise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="student">
+                                </div>
+                        
+                                <div class="form-group row">
+                        <div class="form-group col-md-6">
+                        <select id="studentwise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="student">
                                              <option value="">-Select Student-</option>
                                                     <?php 
                                                     include("database/db_conection.php");//make connection here
@@ -66,12 +64,10 @@ include('workers/getters/functions.php');
                                                     }
                                                     ?>
                                                 </select>
-												
-                                        </div>						
-										<div class="form-row">
-                                    <div class="form-group col-md-3">
-                                         
-                                         <select id="feesname" data-parsley-trigger="change" onchange="changefees()" class="form-control form-control-sm"  name="feesname">
+
+                                </div>
+                               <div class="form-group col-md-4">
+                               <select id="feesname" data-parsley-trigger="change" onchange="changefees();" class="form-control form-control-sm"  name="feesname">
 										 <option value="Test">-Select Fees Name-</option>
 										 <option value="Term1Fees">Term1 Fees</option>
 											 <option value="Term2Fees">Term2 Fees</option>
@@ -80,24 +76,24 @@ include('workers/getters/functions.php');
 											 <option value="OtherFees">Other Fees</option>
 
 												</select>
-												</div>
-														
-                                       <?php 
-												   include("database/db_conection.php");//make connection here
 
-												  
-												   ?>
-									   <div class="form-group col-md-3">
-											<input type="button" class="btn btn-primary btn-sm" name="search" value="Search" onclick="search_filter();">
-									</div>
-								
-									<div class="col-md-12 table-responsive">
-								<span id="po_reports_div"></span>
-									<div class="table-responsive">
-									<table id="po_reports" class="table table-bordered table-hover display" style="overflow-x:hidden;">
-										<thead>
-											<tr>
-												<th>#</th>												
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="search_filter();">Search</button>
+                                </div>
+ 
+                                    </div>
+
+                        <div class="card-body">
+
+                            <!-- Start coding here -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span id="po_reports_div"></span>
+                                    <table id="po_reports" class="table table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                            <th>#</th>												
 												<th>Class</th>
 												<th>Academic Year</th>
 												<th>Admission No </th>
@@ -115,131 +111,117 @@ include('workers/getters/functions.php');
                                                 <th id='vanfeespaid' style="display:none">van Fees Paid</th>
                                                 <th id='vanfeesbalance' style="display:none">van Fees balance</th>
 												<th id='otherfeesitemname' style="display:none">other fees name </th>
-                                                <th id='otherfeesprice' style="display:none">other fees price</th>
-											</tr>
-										</thead>										
-										<tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    
-                                                    <tr>
-                                                </tfoot>
-																				
-											<?php
-												
-													include("database/db_conection.php");//make connection here
-													
-													if((isset($_GET['st'])&&$_GET['st']!='')||
-													(isset($_GET['end'])&&$_GET['end']!='')||
-													(isset($_GET['classwise']) && $_GET['classwise']!=='')||
-													(isset($_GET['academicwise'])&&$_GET['academicwise']!='')||
-													(isset($_GET['castewise'])&&$_GET['castewise']!='')){
-														$classwise = $_GET['classwise'];
-														$studentwise = $_GET['studentwise'];
-														$datewise = $_GET['datewise'];	                                                        
-														$sql = "SELECT * FROM `fee_status` s where 1=1";										                                            
-												 if(isset($_GET['classwise'])&&$_GET['classwise']!=''){
-	
-														$sql.=" and s.fee_class='".$_GET['classwise']."'";    
-													}
-													if(isset($_GET['studentwise'])&&$_GET['studentwise']!=''){
-	
-														$sql.=" and s.fee_student_id='".$_GET['studentwise']."'";    
-													}
-													if(isset($_GET['datewise'])&&$_GET['datewise']!=''){
-	
-														$sql.=" and s.collected_date='".$_GET['datewise']."'";    
-													}                                             
-													}else{
-														$sql = "SELECT * FROM fee_status";
-														}							
-                                                    						                                                                                                        
-                                                    $result = mysqli_query($dbcon,$sql);													
-													if ($result->num_rows > 0){
-													while ($row =$result-> fetch_assoc()){	
-														$sid = $row['fee_student_id'];
-                                                        $date=$row['fee_bal_status'];	
-                                                    //echo $date;
-                                                    $s = json_decode($date,true);
-                                                    print_r($s,true);																			
-													echo "<tr>";
-													echo '<td>' .$row['fee_status_id'] . '</td>';
-													echo '<td>'.$row['fee_class'].' </td>';
-													echo '<td>'.$row['fee_acadamic_year'].' </td>';
-													$result1 = mysqli_query($dbcon,"SELECT * FROM studentprofile WHERE id = $sid");													
-													if ($result1->num_rows > 0){
-													while ($row1 =$result1-> fetch_assoc()){	
-													 echo '<td>'.$row1['admissionno'].'</td>';
-                                                     echo '<td>'.$row1['firstname'].'</td>';
-													}
-												}
-													echo '<td class="term1feestotalval" style="display:">'.$s["Termfees"]["Term1"]["TotalFees"].' </td>';
-													echo '<td class="term1feespaidval" style="display:">'.$s["Termfees"]["Term1"]["Feescollected"].' </td>';
-                                                    echo '<td class="term1feesbalanceval" style="display:">'.$s["Termfees"]["Term1"]["Balancetopay"].' </td>';
-                                                    echo '<td class="term2feestotalval" style="display:none">'.$s["Termfees"]["Term2"]["TotalFees"].' </td>';
-													echo '<td class="term2feespaidval" style="display:none">'.$s["Termfees"]["Term2"]["Feescollected"].' </td>';
-                                                    echo '<td class="term2feesbalanceval" style="display:none">'.$s["Termfees"]["Term2"]["Balancetopay"].' </td>';
-                                                    echo '<td class="term3feestotalval" style="display:none">'.$s["Termfees"]["Term3"]["TotalFees"].' </td>';
-													echo '<td class="term3feespaidval" style="display:none">'.$s["Termfees"]["Term3"]["Feescollected"].' </td>';
-                                                    echo '<td class="term3feesbalanceval" style="display:none">'.$s["Termfees"]["Term3"]["Balancetopay"].' </td>';
-                                                    echo '<td class="vanfeestotalval" style="display:none">'.$s["Vanfees"]["TotalFees"].' </td>';
-													echo '<td class="vanfeespaidval" style="display:none">'.$s["Vanfees"]["Feescollected"].' </td>';
-                                                    echo '<td class="vanfeesbalanceval" style="display:none">'.$s["Vanfees"]["Balancetopay"].' </td>';
-                                                    echo '<td class="Otherfeesitemnameval" style="display:none">'.$s["Otherfees"]["itemname"].' </td>';
-                                                    echo '<td class="Otherfeespriceval" style="display:none">'.$s["Otherfees"]["price"].' </td>';                                        
-                                        			echo "</tr>";
-													}
-													}
+                                                <th id='otherfeesprice' style="display:none">other fees price</th>								
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                        include("database/db_conection.php");//make connection here
                                                 
-													?>		
-													</tbody>
-														
-														</tbody>
-														</table>
-														</div>
-														
-													</div>														
-												</div><!-- end card-->			
-												</div>														
+                                                if((isset($_GET['st'])&&$_GET['st']!='')||
+                                                (isset($_GET['end'])&&$_GET['end']!='')||
+                                                (isset($_GET['classwise']) && $_GET['classwise']!=='')||
+                                                (isset($_GET['studentwise'])&&$_GET['studentwise']!='')){
+                                                    $classwise = $_GET['classwise'];
+                                                    $studentwise = $_GET['studentwise'];
+                                                    $sql = "SELECT * FROM `fee_status` s where 1=1";										                                            
+                                             if(isset($_GET['classwise'])&&$_GET['classwise']!=''){
+
+                                                    $sql.=" and s.fee_class='".$_GET['classwise']."'";    
+                                                }
+                                                if(isset($_GET['studentwise'])&&$_GET['studentwise']!=''){
+
+                                                    $sql.=" and s.fee_student_id='".$_GET['studentwise']."'";    
+                                                }
+                                                if(isset($_GET['datewise'])&&$_GET['datewise']!=''){
+
+                                                    $sql.=" and s.collected_date='".$_GET['datewise']."'";    
+                                                }                                             
+                                                }else{
+                                                    $sql = "SELECT * FROM fee_status";
+                                                    }							
+                                                                                                                                                                                
+                                                $result = mysqli_query($dbcon,$sql);													
+                                                if ($result->num_rows > 0){
+                                                while ($row =$result-> fetch_assoc()){	
+                                                    $sid = $row['fee_student_id'];
+                                                    $date=$row['fee_bal_status'];	
+                                                //echo $date;
+                                                $s = json_decode($date,true);
+                                                print_r($s,true);																			
+                                                echo "<tr>";
+                                                echo '<td>' .$row['fee_status_id'] . '</td>';
+                                                echo '<td>'.$row['fee_class'].' </td>';
+                                                echo '<td>'.$row['fee_acadamic_year'].' </td>';
+                                                $result1 = mysqli_query($dbcon,"SELECT * FROM studentprofile WHERE id = $sid");													
+                                                if ($result1->num_rows > 0){
+                                                while ($row1 =$result1-> fetch_assoc()){	
+                                                 echo '<td>'.$row1['admissionno'].'</td>';
+                                                 echo '<td>'.$row1['firstname'].'</td>';
+                                                }
+                                            }
+                                                echo '<td class="term1feestotalval" style="display:">'.$s["Termfees"]["Term1"]["TotalFees"].' </td>';
+                                                echo '<td class="term1feespaidval" style="display:">'.$s["Termfees"]["Term1"]["Feescollected"].' </td>';
+                                                echo '<td class="term1feesbalanceval" style="display:">'.$s["Termfees"]["Term1"]["Balancetopay"].' </td>';
+                                                echo '<td class="term2feestotalval" style="display:none">'.$s["Termfees"]["Term2"]["TotalFees"].' </td>';
+                                                echo '<td class="term2feespaidval" style="display:none">'.$s["Termfees"]["Term2"]["Feescollected"].' </td>';
+                                                echo '<td class="term2feesbalanceval" style="display:none">'.$s["Termfees"]["Term2"]["Balancetopay"].' </td>';
+                                                echo '<td class="term3feestotalval" style="display:none">'.$s["Termfees"]["Term3"]["TotalFees"].' </td>';
+                                                echo '<td class="term3feespaidval" style="display:none">'.$s["Termfees"]["Term3"]["Feescollected"].' </td>';
+                                                echo '<td class="term3feesbalanceval" style="display:none">'.$s["Termfees"]["Term3"]["Balancetopay"].' </td>';
+                                                echo '<td class="vanfeestotalval" style="display:none">'.$s["Vanfees"]["TotalFees"].' </td>';
+                                                echo '<td class="vanfeespaidval" style="display:none">'.$s["Vanfees"]["Feescollected"].' </td>';
+                                                echo '<td class="vanfeesbalanceval" style="display:none">'.$s["Vanfees"]["Balancetopay"].' </td>';
+                                                echo '<td class="otherfeesitemnameval" style="display:none">'.$s["Otherfees"]["itemname"].' </td>';
+                                                echo '<td class="otherfeespriceval" style="display:none">'.$s["Otherfees"]["price"].' </td>';                                        
+                                                echo "</tr>";
+                                                }
+                                                }
+                                            
+                                                ?>															
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div><!-- end card-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 <script>
-    var page_partywise = "<?php if(isset($_GET['partywise'])){ echo $_GET['partywise']; } ?>";
-    var page_st = "<?php if(isset($_GET['st'])){ echo $_GET['st']; } ?>";
-    var page_end = "<?php if(isset($_GET['end'])){ echo $_GET['end']; } ?>";
-    var page_classwise = "<?php if(isset($_GET['classwise'])){ echo $_GET['classwise']; } ?>";
-    var page_Communitywise = "<?php if(isset($_GET['Communitywise'])){ echo $_GET['Communitywise']; } ?>";
-    var page_castewise = "<?php if(isset($_GET['castewise'])){ echo $_GET['castewise']; } ?>";
-    var page_genderwise = "<?php if(isset($_GET['genderwise'])){ echo $_GET['genderwise']; } ?>";
-    var page_academicwise = "<?php if(isset($_GET['academicwise'])){ echo $_GET['academicwise']; } ?>";
-		                                            
-    function delete_record(x){     
-            var row_id = $(x).attr('data-id');
-            alert(row_id);
-            if (confirm('Confirm delete')) {
-            window.location.href = 'deleteStudentProfile.php?id='+row_id;
-                    }
-            }
+            var page_classwise = "<?php if(isset($_GET['classwise'])){ echo $_GET['classwise']; } ?>";
+    var page_studentwise = "<?php if(isset($_GET['studentwise'])){ echo $_GET['studentwise']; } ?>";
+
 
     $(document).ready(function() {
-        $('#partywise').val(page_partywise);
-        $("#reset-date").hide();
         $('#classwise').val(page_classwise);
-        $('#Communitywise').val(page_Communitywise);
-        $('#genderwise').val(page_genderwise);
-        $('#castewise').val(page_castewise);
-        $('#academicwise').val(page_academicwise);
-
+        $('#studentwise').val(page_studentwise);
+        $("#reset-date").hide();
         $('#daterange').daterangepicker({
             ranges: {
                 'Today': [moment(), moment()],
@@ -256,30 +238,20 @@ include('workers/getters/functions.php');
         }, function(start, end, label) {
             $('#daterange').attr('readonly',true); 
             $("#reset-date").show();
-
         });
-
         if(page_end!=''){
             cb(page_st,page_end);
         }else{
             $('#daterange').val(''); 
         }
-
         $("#reset-date").click(function(){
             $('#daterange').val('');
             $('#daterange').attr('readonly',false); 
             $("#reset-date").hide();
         });
-
-
         var date_range = $('#daterange').val(); 
-        var party_var = $('#partywise').val(); 
-        var printhead = party_var!=''?'<p><b>Vendor : </b>'+party_var+'</p>':'';
-        printhead+= date_range!=''?'<p><b>Date : </b>'+date_range+'</p>':'';
-        var excel_printhead = party_var!=''?'Vendor : '+party_var:'';
-        excel_printhead+= '  ';
-        excel_printhead+= date_range!=''?'Date : '+date_range:'';
-
+    });   
+        $(document).ready(function() {
         var table = $('#po_reports').DataTable( {
             lengthChange: false,
             "footerCallback": function ( row, data, start, end, display ) {
@@ -291,32 +263,86 @@ include('workers/getters/functions.php');
                         i : 0;
                 };
                 var grossval = api
-                .column( 4 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 ).toFixed(2);
-                var grossval1 = api
                 .column( 5 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 ).toFixed(2);
 
-                var grossval2 = api
+                var grossvalStockQty = api
                 .column( 6 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 ).toFixed(2);
-                            
-
-                $( api.column( 0 ).footer() ).html('Total');
-                // $( api.column( 4 ).footer() ).html(grossval);
-                // $( api.column( 5 ).footer() ).html(grossval1);
-                // $( api.column( 6 ).footer() ).html(grossval2);          
-                      
+                var stockOnHand = api
+                .column( 7 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var stockOnHanda = api
+                .column( 8 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var stockOnHandb = api
+                .column( 9 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var stockOnHandc = api
+                .column( 10 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var stockOnHandd = api
+                .column( 11 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var stockOnHande = api
+                .column( 12 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var stockOnHandf = api
+                .column( 13 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var stockOnHandg = api
+                .column( 14 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var stockOnHandh = api
+                .column( 15 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
                 
+                $( api.column( 0 ).footer() ).html('Total');
+                $( api.column( 5 ).footer() ).html(grossval);
+                $( api.column( 6 ).footer() ).html(grossvalStockQty);
+                $( api.column( 7 ).footer() ).html(stockOnHand);
+                $( api.column( 8 ).footer() ).html(stockOnHanda);
+                $( api.column( 9 ).footer() ).html(stockOnHandb);
+                $( api.column( 10 ).footer() ).html(stockOnHandc);
+                $( api.column( 11 ).footer() ).html(stockOnHandd);
+                $( api.column( 12 ).footer() ).html(stockOnHande);
+                $( api.column( 13 ).footer() ).html(stockOnHandf);
+                $( api.column( 14 ).footer() ).html(stockOnHandg);
+                $( api.column( 15 ).footer() ).html(stockOnHandh);
+
             },
             buttons: [
                 {
@@ -328,7 +354,7 @@ include('workers/getters/functions.php');
                         $(win.document.body)
                             .css( 'font-size', '10pt' )
                             .prepend(
-                            '<p><img src="<?php echo $baseurl;?>assets/images/logo/logo@0,25x.png" style="width:50px;height:50px;" /></p><p class="lead text-center"><b>Payee Transactions</b><br/></p>'+printhead+'</div>'
+                            '<p><img src="<?php echo $baseurl;?>assets/images/dhirajLogo.png" style="width:50px;height:50px;" /></p><p class="lead text-center"><b>Fees Status</b><br/></p></div>'
                         );
 
                         $(win.document.body).find( 'table' )
@@ -339,15 +365,15 @@ include('workers/getters/functions.php');
                 {
                     extend: 'excel',
                     text:'<span class="fa fa-file-excel-o"></span>',
-                    title:'Students Report', footer: true ,
-                    messageTop: excel_printhead   
+                    title:'Fees Status', footer: true,
+                    messageTop: ''   
 
                 },
                 {
                     extend: 'pdf',
                     text:'<span class="fa fa-file-pdf-o"></span>',
-                    title:'Students Report', footer: true ,
-                    messageTop: excel_printhead   
+                    title:'Fees Status', footer: true,
+                    messageTop: ''   
 
                 },
                 {
@@ -360,16 +386,13 @@ include('workers/getters/functions.php');
 
         table.buttons().container()
             .appendTo( '#po_reports_div');
-        });											
-														
-</script>
-<?php
-?>
-
-
-<script>
-
-					 function changefees(){
+    });
+    function search_filter(){
+			var classwise = $('#classwise').val();
+			var studentwise = $('#studentwise').val();
+			location.href="feestatus.php?classwise="+classwise+"&studentwise="+studentwise;								
+		}
+            function changefees(){
     console.log("red");
         var feesType = $('#feesname').val();
         console.log(feesType);        
@@ -522,13 +545,17 @@ include('workers/getters/functions.php');
 			$("#otherfeesprice").css('display','revert');
 			$(".otherfeesitemnameval").css('display','revert');
 			$(".otherfeespriceval").css('display','revert');       
-
         }
-														}																																					
-			function search_filter(){
-			var classwise = $('#classwise').val();
-			var studentwise = $('#studentwise').val() ? $('#studentwise').val() : "";
-            var datewise = $('#datewise').val() ? $('#datewise').val() : "";
-			location.href="feestatus.php?classwise="+classwise+"&studentwise="+studentwise+"&datewise="+datewise;								
-			}											
+        }
 </script>
+<!-- BEGIN Java Script for this page -->
+<script src="assets/plugins/select2/js/select2.min.js"></script>
+<script>                                
+$(document).ready(function() {
+    $('.select2').select2();
+});
+</script>
+<!-- END Java Script for this page -->
+<?php
+include('footer.php');
+?>

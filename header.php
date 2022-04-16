@@ -378,8 +378,8 @@ if(isset($_SESSION['login_email'])){
                         <a href="#"><i class="fa fa-mortar-board bigfonts" aria-hidden="true"></i> Students Management<span class="menu-arrow"></span></a>						
                         <ul class="list-unstyled">  
                             <li><a href="listStudentProfile.php"><i class="fa fa-server bigfonts"></i>List Students</a> </li>
-                            <li><a href="listBusStudents.php"><i class="fa fa-bus bigfonts"></i>Routewise Van Students</a> </li>
-                            <li><a href="listVanStudents.php"><i class="fa fa-download bigfonts"></i>Import/Edit-Van Students</a> </li>
+                            <!--li><a href="listBusStudents.php"><i class="fa fa-bus bigfonts"></i>Routewise Van Students</a> </li-->
+                            <li><a href="listVanStudents.php"><i class="fa fa-download bigfonts"></i>Assign/Import-Van Students</a> </li>
                                 <li><a href="addBulkUpload.php"><i class="fa fa-upload bigfonts"></i>Students Bulk Upload</a> </li>
                                     <li><a href="importArea.php"><i class="fa fa-upload bigfonts"></i>Area Bulk Upload</a> </li>  
                                     <li><a href="assignClasswiseSection.php"><i class="fa fa-download bigfonts"></i>Assign/Import Classwise Section</a> </li>  
@@ -391,8 +391,8 @@ if(isset($_SESSION['login_email'])){
                         <a href="#"><i class="fa fa-calendar bigfonts" aria-hidden="true"></i>Attendance Management<span class="menu-arrow"></span></a>						
                         <ul class="list-unstyled">  
                             <!--li><a href="addStudentProfile.php"><i class="fa fa-user-plus bigfonts" aria-hidden="true"></i>add Students</a> <li-->	
-                            <li><a href="addStudentsAttendance.php"><i class="fa fa-calendar-check-o bigfonts" aria-hidden="true"></i>Daily Attendance</a> </li>                                                
-                                <li><a href="StudentAttendanceReport.php"><i class="fa fa-bar-chart bigfonts" aria-hidden="true"></i> Attendance Report</a> </li>
+                            <li><a href="markAttendance.php"><i class="fa fa-calendar-check-o bigfonts" aria-hidden="true"></i>Mark Attendance</a> </li>                                                
+                                <li><a href="listStudentsAttendance.php"><i class="fa fa-bar-chart bigfonts" aria-hidden="true"></i> Attendance Report</a> </li>
                                     <!--li><a href="importArea.php"><i class="fa fa-upload bigfonts"></i>Area Upload</a-->                                                                                     
                         </ul></li>
 

@@ -106,15 +106,13 @@
 													if((isset($_GET['st'])&&$_GET['st']!='')||
 													(isset($_GET['end'])&&$_GET['end']!='')||
 													(isset($_GET['classwise']) && $_GET['classwise']!=='')||
-													(isset($_GET['academicwise'])&&$_GET['academicwise']!='')||
-													(isset($_GET['castewise'])&&$_GET['castewise']!='')){
-														$timestamp = strtotime($_GET['st']);
+													(isset($_GET['studentwise'])&&$_GET['studentwise']!='')){
+												$timestamp = strtotime($_GET['st']);
                                                 $st = date('m/d/Y', $timestamp);
                                                 $timestamp = strtotime($_GET['end']);
                                                 $end = date('m/d/Y', $timestamp);
 														$classwise = $_GET['classwise'];
 														$studentwise = $_GET['studentwise'];
-														$datewise = $_GET['datewise'];	                                                        
 														$sql = "SELECT * FROM `fees_management` s where 1=1";										                                            
 														if($_GET['st']!=''){
 															if($st==$end){
@@ -129,12 +127,8 @@
 													}
 													if(isset($_GET['studentwise'])&&$_GET['studentwise']!=''){
 	
-														$sql.=" and s.fee_student_id='".$_GET['studentwise']."'";    
-													}
-													if(isset($_GET['datewise'])&&$_GET['datewise']!=''){
-	
-														$sql.=" and s.collected_date='".$_GET['datewise']."'";    
-													}                                                    
+														$sql.=" and s.fee_student_id='$studentwise'";    
+													}													                                                   
 													}else{
 													$sql = "SELECT * FROM fees_management";
 													}
@@ -184,7 +178,36 @@
 													echo "</tr>";
 													}
 													}
-													?>															
+													?>	
+																											
+														
+														</tbody>
+														<tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+												<th></th>
+                                                <th></th>
+                                                <th></th>
+
+
+											</tr>
+                                        </tfoot>
+
+
+														</table>
+														</div>
+														
+													</div>														
+												</div><!-- end card-->			
+												</div>
+																			
 															<script>
 															function deleteRecord_8(RecordId)
 															{
@@ -207,7 +230,6 @@
     var page_end = "<?php if(isset($_GET['end'])){ echo $_GET['end']; } ?>";
     var page_classwise = "<?php if(isset($_GET['classwise'])){ echo $_GET['classwise']; } ?>";
     var page_studentwise = "<?php if(isset($_GET['studentwise'])){ echo $_GET['studentwise']; } ?>";
-    var page_datewise = "<?php if(isset($_GET['datewise'])){ echo $_GET['datewise']; } ?>";
 		                                            
     function delete_record(x){     
             var row_id = $(x).attr('data-id');
@@ -223,15 +245,13 @@
         var date_range_val = $('#daterange').val();
         if(date_range_val!=''){
             var date_range = date_range_val.replace(" ","").split('-');
-            //var filter = $('#filterby').val();
             st = date_range[0].replace(" ","");
             end = date_range[1].replace(" ","");
         }		
         
 			var classwise = $('#classwise').val();
-			var studentwise = $('#studentwise').val() ? $('#studentwise').val() : "";
-            var datewise = $('#datewise').val() ? $('#datewise').val() : "";
-			location.href="listcollectedfees.php?st="+st+"&end="+end+"&classwise="+classwise+"&studentwise="+studentwise+"&datewise="+datewise;								
+			var studentwise = $('#studentwise').val();
+			location.href="listcollectedfees.php?st="+st+"&end="+end+"&classwise="+classwise+"&studentwise="+studentwise;								
 			}	
 			function cb(start, end) {
         $('#daterange').val(start+ ' - ' + end);
@@ -263,120 +283,9 @@ $('.edit').on('click', function () {
 });
 </script>
 
-														
-									</tbody>
-														
-									</tbody>
-									</table>
-									</div>
-									
-								</div>														
-							</div><!-- end card-->			
-							</div>
-
 <?php include('footer.php'); ?>
 						
 						
-<script>
-var page_partywise = "<?php if(isset($_GET['partywise'])){ echo $_GET['partywise']; } ?>";
-var page_st = "<?php if(isset($_GET['st'])){ echo $_GET['st']; } ?>";
-var page_end = "<?php if(isset($_GET['end'])){ echo $_GET['end']; } ?>";
-var page_classwise = "<?php if(isset($_GET['classwise'])){ echo $_GET['classwise']; } ?>";
-var page_Communitywise = "<?php if(isset($_GET['Communitywise'])){ echo $_GET['Communitywise']; } ?>";
-var page_castewise = "<?php if(isset($_GET['castewise'])){ echo $_GET['castewise']; } ?>";
-var page_genderwise = "<?php if(isset($_GET['genderwise'])){ echo $_GET['genderwise']; } ?>";
-var page_academicwise = "<?php if(isset($_GET['academicwise'])){ echo $_GET['academicwise']; } ?>";
-												
-function delete_record(x){     
-		var row_id = $(x).attr('data-id');
-		alert(row_id);
-		if (confirm('Confirm delete')) {
-		window.location.href = 'deleteStudentProfile.php?id='+row_id;
-				}
-		}
-
-$(document).ready(function() {
-
-	var party_var = $('#partywise').val(); 
-	var printhead = party_var!=''?'<p><b> </b></p>':'';
-	printhead+= date_range!=''?'<p><b> </b></p>':'';
-	var excel_printhead = party_var!=''?' : ':'';
-	excel_printhead+= '  ';
-	excel_printhead+= date_range!=''?'Date : '+date_range:'';
-
-	var table = $('#po_reports').DataTable( {
-		lengthChange: false,
-		"footerCallback": function ( row, data, start, end, display ) {
-			var api = this.api(), data;
-			var intVal = function ( i ) {
-				return typeof i === 'string' ?
-					i.replace(/[\$,]/g, '')*1 :
-				typeof i === 'number' ?
-					i : 0;
-			};
-			var grossval = api
-			.column( 4 )
-			.data()
-			.reduce( function (a, b) {
-				return intVal(a) + intVal(b);
-			}, 0 ).toFixed(2);
-
-
-			$( api.column( 0 ).footer() ).html('Total');
-			$( api.column( 4 ).footer() ).html(grossval);                
-		},
-		buttons: [
-			{
-				extend: 'print',
-				title: '',
-				text: '<span class="fa fa-print"></span>',
-				footer: true ,
-				customize: function ( win ) {
-					$(win.document.body)
-						.css( 'font-size', '10pt' )
-						.prepend(
-						'<p><img src="<?php echo $baseurl;?>assets/images/logo/logo@0,25x.png" style="width:50px;height:50px;" /></p><p class="lead text-center"><b>List collected fees</b><br/></p>'+printhead+'</div>'
-					);
-
-					$(win.document.body).find( 'table' )
-						.addClass( 'compact' )
-						.css( 'font-size', 'inherit' );
-				}
-			}, 
-			{
-				extend: 'excel',
-				text:'<span class="fa fa-file-excel-o"></span>',
-				title:'List Fees Collected', footer: true ,
-				messageTop: excel_printhead   
-
-			},
-			{
-				extend: 'pdf',
-				text:'<span class="fa fa-file-pdf-o"></span>',
-				title:'List Fees Collected', footer: true ,
-				messageTop: excel_printhead   
-
-			},
-			{
-				extend: 'colvis',
-				text:'Show/Hide', footer: true 
-			}
-		]
-	} );
-
-
-	table.buttons().container()
-		.appendTo( '#po_reports_div');
-	});	
-
-	</script>
-
-<?php include('footer.php'); ?>
-							
-							
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
 <script>
     var page_partywise = "<?php if(isset($_GET['partywise'])){ echo $_GET['partywise']; } ?>";
     var page_st = "<?php if(isset($_GET['st'])){ echo $_GET['st']; } ?>";
@@ -453,17 +362,26 @@ $(document).ready(function() {
                     typeof i === 'number' ?
                         i : 0;
                 };
-                var grossval = api
-                .column( 4 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 ).toFixed(2);
+
+				var grossval = api
+			.column( 6 )
+			.data()
+			.reduce( function (a, b) {
+				return intVal(a) + intVal(b);
+			}, 0 ).toFixed(2);
+
+			var grossval1 = api
+			.column( 7 )
+			.data()
+			.reduce( function (a, b) {
+				return intVal(a) + intVal(b);
+			}, 0 ).toFixed(2);
 
 
-                $( api.column( 0 ).footer() ).html('Total');
-                $( api.column( 4 ).footer() ).html(grossval);                
-            },
+
+			$( api.column( 0 ).footer() ).html('Total');
+			$( api.column( 6 ).footer() ).html(grossval);                
+			$( api.column( 7 ).footer() ).html(grossval1);                            },
             buttons: [
                 {
                     extend: 'print',

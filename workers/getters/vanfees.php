@@ -9,27 +9,33 @@ if (isset($_GET['student'])) {
     $areaname1;
   $sql1 = mysqli_query($dbcon, "SELECT * FROM studentprofile WHERE firstname = '$student' and class = '$class'");
   while ($row = $sql1->fetch_assoc()){
-        $areaname1 = $row['areaname'];
-        $academic = $row['academic'];
-        $std_id = $row['id'];
-        $admno = $row['admissionno'];
+        $std_id = $row['id'];        
     }
 }
+$sq1 ="SELECT sum(fees_paid) as feespaid FROM fees_management WHERE fee_student_id = $std_id and fee_type = 'VanFees'";
+if($result1 = mysqli_query($dbcon,$sq1)){
+    $ro1 = mysqli_fetch_assoc($result1);
+    if(mysqli_num_rows($result1)>0){  
+    $vanpaid = $ro1['feespaid'];
+}
+}
+
     $return=array();
     $values=array();
-            $sql = "SELECT id,areaname,amount FROM areamaster where  areaname = '$areaname1'";
-    $result = mysqli_query($dbcon, $sql);
-    $values = sql_fetch_all($result);
-
-    if (mysqli_num_rows($result) > 0) {
+    $sql = "SELECT * FROM vanstudents where  studentname = '$student' and class = '$class'";
+    if($result = mysqli_query($dbcon,$sql)){
+        $row = mysqli_fetch_assoc($result);
+        if (mysqli_num_rows($result) > 0) {
         $return['status']=true;
-        $return['values']=$values;
+        $return['areaname'] = $row['areaname'];
+        $return['amount'] = $row['amount'];
         $return['class'] = $class;
         $return['std'] = $student;
-        $return['academicyear'] = $academic;
+        $return['academicyear'] = $row['academic'];
         $return['std_id'] = $std_id;
-        $return['admissionno'] = $admno;
-
+        $return['admissionno'] = $row['admissionno'];
+        $return['vanpaid'] = $vanpaid;
+}
     }else{
         $return['status']=false;
         $return['error']=mysqli_error($dbcon);

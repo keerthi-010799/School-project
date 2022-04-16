@@ -3,33 +3,12 @@
 include("database/db_conection.php");
 if(isset($_GET['id']))
 {
-	$id=$_GET['id'];											
-  if(isset($_POST['submit'])){
-  $academic=$_POST['academic'];
-  $class=$_POST['class'];
-  $student = $_POST['student'];
-  $admno = $_POST['admno'];
+	$id=$_GET['id'];	
+
   $itemname ='';
   $price = '';
   $feestype=$_POST['FeesType'];
-	$stdid = $_POST['std_id'];
-  $total1 =$_POST['term1total'];
-  $total2 =$_POST['term2total'];
-  $total3 =$_POST['term3total'];
-  $total_amount;
   $amount;
-  $fees_id;
-  $term1feescollected = '';
-  $term2feescollected = '';
-  $term3feescollected= '';
-  $vanfeescollected= '';
-  $othercollected= '';
-  $term1balance= '';
-  $term2balance= '';
-  $term3balance= '';
-  $vanbalance= '';
-  $otherbalance= '';
-
  if($feestype == 'TermFees'){
   if(isset($_POST['term1'])&& $_POST['term1'] != null){
     $feestype = 'Term1Fees'; 
@@ -46,150 +25,19 @@ if(isset($_GET['id']))
  }elseif($feestype == 'VanFees'){
   $amount=$_POST['van_fee'];
  }elseif($feestype == 'OtherFees'){
+  $feestype = "OtherFees(".$_POST['itemname'].")";
   $amount=$_POST['price'];
- }
+}
 
- if($feestype == 'Term1Fees' && isset($_POST['term1total']) && $_POST['term1total'] != null){
-    $total_amount=$total1;
-   }
-   if($feestype == 'Term2Fees' && isset($_POST['term2total'])&& $_POST['term2total'] != null){
-    $total_amount=$total2;
-   }
-   if($feestype == 'Term3Fees' && isset($_POST['term3total'])&& $_POST['term3total'] != null){
-    $total_amount=$total3;
- }elseif($feestype == 'VanFees'){
-  $total_amount=$_POST['van_fee_total'];
- }elseif($feestype == 'OtherFees'){
-   $feestype = 'otherFees ('.$itemname.')';
-  $total_amount=$_POST['price'];
- }
- $itemname = $_POST['itemcode'];
- $price = $_POST['price'];
-
- $sql="SELECT MAX(fee_id) as id FROM fees_management ORDER BY id DESC";
-  if($result = mysqli_query($dbcon,$sql)){
- 	$row   = mysqli_fetch_assoc($result);
- 	if(mysqli_num_rows($result)>0){
-		 	$maxid = $row['id'];
- 	 	$maxid += 1;
- 	$fees_id= $maxid;
-   $rec = 'INV-'.$maxid;
- 	 }
-	 else{
-		$maxid = 0;
-		$maxid += 1;
-		 $fees_id = $maxid;
-     $rec = 'INV-'.$maxid;
-	}
- }
-$date = date("d-m-Y");
 $sql0 = "UPDATE `fees_management`  SET  `fees_paid` = '$amount' WHERE fee_id = '$id'";
 echo 'red',$result = mysqli_query($dbcon,$sql0);
 if(mysqli_query($dbcon,$sql0)){
- echo 'success1';
-}
-  $sqll = "SELECT * FROM fee_status where fee_student_id = $stdid";						                                                                                                        
-  if ($result = mysqli_query($dbcon,$sqll)){
-  $row =mysqli_fetch_assoc($result);	
-  if(mysqli_num_rows($result)>0){
-  $date=$row['fee_bal_status'];	
-  $s = json_decode($date,true);
-  print_r($s,true);
-  $s["Termfees"]["Term1"]["TotalFees"];
-  $s["Termfees"]["Term1"]["Feescollected"];
-  $s["Termfees"]["Term1"]["Balancetopay"];
-  $s["Termfees"]["Term2"]["TotalFees"];
-  $s["Termfees"]["Term2"]["Feescollected"];
-  $s["Termfees"]["Term2"]["Balancetopay"];
-  $s["Termfees"]["Term3"]["TotalFees"];
-  $s["Termfees"]["Term3"]["Feescollected"];
-  $s["Termfees"]["Term3"]["Balancetopay"];
-  $s["Vanfees"]["TotalFees"];
-  $s["Vanfees"]["Feescollected"];
-  $s["Vanfees"]["Balancetopay"];
-  $s["Otherfees"]["itemname"];
-  $s["Otherfees"]["price"];            
-   
-  $sq = "SELECT SUM(fees_paid) AS Totalcollected,fee_type FROM fees_management WHERE fee_student_id = '$stdid' AND fee_type = '$feestype'";
-if($result = mysqli_query($dbcon,$sq)){
-  $row = mysqli_fetch_assoc($result);
-  if(mysqli_num_rows($result)>0){
-    $feetype = $row['fee_type'];
-    $totalcollected = $row['Totalcollected'];
-   if($feetype == 'Term1Fees'){
-    $term1feescollected=$totalcollected;
-    $term1balance = $total_amount - $term1feescollected;
-    $term2feescollected =   $s["Termfees"]["Term2"]["Feescollected"];
-    $term2balance =   $s["Termfees"]["Term2"]["Balancetopay"];
-    $term3feescollected =   $s["Termfees"]["Term3"]["Feescollected"];
-    $term3balance =   $s["Termfees"]["Term3"]["Balancetopay"];
-    $vanfeescollected =   $s["Vanfees"]["Feescollected"];
-    $vanbalance =   $s["Vanfees"]["Balancetopay"];
-    $itemname =   $s["Otherfees"]["itemname"];
-    $price =   $s["Otherfees"]["price"];
-  }elseif($feetype == 'Term2Fees'){
-    $term1feescollected =   $s["Termfees"]["Term1"]["Feescollected"];
-    $term1balance =   $s["Termfees"]["Term1"]["Balancetopay"];
-    $term2feescollected=$totalcollected;
-    $term2balance = $total_amount - $term2feescollected;
-    $term3feescollected =  $s["Termfees"]["Term3"]["Feescollected"];
-    $term3balance =   $s["Termfees"]["Term3"]["Balancetopay"];
-    $vanfeescollected =   $s["Vanfees"]["Feescollected"];
-    $vanbalance =   $s["Vanfees"]["Balancetopay"];
-    $itemname =   $s["Otherfees"]["itemname"];
-    $price =   $s["Otherfees"]["price"];
-   }elseif($feetype == 'Term3Fees'){
-    $term1feescollected =   $s["Termfees"]["Term1"]["Feescollected"];
-    $term1balance =   $s["Termfees"]["Term1"]["Balancetopay"];
-    $term2feescollected =   $s["Termfees"]["Term2"]["Feescollected"];
-    $term2balance =   $s["Termfees"]["Term2"]["Balancetopay"];
-    $term3feescollected=$totalcollected;
-    $term3balance = $total_amount - $term3feescollected;    
-    $vanfeescollected =   $s["Vanfees"]["Feescollected"];
-    $vanbalance =   $s["Vanfees"]["Balancetopay"];
-    $itemname =   $s["Otherfees"]["itemname"];
-    $price =   $s["Otherfees"]["price"];
-   }elseif($feetype == 'VanFees'){
-    $term1feescollected =   $s["Termfees"]["Term1"]["Feescollected"];
-    $term1balance = $s["Termfees"]["Term1"]["Balancetopay"];
-    $term2feescollected =   $s["Termfees"]["Term2"]["Feescollected"];
-    $term2balance = $s["Termfees"]["Term2"]["Balancetopay"];
-    $term3feescollected =   $s["Termfees"]["Term3"]["Feescollected"];
-    $term3balance =   $s["Termfees"]["Term3"]["Balancetopay"];
-    $vanfeescollected = $totalcollected;
-    $vanbalance = $total_amount - $vanfeescollected;
-    $itemname = $s["Otherfees"]["itemname"];
-    $price =  $s["Otherfees"]["price"];
-  }
-} 
-
-}}
-$stats = array("Termfees"=>array("Term1"=>array("TotalFees"=>$_POST['term1total'],"Feescollected"=>$term1feescollected,"Balancetopay"=>"$term1balance"),
-"Term2"=>array("TotalFees"=>$_POST['term2total'],"Feescollected"=>$term2feescollected,"Balancetopay"=>"$term2balance"),
-"Term3"=>array("TotalFees"=>$_POST['term3total'],"Feescollected"=>$term3feescollected,"Balancetopay"=>"$term3balance")),
-"Vanfees"=>array("TotalFees"=>$_POST['van_fee_total'],"Feescollected"=>$vanfeescollected,"Balancetopay"=>"$vanbalance"),"Otherfees"=>array("itemname"=>"$itemname","price"=>"$price"));
-$status = json_encode($stats);
-
-$checkstatus = "SELECT * from fee_status WHERE Fee_student_id = $stdid";
-if($result = mysqli_query($dbcon,$checkstatus)){
-  $row   = mysqli_fetch_assoc($result);
-  $sql1;
-  if(mysqli_num_rows($result)>0){
-  $sql1 = "UPDATE fee_status set  `fee_bal_status`='$status' WHERE Fee_student_id = '$stdid'";
-}else{
-    $sql1 = "INSERT into fee_status(`fee_status_id`,`Fee_student_id`,`fee_class`,`fee_acadamic_year`,`fee_bal_status`)
-    values('$fees_id','$stdid','$class','$academic','$status')";
-}
-echo 'blue',mysqli_query($dbcon,$sql1);
-if(mysqli_query($dbcon,$sql1)){
-		header("location:listcollectedfees.php");
-    echo 'success2';
-     } else 
-     { echo 'Error: ' . mysqli_error($dbcon).$sql1;
+ echo 'success';
+		header("location:listcollectedfees.php");   
+     } else { echo 'Error: ' . mysqli_error($dbcon).$sql1;
 		exit; 
 	}
 	die;
-}
 }
 }
 }
@@ -343,9 +191,8 @@ if(mysqli_query($dbcon,$sql1)){
                                                                         echo '<option value="VanFees" selected>VanFees</option>';
                                                                         
                                                                         }
-                                                                        elseif(startsWith($feestype1,'OtherFees')){
-                                                                          echo '<option value="OtherFees" selected>OtherFees</option>';
-                                                                          
+                                                                        elseif(substr($feestype1,0,9) === "OtherFees"){
+                                                                          echo '<option value="OtherFees" selected>OtherFees</option>';                                                                          
                                                                           }
                                                             ?>
                                             </select>
@@ -456,7 +303,7 @@ if(mysqli_query($dbcon,$sql1)){
                                                 preg_match('#\((.*?)\)#', $text, $match);
                                                 $name2 = $match[1];
                                                 include("database/db_conection.php");//make connection here
-                                                $sql = mysqli_query($dbcon, "SELECT * from stockitemmaster");
+                                                $sql = mysqli_query($dbcon, "SELECT * from stockitemmaster where itrmname = '$name2'");
                                                 while ($row = $sql->fetch_assoc()){	
                                                     echo $name=$row['itemname'];                                                                                                      
                                                   if($name2==$name){
@@ -464,7 +311,9 @@ if(mysqli_query($dbcon,$sql1)){
                                                   } else {
                                                       echo '<option value="'.$name.'" >'.$name.'</option>';                                                      
                                                       }
-                                                }                                                                                                                                                                                   
+                                                      
+                                                }
+                                                                                                                                                                                                                                   
                                                ?>
                                               </select>
                                               </td>                                                                                                                                        
