@@ -373,7 +373,7 @@ if(mysqli_query($dbcon,$sql1)){
                                         <th width="12%">class</th>
                                         <th width="12%">Academic Year</th>
                                         <th width="12%">Catogery</th>
-                                        <th width="12%">Amount</th>
+                                        <th style="display:none" width="12%">Amount</th>
                                         <th width="12%">Quantity</th>
                                         <th width="12%">Price</th>
                                         <th><a href="javascript:void(0);" style="font-size:18px;" id="addMore" title="Add More Person">
@@ -396,7 +396,7 @@ if(mysqli_query($dbcon,$sql1)){
                                                 <td><input class="form-control form-control-sm" value="" id="cls"/></td>
                                                 <td><input class="form-control form-control-sm" value="" id="acyear"/></td>
                                                 <td><input class="form-control form-control-sm" value="" id="category"/></td>
-                                                <td><input class="form-control form-control-sm" value="" id="amount"/></td>                                                                                                
+                                                <td style="display:none"><input class="form-control form-control-sm" value="" id="amount"/></td>                                                                                                
                                                 <td><input class="form-control form-control-sm" value="" id="qty" onkeyup="calcamt()" onkeypress="calcamt()"/></td>                                                                                                
                                                 <td><input class="form-control form-control-sm" value="" name="price"id="price"/></td>                                                                                                
                                                 <td><a href='javascript:void(0);'  class='remove'><span class='fa fa-trash'></span><b></b></a></td>
@@ -536,6 +536,8 @@ if(mysqli_query($dbcon,$sql1)){
                       $('#desc').val(vals.description);
                       $('#category').val(vals.category);
                       $('#amount').val(vals.price);   
+                      $('#qty').val(1);   
+                      $('#price').val(vals.price);   
                       $('#std_id').val(id);                
                       $('#admno').val(output.admissionno); 
                   }

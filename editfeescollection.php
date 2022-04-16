@@ -1,10 +1,8 @@
 
 <?php
 include("database/db_conection.php");
-if(isset($_GET['id']))
-{
-	$id=$_GET['id'];	
-
+if(isset($_GET['id'])){
+  $id=$_GET['id'];	
   $itemname ='';
   $price = '';
   $feestype=$_POST['FeesType'];
@@ -28,9 +26,9 @@ if(isset($_GET['id']))
   $feestype = "OtherFees(".$_POST['itemname'].")";
   $amount=$_POST['price'];
 }
+if(isset($_POST['submit'])){
 
 $sql0 = "UPDATE `fees_management`  SET  `fees_paid` = '$amount' WHERE fee_id = '$id'";
-echo 'red',$result = mysqli_query($dbcon,$sql0);
 if(mysqli_query($dbcon,$sql0)){
  echo 'success';
 		header("location:listcollectedfees.php");   
@@ -38,7 +36,6 @@ if(mysqli_query($dbcon,$sql0)){
 		exit; 
 	}
 	die;
-}
 }
 }
 ?>
@@ -169,30 +166,31 @@ if(mysqli_query($dbcon,$sql0)){
                             <label for="inputState"><span class="">Fees Type</span><span class="text-danger">*</span></label>
                                                 <select id="feesType" data-parsley-trigger="change"  class="form-control form-control-sm" onchange="feesfunc()"  name="FeesType">
                                              <option value="">-Select Fees Type-</option>
-                                                <option value="TermFees" >Term Fees</option>
+                                                <!-- <option value="TermFees" >Term Fees</option>
                                                 <option value="VanFees" >Van Fees</option>
                                                 <option value="OtherFees" >Other Fees</option>
-                                                <?php
-                                                if($feestype1=='Term1Fees'){
-                                                            echo '<option value="TermFees" selected>TermFees</option>';
+                                                 -->
+                                                 <?php
+                                                 if($feestype1=='Term1Fees'){
+                                                            echo '<option value="TermFees" onchange="feesfunc()" selected>TermFees</option>';
                                                         } elseif($feestype1=='Term1Fees'){
-                                                            echo '<option value="TermFees" selected>TermFees</option>';
+                                                            echo '<option value="TermFees" onchange="feesfunc()" selected>TermFees</option>';
                                                             
                                                             }
                                                             elseif($feestype1=='Term2Fees'){
-                                                                echo '<option value="TermFees" selected>TermFees</option>';
+                                                                echo '<option value="TermFees" onchange="feesfunc()" selected>TermFees</option>';
                                                                 
                                                                 }
                                                                 elseif($feestype1=='Term3Fees'){
-                                                                    echo '<option value="TermFees" selected>TermFees</option>';
+                                                                    echo '<option value="TermFees" onchange="feesfunc()" selected>TermFees</option>';
                                                                     
                                                                     }
                                                                     elseif($feestype1=='VanFees'){
-                                                                        echo '<option value="VanFees" selected>VanFees</option>';
+                                                                        echo '<option value="VanFees" onchange="feesfunc()" selected>VanFees</option>';
                                                                         
                                                                         }
                                                                         elseif(substr($feestype1,0,9) === "OtherFees"){
-                                                                          echo '<option value="OtherFees" selected>OtherFees</option>';                                                                          
+                                                                          echo '<option value="OtherFees" onchange="feesfunc()" selected>OtherFees</option>';                                                                          
                                                                           }
                                                             ?>
                                             </select>
@@ -228,6 +226,10 @@ if(mysqli_query($dbcon,$sql0)){
                                                         echo $paid;                                                    
                                                     }?>" />
                                                 </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Term 1 paid</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="term1paid" id="term1paid" readonly placeholder=""  class="form-control" autocomplete="off" />
+                                                </div>
                                                 </div>
                                                 <div class="form-row">
                                                 <div class="form-group col-md-6">
@@ -237,6 +239,10 @@ if(mysqli_query($dbcon,$sql0)){
                                                         echo $paid;                                                    
                                                     }?>" />
                                                 </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Term 2 paid</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="term2paid" id="term2paid" readonly placeholder=""   class="form-control" autocomplete="off" />
+                                                </div>
                                                 </div>
                                                 <div class="form-row">
                                                 <div class="form-group col-md-6">
@@ -245,7 +251,11 @@ if(mysqli_query($dbcon,$sql0)){
                                                   <input type="text" class="form-control form-control-sm" name="term3" placeholder=""  class="form-control" autocomplete="off" value="<?php if($feestype1=='Term2Fees'){
                                                         echo $paid;                                                    
                                                     }?>" />
-                                                </div>                                            
+                                                </div>     
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Term 3 paid</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="term3paid" id="term3paid" readonly placeholder=""  class="form-control" autocomplete="off" />
+                                                </div>                                                                  
                                                   </div>
                                                 </div>
                                                 </div>
@@ -261,6 +271,7 @@ if(mysqli_query($dbcon,$sql0)){
                                         <th width="25%">Academic Year</th>
                                         <th width="12%">Area</th>
                                         <th width="20%">Total Fees</th>
+                                        <th width="20%">Van Fees Paid</th>
                                         <th width="25%" >Fees collected</th>
                                     </tr>  
                                     <tr>                                                                                                                                                    
@@ -269,6 +280,7 @@ if(mysqli_query($dbcon,$sql0)){
                                        <td id="stacademic"></td>
                                        <td id="starea"></td>
                                        <td> <input type="text" style="border:none;overflow:none;outline:none;" id="sttotal" name="van_fee_total" /></td>
+                                       <td> <input type="text" style="border:none;overflow:none;outline:none;" id="vanpaid" name="vanpaid" /></td>
                                        <td><input id="van_fee" name="van_fee" value="<?php if($feestype1=='VanFees'){
                                                         echo $paid;                                                    
                                                     }?>" /></td>                                                            
@@ -288,7 +300,7 @@ if(mysqli_query($dbcon,$sql0)){
                                         <th width="12%">class</th>
                                         <th width="12%">Academic Year</th>
                                         <th width="12%">Catogery</th>
-                                        <th width="12%">Amount</th>
+                                        <th style="display:none" width="12%">Amount</th>
                                         <th width="12%">Quantity</th>
                                         <th width="12%">Price</th>
                                         <th><a href="javascript:void(0);" style="font-size:18px;" id="addMore" title="Add More Person">
@@ -299,28 +311,22 @@ if(mysqli_query($dbcon,$sql0)){
                                     <select name="itemcode"  class="form-control form-control-sm itemcode" onchange="changeOtherFees();" id="itemname">
                                                 <option name="" selected>Item Code</option>
                                                 <?php 
-                                                $text = $feestype1;
-                                                preg_match('#\((.*?)\)#', $text, $match);
-                                                $name2 = $match[1];
+                                                  
                                                 include("database/db_conection.php");//make connection here
-                                                $sql = mysqli_query($dbcon, "SELECT * from stockitemmaster where itrmname = '$name2'");
+                                                $sql = mysqli_query($dbcon, "SELECT * from stockitemmaster");
                                                 while ($row = $sql->fetch_assoc()){	
                                                     echo $name=$row['itemname'];                                                                                                      
-                                                  if($name2==$name){
-                                                      echo '<option value="'.$name2.'" selected>'.$name2.'</option>';
-                                                  } else {
                                                       echo '<option value="'.$name.'" >'.$name.'</option>';                                                      
-                                                      }
-                                                      
+                                                                                                            
                                                 }
                                                                                                                                                                                                                                    
-                                               ?>
+                                               ?> 
                                               </select>
                                               </td>                                                                                                                                        
                                                 <td><input class="form-control form-control-sm" value="" id="cls"/></td>
                                                 <td><input class="form-control form-control-sm" value="" id="acyear"/></td>
                                                 <td><input class="form-control form-control-sm" value="" id="category"/></td>
-                                                <td><input class="form-control form-control-sm" value="" id="amount"/></td>                                                                                                
+                                                <td style="display:none"><input class="form-control form-control-sm" value="" id="amount"/></td>                                                                                                                                                                                                
                                                 <td><input class="form-control form-control-sm" value="" id="qty" onkeyup="calcamt()" onkeypress="calcamt()"/></td>                                                                                                
                                                 <td><input class="form-control form-control-sm" value="" name="price"id="price"/></td>                                                                                                
                                                 <td><a href='javascript:void(0);'  class='remove'><span class='fa fa-trash'></span><b></b></a></td>
@@ -403,7 +409,7 @@ if(mysqli_query($dbcon,$sql0)){
 
         }
     }
-      function changevanFees(){
+    function changevanFees(){
         var stname = $('#student').val();
         var stclass = $('#class').val();
        $.ajax({
@@ -417,9 +423,10 @@ if(mysqli_query($dbcon,$sql0)){
                       var cls = output.class;
                       var std = output.std;
                       var academic = output.academicyear;
-                      var area = output.values[0].areaname;
-                      var total = output.values[0].amount;
+                      var area = output.areaname;
+                      var total = output.amount;
                       var id = output.std_id;
+                      var vanpaid = output.vanpaid;
                       console.log(cls,std,total,area);
                        $('#stclass').html(cls);
                        $('#stname').html(std);
@@ -428,7 +435,7 @@ if(mysqli_query($dbcon,$sql0)){
                        $('#sttotal').val(total);                       
                        $('#std_id').val(id);
                        $('#admno').val(output.admissionno);                       
-
+                       $('#vanpaid').val(vanpaid);
                     } 
                 }
             });
@@ -436,7 +443,7 @@ if(mysqli_query($dbcon,$sql0)){
          function changeOtherFees(){
            console.log('otherfees')
         var ofstname = $('#student').val();
-        var ofstclass = $('#class').val();
+        var ofstclass = $('#class').val();  
         var itemna = $('#itemname').val();
        $.ajax({
       url: "workers/getters/otherfees.php?student=" + ofstname+"&class="+ofstclass+"&itemname="+itemna,
@@ -450,18 +457,22 @@ if(mysqli_query($dbcon,$sql0)){
                       var std = output.std;
                       var id = output.std_id;
                       var academic = output.academicyear
-                      console.log(cls,std,academic,output.values);
+                      console.log(cls,std,academic,output.admissionno,output.values);
                       var vals = output.values[0];  
                       $('#cls').val(vals.class);
                       $('#acyear').val(academic);
                       $('#desc').val(vals.description);
                       $('#category').val(vals.category);
-                      $('#amount').val(vals.price);                   
+                      $('#amount').val(vals.price);   
+                      $('#qty').val(1);   
+                      $('#price').val(vals.price);   
+                      $('#std_id').val(id);                
                       $('#admno').val(output.admissionno); 
                   }
                 }
             });
          }
+
          function changeTermFees(){
         var tfstclass = $('#class').val();
         var tfstname = $('#student').val();
@@ -476,11 +487,16 @@ if(mysqli_query($dbcon,$sql0)){
                       console.log(output.values[0].fee_config_amount);
                       var vals = output.values[0];
                       var id = output.std_id;
+                      var name = output.name;
+                      var term1paid = output.term1feespaid;
+                      var term2paid = output.term2feespaid;
+                      var term3paid = output.term3feespaid;
                       var dic = output.dispercent != null ? output.dispercent : 0;
                       var discount = (dic / 100) * vals.fee_config_amount;
                       var totalfee = vals.fee_config_amount - discount;
                       $('#termtotal').val(totalfee);
                       $('#discount').val(dic); 
+                      $('#discountname').val(name);
                       $('#termamount').val(vals.fee_config_amount);    
                         var total = $("#termtotal").val();
                         var term = (total/3);
@@ -489,11 +505,15 @@ if(mysqli_query($dbcon,$sql0)){
                        $("#term2total").val(term);
                        $("#term3total").val(term);     
                        $('#std_id').val(id);
-                       $('#admno').val(output.admissionno);                                                        
+                       $('#admno').val(output.admissionno);
+                       $('#term1paid').val(term1paid);
+                       $('#term2paid').val(term2paid);                                                        
+                       $('#term3paid').val(term3paid);                                                                            
                   }
                 }
             });
          }
+
          $(function(){
          $('#addMore').on('click', function() {
            console.log('clicked');
