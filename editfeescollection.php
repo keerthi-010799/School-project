@@ -1,43 +1,154 @@
 
 <?php
 include("database/db_conection.php");
-if(isset($_GET['id'])){
-  $id=$_GET['id'];	
-  $itemname ='';
-  $price = '';
-  $feestype=$_POST['FeesType'];
-  $amount;
- if($feestype == 'TermFees'){
-  if(isset($_POST['term1'])&& $_POST['term1'] != null){
-    $feestype = 'Term1Fees'; 
-    $amount=$_POST['term1'];  
-   }
-   if(isset($_POST['term2'])&& $_POST['term2'] != null){
-    $feestype = 'Term2Fees';
-    $amount=$_POST['term2'];
-   }
-   if(isset($_POST['term3'])&& $_POST['term3'] != null){
-    $feestype = 'Term3Fees';
-    $amount=$_POST['term3'];
-   }
- }elseif($feestype == 'VanFees'){
-  $amount=$_POST['van_fee'];
- }elseif($feestype == 'OtherFees'){
-  $feestype = "OtherFees(".$_POST['itemname'].")";
-  $amount=$_POST['price'];
-}
-if(isset($_POST['submit'])){
+// if(isset($_GET['id'])){
+//   $id=$_GET['id'];	
+//   $academic='';
+//   $class='';
+//   $student = '';
+//   $admno = '';
+//   $itemname ='';
+//   $price = '';
+//   $feestype='';
+// 	$stdid ='';
+//   $total1 = '';
+//   $total2 = '';
+//   $total3 = '';
+//   $total_amount;
+//   $amount;
+//   $fees_id;
+//   $fee_id;
+//   $term1total= '';
+//   $term2total= '';
+//   $term3total= '';
+//   $vantotal= '';
+//   $term1feescollected = '';
+//   $term2feescollected = '';
+//   $term3feescollected= '';
+//   $vanfeescollected= '';  
+//   $term1balance= '';
+//   $term2balance= '';
+//   $term3balance= '';
+//   $vanbalance= '';
+ 
+//   if($feestype == 'Term1Fees' && isset($_POST['term1total']) && $_POST['term1total'] != null){
+//     $total_amount=$total1;
+//    }
+//    if($feestype == 'Term2Fees' && isset($_POST['term2total'])&& $_POST['term2total'] != null){
+//     $total_amount=$total2;
+//    }
+//    if($feestype == 'Term3Fees' && isset($_POST['term3total'])&& $_POST['term3total'] != null){
+//     $total_amount=$total3;
+//  }elseif($feestype == 'VanFees'){
+//   $total_amount=$_POST['van_fee_total'];
+//  }elseif(substr($feestype,0,9) === "OtherFees"){
+//   $total_amount=$amount;
+//  }
 
-$sql0 = "UPDATE `fees_management`  SET  `fees_paid` = '$amount' WHERE fee_id = '$id'";
-if(mysqli_query($dbcon,$sql0)){
- echo 'success';
-		header("location:listcollectedfees.php");   
-     } else { echo 'Error: ' . mysqli_error($dbcon).$sql1;
-		exit; 
-	}
-	die;
-}
-}
+//   $itemname ='';
+//   $price = '';
+//   $feestype=$_POST['FeesType'];
+//   $amount;
+//  if($feestype == 'TermFees'){
+//   if(isset($_POST['term1'])&& $_POST['term1'] != null){
+//     $feestype = 'Term1Fees'; 
+//     $amount=$_POST['term1'];  
+//    }
+//    if(isset($_POST['term2'])&& $_POST['term2'] != null){
+//     $feestype = 'Term2Fees';
+//     $amount=$_POST['term2'];
+//    }
+//    if(isset($_POST['term3'])&& $_POST['term3'] != null){
+//     $feestype = 'Term3Fees';
+//     $amount=$_POST['term3'];
+//    }
+//  }elseif($feestype == 'VanFees'){
+//   $amount=$_POST['van_fee'];
+//  }elseif($feestype == 'OtherFees'){
+//   $feestype = "OtherFees(".$_POST['itemname'].")";
+//   $amount=$_POST['price'];
+// }
+// if(isset($_POST['submit'])){
+
+// $sql0 = "UPDATE `fees_management`  SET  `fees_paid` = '$amount' WHERE fee_id = '$id'";
+// if(mysqli_query($dbcon,$sql0)){
+//  echo 'success';	
+// }
+// $sqll = "SELECT * FROM fee_status where fee_student_id = $stdid";						                                                                                                        
+//   if ($result = mysqli_query($dbcon,$sqll)){
+//   $row = mysqli_fetch_assoc($result);	
+//   if(mysqli_num_rows($result)>0){
+//   $date=$row['fee_bal_status'];	
+//   $s = json_decode($date,true);
+//   print_r($s,true);
+//   $term1feestotal = $s["Termfees"]["Term1"]["TotalFees"];
+//   $term1feescollected = $s["Termfees"]["Term1"]["Feescollected"];
+//   $term1balance = $s["Termfees"]["Term1"]["Balancetopay"];
+//   $term2feestotal = $s["Termfees"]["Term2"]["TotalFees"];
+//   $term2feescollected = $s["Termfees"]["Term2"]["Feescollected"];
+//   $term2balance = $s["Termfees"]["Term2"]["Balancetopay"];
+//   $term3feestotal = $s["Termfees"]["Term3"]["TotalFees"];
+//   $term3feescollected = $s["Termfees"]["Term3"]["Feescollected"];
+//   $term3balance = $s["Termfees"]["Term3"]["Balancetopay"];
+//   $vanfeestotal = $s["Vanfees"]["TotalFees"];
+//   $vanfeescollected = $s["Vanfees"]["Feescollected"];
+//   $vanbalance = $s["Vanfees"]["Balancetopay"];
+//   $itemname =  $s["Otherfees"]["itemname"];
+//   $price =  $s["Otherfees"]["price"];            
+// } 
+// }
+//   $sq = "SELECT SUM(fees_paid) AS Totalcollected,fee_type,fee_total_amt FROM fees_management WHERE fee_student_id = '$stdid' AND fee_type = '$feestype'";
+// if($result = mysqli_query($dbcon,$sq)){
+//   $row = mysqli_fetch_assoc($result);
+//   if(mysqli_num_rows($result)>0){
+//     $totalfeess =$row['fee_total_amt'];
+//     $feetype = $row['fee_type'];
+//     $totalcollected = $row['Totalcollected'];
+//    if($feetype == 'Term1Fees'){
+//     $term1feestotal = $totalfeess; 
+//     $term1feescollected=$totalcollected;
+//     $term1balance = $term1feestotal - $term1feescollected;        
+//   }elseif($feetype == 'Term2Fees'){
+//     $term2feestotal = $totalfeess;
+//     $term2feescollected=$totalcollected;
+//     $term2balance = $term2feestotal - $term2feescollected;
+//    }elseif($feetype == 'Term3Fees'){
+//     $term3feestotal = $totalfeess;
+//     $term3feescollected=$totalcollected;
+//     $term3balance = $term3feestotal - $term3feescollected;    
+//    }elseif($feetype == 'VanFees'){
+//     $vanfeestotal = $totalfeess;                                                                                                                                 
+//     $vanfeescollected = $totalcollected;
+//     $vanbalance = $vanfeestotal - $vanfeescollected;
+//   }elseif(substr($feetype,0,9) === "OtherFees"){
+//     $length = strlen($feetype);
+//     $r = $length-11;
+//     $item = substr($feetype,10,$r);
+//     $itemname = $item;
+//     $price =  $totalcollected;
+//   }
+// }
+// }
+// $stats = array("Termfees"=>array("Term1"=>array("TotalFees"=>$term1feestotal,"Feescollected"=>$term1feescollected,"Balancetopay"=>"$term1balance"),
+// "Term2"=>array("TotalFees"=>$term2feestotal,"Feescollected"=>$term2feescollected,"Balancetopay"=>"$term2balance"),
+// "Term3"=>array("TotalFees"=>$term3feestotal,"Feescollected"=>$term3feescollected,"Balancetopay"=>"$term3balance")),
+// "Vanfees"=>array("TotalFees"=>$vanfeestotal,"Feescollected"=>$vanfeescollected,"Balancetopay"=>"$vanbalance"),"Otherfees"=>array("itemname"=>"$itemname","price"=>"$price"));
+// $status = json_encode($stats);
+
+
+//   $sql1 = "UPDATE fee_status set  `fee_bal_status`='$status' WHERE Fee_student_id = '$stdid'";
+// if(mysqli_query($dbcon,$sql1)){
+// 		header("location:listcollectedfees.php");
+//     echo 'success2';
+//     echo $sql1;
+//      } else 
+//      { echo 'Error: ' . mysqli_error($dbcon).$sql1;
+// 		exit; 
+// 	}
+// 	die;
+// }
+// }
+
 ?>
 <?php include('header.php');?>
 
@@ -513,6 +624,51 @@ if(mysqli_query($dbcon,$sql0)){
                 }
             });
          }
+         $("form#feescollect").submit(function(e){                     
+var $form = $("#feescollect");
+var rowCount = $('#tbl tr').length;
+            var inv_items = [];
+            var changed_row_qty = false
+            var  changed_item_select =[];
+
+            for(i=1;i<rowCount;i++){ 
+                var item_select = $('#tbl tr').eq(i).find('#itemname').val();               
+                var rwprice = $('#tbl tr').eq(i).find('#price').val();
+                var inv_items_ele = {
+                    itemname : item_select,                    
+                    rwprice : rwprice,                    
+                };
+
+                inv_items[i-1]=inv_items_ele;
+
+            }
+            var data = getFormData($form);
+            function getFormData($form){
+                var unindexed_array = $form.serializeArray();
+                var indexed_array = {};
+
+                $.map(unindexed_array, function(n, i){
+                        indexed_array[n['name']] = n['value'];                    
+                });
+
+                return indexed_array;
+            }
+data.inv_items = JSON.stringify(inv_items);
+console.log(data);
+$.ajax ({
+                    url: 'workers/getters/collectingfees.php',
+                    type: 'post',
+                    data: {
+                        array : JSON.stringify(data),
+                    },
+                    dataType: 'json',
+                    success:function(response){
+                        location.href="listcollectedfees.php";
+                    }
+
+                });
+});
+
 
          $(function(){
          $('#addMore').on('click', function() {

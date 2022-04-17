@@ -34,8 +34,6 @@ if (isset($_GET['itemcodeId'])) {
         $return['values']=$values;
         $return['admissionno'] = $admno;
         $return['std_id'] = $std_id;
-
-
     }else{
         $return['status']=false;
         $return['error']=mysqli_error($dbcon);
