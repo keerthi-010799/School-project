@@ -18,8 +18,8 @@ if(isset($_POST['array'])){
     $total3 = $data['term3total'];
     $total_amount;
     $amount;
-    $fees_id;
-    $fee_id;
+    $fees_id= $data['id'];
+    $fee_id ;
     $term1feestotal= '';
     $term2feestotal= '';
     $term3feestotal= '';
@@ -86,25 +86,8 @@ echo 'test3',$sum;
    }elseif(substr($feestype,0,9) === "OtherFees"){
     $total_amount=$amount;
    }
-   $sql="SELECT MAX(fee_id) as id FROM fees_management ORDER BY id DESC";
-    if($result = mysqli_query($dbcon,$sql)){
-   	$row   = mysqli_fetch_assoc($result);
-   	if(mysqli_num_rows($result)>0){
-  		 	$maxid = $row['id'];
-   	 	$maxid += 1;
-   	$fees_id= $maxid;
-     $rec = 'INV-'.$maxid;
-   	 }
-  	 else{
-  		$maxid = 0;
-  		$maxid += 1;
-  		 $fees_id = $maxid;
-       $rec = 'INV-'.$maxid;
-  	}
-   }
-  $date = date("m/d/Y");
-  $sql0 = "INSERT INTO `fees_management`(`fee_id`,`fee_class`,`fee_type`,`fee_student_id`,`fee_total_amt`,`fee_academic_year`, `fees_paid`,`fee_status`,`fee_admission_no`,`reciept_no`,`collected_date`) 
-  VALUES ('$fees_id','$class','$feestype','$stdid','$total_amount','$academic','$amount','Created','$admno','$rec','$date')";
+
+  $sql0 = "UPDATE `fees_management` SET `fee_type`='$feestype',`fees_paid` ='$amount',`fee_total_amt`='$total_amount' WHERE fee_id = $fees_id";
   
   if(mysqli_query($dbcon,$sql0)){
    echo 'success1';

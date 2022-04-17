@@ -1,188 +1,4 @@
 
-<?php
-include("database/db_conection.php");
-// if(isset($_POST['submit'])){
-//   $academic=$_POST['academic'];
-//   $class=$_POST['class'];
-//   $student = $_POST['student'];
-//   $admno = $_POST['admno'];
-//   $itemname ='';
-//   $price = '';
-//   $feestype=$_POST['FeesType'];
-// 	$stdid = $_POST['std_id'];
-//   $total1 = $_POST['term1total'];
-//   $total2 = $_POST['term2total'];
-//   $total3 = $_POST['term3total'];
-//   $total_amount;
-//   $amount;
-//   $fees_id;
-//   $fee_id;
-//   $term1total= '';
-//   $term2total= '';
-//   $term3total= '';
-//   $vantotal= '';
-//   $term1feescollected = '';
-//   $term2feescollected = '';
-//   $term3feescollected= '';
-//   $vanfeescollected= '';  
-//   $term1balance= '';
-//   $term2balance= '';
-//   $term3balance= '';
-//   $vanbalance= '';
-//  if($feestype == 'TermFees'){
-//   if(isset($_POST['term1'])&& $_POST['term1'] != null){
-//     $feestype = 'Term1Fees'; 
-//     $amount=$_POST['term1'];  
-//    }
-//    if(isset($_POST['term2'])&& $_POST['term2'] != null){
-//     $feestype = 'Term2Fees';
-//     $amount=$_POST['term2'];
-//    }
-//    if(isset($_POST['term3'])&& $_POST['term3'] != null){
-//     $feestype = 'Term3Fees';
-//     $amount=$_POST['term3'];
-//    }
-//  }elseif($feestype == 'VanFees'){
-//   $amount=$_POST['van_fee'];
-//  }elseif($feestype == 'OtherFees'){
-//   $feestype = "OtherFees(".$_POST['itemname'].")";
-//   $amount=$_POST['price'];
-// }
-
-//  if($feestype == 'Term1Fees' && isset($_POST['term1total']) && $_POST['term1total'] != null){
-//     $total_amount=$total1;
-//    }
-//    if($feestype == 'Term2Fees' && isset($_POST['term2total'])&& $_POST['term2total'] != null){
-//     $total_amount=$total2;
-//    }
-//    if($feestype == 'Term3Fees' && isset($_POST['term3total'])&& $_POST['term3total'] != null){
-//     $total_amount=$total3;
-//  }elseif($feestype == 'VanFees'){
-//   $total_amount=$_POST['van_fee_total'];
-//  }elseif(substr($feestype,0,9) === "OtherFees"){
-//   $total_amount=$amount;
-//  }
-//  $sql="SELECT MAX(fee_id) as id FROM fees_management ORDER BY id DESC";
-//   if($result = mysqli_query($dbcon,$sql)){
-//  	$row   = mysqli_fetch_assoc($result);
-//  	if(mysqli_num_rows($result)>0){
-// 		 	$maxid = $row['id'];
-//  	 	$maxid += 1;
-//  	$fees_id= $maxid;
-//    $rec = 'INV-'.$maxid;
-//  	 }
-// 	 else{
-// 		$maxid = 0;
-// 		$maxid += 1;
-// 		 $fees_id = $maxid;
-//      $rec = 'INV-'.$maxid;
-// 	}
-//  }
-// $date = date("m/d/Y");
-// $sql0 = "INSERT INTO `fees_management`(`fee_id`,`fee_class`,`fee_type`,`fee_student_id`,`fee_total_amt`,`fee_academic_year`, `fees_paid`,`fee_status`,`fee_admission_no`,`reciept_no`,`collected_date`) 
-// VALUES ('$fees_id','$class','$feestype','$stdid','$total_amount','$academic','$amount','Created','$admno','$rec','$date')";
-// if(mysqli_query($dbcon,$sql0)){
-//  echo 'success1';
-// }
-// $sqll = "SELECT * FROM fee_status where fee_student_id = $stdid";						                                                                                                        
-//   if ($result = mysqli_query($dbcon,$sqll)){
-//   $row = mysqli_fetch_assoc($result);	
-//   if(mysqli_num_rows($result)>0){
-//   $date=$row['fee_bal_status'];	
-//   $s = json_decode($date,true);
-//   print_r($s,true);
-//   $term1feestotal = $s["Termfees"]["Term1"]["TotalFees"];
-//   $term1feescollected = $s["Termfees"]["Term1"]["Feescollected"];
-//   $term1balance = $s["Termfees"]["Term1"]["Balancetopay"];
-//   $term2feestotal = $s["Termfees"]["Term2"]["TotalFees"];
-//   $term2feescollected = $s["Termfees"]["Term2"]["Feescollected"];
-//   $term2balance = $s["Termfees"]["Term2"]["Balancetopay"];
-//   $term3feestotal = $s["Termfees"]["Term3"]["TotalFees"];
-//   $term3feescollected = $s["Termfees"]["Term3"]["Feescollected"];
-//   $term3balance = $s["Termfees"]["Term3"]["Balancetopay"];
-//   $vanfeestotal = $s["Vanfees"]["TotalFees"];
-//   $vanfeescollected = $s["Vanfees"]["Feescollected"];
-//   $vanbalance = $s["Vanfees"]["Balancetopay"];
-//   $itemname =  $s["Otherfees"]["itemname"];
-//   $price =  $s["Otherfees"]["price"];            
-// } 
-// }
-//   $sq = "SELECT SUM(fees_paid) AS Totalcollected,fee_type,fee_total_amt FROM fees_management WHERE fee_student_id = '$stdid' AND fee_type = '$feestype'";
-// if($result = mysqli_query($dbcon,$sq)){
-//   $row = mysqli_fetch_assoc($result);
-//   if(mysqli_num_rows($result)>0){
-//     $totalfeess =$row['fee_total_amt'];
-//     $feetype = $row['fee_type'];
-//     $totalcollected = $row['Totalcollected'];
-//    if($feetype == 'Term1Fees'){
-//     $term1feestotal = $totalfeess; 
-//     $term1feescollected=$totalcollected;
-//     $term1balance = $total_amount - $term1feescollected;        
-//   }elseif($feetype == 'Term2Fees'){
-//     $term2feestotal = $totalfeess;
-//     $term2feescollected=$totalcollected;
-//     $term2balance = $total_amount - $term2feescollected;
-//    }elseif($feetype == 'Term3Fees'){
-//     $term3feestotal = $totalfeess;
-//     $term3feescollected=$totalcollected;
-//     $term3balance = $total_amount - $term3feescollected;    
-//    }elseif($feetype == 'VanFees'){
-//     $vanfeestotal = $totalfeess;                                                                                                                                 
-//     $vanfeescollected = $totalcollected;
-//     $vanbalance = $total_amount - $vanfeescollected;
-//   }elseif(substr($feetype,0,9) === "OtherFees"){
-//     $length = strlen($feetype);
-//     $r = $length-11;
-//     $item = substr($feetype,10,$r);
-//     $itemname = $item;
-//     $price =  $totalcollected;
-//   }
-// }
-// }
-// $sq0="SELECT MAX(fee_status_id) as id FROM fee_status ORDER BY fee_status_id DESC";
-// if($result3 = mysqli_query($dbcon,$sq0)){
-//  $row3   = mysqli_fetch_assoc($result3);
-//  if(mysqli_num_rows($result3)>0){
-//      $maxid = $row3['id'];
-//     $maxid += 1;
-//  $fee_id= $maxid;
-//   }
-//  else{
-//   $maxid = 0;
-//   $maxid += 1;
-//    $fee_id = $maxid;
-// }
-// }
-
-// $stats = array("Termfees"=>array("Term1"=>array("TotalFees"=>$term1feestotal,"Feescollected"=>$term1feescollected,"Balancetopay"=>"$term1balance"),
-// "Term2"=>array("TotalFees"=>$term2feestotal,"Feescollected"=>$term2feescollected,"Balancetopay"=>"$term2balance"),
-// "Term3"=>array("TotalFees"=>$term3feestotal,"Feescollected"=>$term3feescollected,"Balancetopay"=>"$term3balance")),
-// "Vanfees"=>array("TotalFees"=>$vanfeestotal,"Feescollected"=>$vanfeescollected,"Balancetopay"=>"$vanbalance"),"Otherfees"=>array("itemname"=>"$itemname","price"=>"$price"));
-// $status = json_encode($stats);
-
-
-// $checkstatus = "SELECT * from fee_status WHERE Fee_student_id = $stdid";
-// if($result = mysqli_query($dbcon,$checkstatus)){
-//   $row = mysqli_fetch_assoc($result);
-//   $sql1;
-//   if(mysqli_num_rows($result)>0){
-//   $sql1 = "UPDATE fee_status set  `fee_bal_status`='$status' WHERE Fee_student_id = '$stdid'";
-// }else{
-//     $sql1 = "INSERT into fee_status(`fee_status_id`,`Fee_student_id`,`fee_class`,`fee_acadamic_year`,`fee_bal_status`)
-//     values('$fee_id','$stdid','$class','$academic','$status')";
-// }
-// if(mysqli_query($dbcon,$sql1)){
-// 	//	header("location:listcollectedfees.php");
-//     echo 'success2';
-//     echo $sql1;
-//      } else 
-//      { echo 'Error: ' . mysqli_error($dbcon).$sql1;
-// 		exit; 
-// 	}
-// 	die;
-// }
-// }
-// ?>
 <?php include('header.php');?>
 
 <div class="content-page">
@@ -244,13 +60,7 @@ include("database/db_conection.php");
                                                     ?>
                                                 </select>
                                 </div>
-                                                </div>                                                                
-                    
-                                                <?php 
-                                                echo " <script>var r = $('#class').val();
-                                                console.log('red');
-                                                </script>";                                   
-                              ?>
+                                                </div>                                                                                    
                 <div class="form-row">
                             <div class="form-group col-md-6">
                              
@@ -302,34 +112,46 @@ include("database/db_conection.php");
                                                   <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 1</span><span class="text-danger">*</span></label>                                        
-                                                  <input type="text" style="width:300px" class="form-control form-control-sm" name="term1total" id="term1total" readonly placeholder=""  class="form-control" autocomplete="off" />
-                                                  <input type="text" style="width:300px"class="form-control form-control-sm" name="term1" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
+                                                  <input type="text" style="width:200px" class="form-control form-control-sm" name="term1total" id="term1total" readonly placeholder=""  class="form-control" autocomplete="off" />
+                                                  <input type="text" style="width:200px"class="form-control form-control-sm" name="term1" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 1 paid</span><span class="text-danger">*</span></label>                                        
                                                   <input type="text" style="width:100px" class="form-control form-control-sm" name="term1paid" id="term1paid" readonly placeholder=""  class="form-control" autocomplete="off" />
                                                 </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Term 1 balance</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="term1balance" id="term1balance" readonly placeholder=""  class="form-control" autocomplete="off" />
+                                                </div>
                                                 </div>
                                                 <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 2</span><span class="text-danger">*</span></label>                                 
-                                                  <input type="text" style="width:300px" class="form-control form-control-sm" name="term2total" id="term2total" readonly placeholder=""  class="form-control" autocomplete="off" />       
-                                                  <input type="text" style="width:300px" class="form-control form-control-sm" name="term2" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
+                                                  <input type="text" style="width:200px" class="form-control form-control-sm" name="term2total" id="term2total" readonly placeholder=""  class="form-control" autocomplete="off" />       
+                                                  <input type="text" style="width:200px" class="form-control form-control-sm" name="term2" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 2 paid</span><span class="text-danger">*</span></label>                                        
                                                   <input type="text" style="width:100px" class="form-control form-control-sm" name="term2paid" id="term2paid" readonly placeholder=""   class="form-control" autocomplete="off" />
                                                 </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Term 2 balance</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="term2balance" id="term2balance" readonly placeholder=""  class="form-control" autocomplete="off" />
+                                                </div>
                                                 </div>
                                                 <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 3</span><span class="text-danger">*</span></label>                                 
-                                                  <input type="text" style="width:300px" class="form-control form-control-sm" name="term3total" id="term3total" readonly placeholder=""  class="form-control" autocomplete="off" />       
-                                                  <input type="text" style="width:300px" class="form-control form-control-sm" name="term3" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
+                                                  <input type="text" style="width:200px" class="form-control form-control-sm" name="term3total" id="term3total" readonly placeholder=""  class="form-control" autocomplete="off" />       
+                                                  <input type="text" style="width:200px" class="form-control form-control-sm" name="term3" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
                                                 </div>                 
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 3 paid</span><span class="text-danger">*</span></label>                                        
                                                   <input type="text" style="width:100px" class="form-control form-control-sm" name="term3paid" id="term3paid" readonly placeholder=""  class="form-control" autocomplete="off" />
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Term 3 balance</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="term3balance" id="term3balance" readonly placeholder=""  class="form-control" autocomplete="off" />
                                                 </div>                           
                                                   </div>
                                                 </div>
@@ -347,6 +169,7 @@ include("database/db_conection.php");
                                         <th width="12%">Area</th>
                                         <th width="20%">Total Fees</th>
                                         <th width="20%">Van Fees Paid</th>
+                                        <th width="20%">Van Fees Balance</th>
                                         <th width="25%" >Fees collected</th>
                                     </tr>  
                                     <tr>                                                                                                                                                    
@@ -356,6 +179,7 @@ include("database/db_conection.php");
                                        <td id="starea"></td>
                                        <td> <input type="text" style="border:none;overflow:none;outline:none;" id="sttotal" name="van_fee_total" /></td>
                                        <td> <input type="text" style="border:none;overflow:none;outline:none;" id="vanpaid" name="vanpaid" /></td>
+                                       <td> <input type="text" style="border:none;overflow:none;outline:none;" id="vanbalance" name="vanbalance" /></td>
                                        <td><input id="van_fee" placeholder="Enter Amount" name="van_fee"/></td>                                                            
                                     </tr>
                                                 </table>
@@ -365,8 +189,7 @@ include("database/db_conection.php");
                                                   <div id="otherfeesform" style="display:none">  
                                                   <div class="form-row">
                                                   <div class="form-group col-md-6">
-                                                  <label for="inputState"><span class="">Other Fees</span><span class="text-danger">*</span></label>
-                                                 
+                                                  <label for="inputState"><span class="">Other Fees</span><span class="text-danger">*</span></label>                                                
                                                   <table style="width: 1000px;" class="table table-hover small-text" id="tbl">
                                     <tr class="tr-header">
                                         <th width="12%">Item Name</th>
@@ -397,7 +220,7 @@ include("database/db_conection.php");
                                                 <td><input class="form-control form-control-sm" value="" id="acyear"/></td>
                                                 <td><input class="form-control form-control-sm" value="" id="category"/></td>
                                                 <td style="display:none"><input class="form-control form-control-sm" value="" id="amount"/></td>                                                                                                
-                                                <td><input class="form-control form-control-sm" value="" id="qty" onkeyup="calcamt(this)" onkeypress="calcamt()"/></td>                                                                                                
+                                                <td><input class="form-control form-control-sm" value="" id="qty" onkeyup="calcamt(this)" onkeypress="calcamt(this)"/></td>                                                                                                
                                                 <td><input class="form-control form-control-sm" value="" name="price"id="price"/></td>                                                                                                
                                                 <td><a href='javascript:void(0);'  class='remove'><span class='fa fa-trash'></span><b></b></a></td>
                                               </tr>                                    
@@ -501,6 +324,7 @@ include("database/db_conection.php");
                       var total = output.amount;
                       var id = output.std_id;
                       var vanpaid = output.vanpaid;
+                      var vanbalance = total-vanpaid;
                       console.log(cls,std,total,area);
                        $('#stclass').html(cls);
                        $('#stname').html(std);
@@ -510,6 +334,8 @@ include("database/db_conection.php");
                        $('#std_id').val(id);
                        $('#admno').val(output.admissionno);                       
                        $('#vanpaid').val(vanpaid);
+                       $('#vanbalance').val(vanbalance);
+
                     } 
                 }
             });
@@ -542,8 +368,8 @@ include("database/db_conection.php");
             $(ele).closest('tr').find('#amount').val(vals.price);   
             $(ele).closest('tr').find('#qty').val(1);   
             $(ele).closest('tr').find('#price').val(vals.price);
-            $(ele).closest('tr').find('#std_id').val(id);                
-            $(ele).closest('tr').find('#admno').val(output.admissionno); 
+            $('#std_id').val(id);                
+            $('#admno').val(output.admissionno); 
                   }
                 }
             });
@@ -584,7 +410,14 @@ include("database/db_conection.php");
                        $('#admno').val(output.admissionno);
                        $('#term1paid').val(term1paid);
                        $('#term2paid').val(term2paid);                                                        
-                       $('#term3paid').val(term3paid);                                                                            
+                       $('#term3paid').val(term3paid);
+                       var term1balance = term-term1paid;
+                       var term2balance = term-term2paid;
+                       var term3balance = term-term3paid;   
+                       $('#term1balance').val(term1balance);
+                       $('#term2balance').val(term2balance);
+                       $('#term3balance').val(term3balance);
+                                                                         
                   }
                 }
             });
@@ -612,7 +445,8 @@ include("database/db_conection.php");
                   }
                 });
 }
-$("form#feescollect").submit(function(e){                     
+$("form#feescollect").submit(function(e){    
+  e.preventDefault();                 
 var $form = $("#feescollect");
 var rowCount = $('#tbl tr').length;
             var inv_items = [];
@@ -649,11 +483,10 @@ $.ajax ({
                     data: {
                         array : JSON.stringify(data),
                     },
-                    dataType: 'json',
                     success:function(response){
-                        location.href="listcollectedfees.php";
+                      console.log(response);
+                        window.location.href="listcollectedfees.php";
                     }
-
                 });
 });
 $(function(){
