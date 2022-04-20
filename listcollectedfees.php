@@ -215,6 +215,8 @@
 <script>
             var page_classwise = "<?php if(isset($_GET['classwise'])){ echo $_GET['classwise']; } ?>";
     var page_studentwise = "<?php if(isset($_GET['studentwise'])){ echo $_GET['studentwise']; } ?>";
+    var page_st = "<?php if(isset($_GET['st'])){ echo $_GET['st']; } ?>";
+    var page_end = "<?php if(isset($_GET['end'])){ echo $_GET['end']; } ?>";
 
 
     $(document).ready(function() {
@@ -324,7 +326,7 @@
             .appendTo( '#po_reports_div');
     });
         function search_filter(){
-				var st = '';
+		var st = '';
         var end = '';
         var date_range_val = $('#daterange').val();
         if(date_range_val!=''){

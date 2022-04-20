@@ -205,7 +205,7 @@ $sql="SELECT MAX(id) as latest_id FROM studentsdiscount ORDER BY id DESC";
 
                                 <div class="form-group col-md-8 ">
                                     <label for="inputState"><span class="">Select Category</span><span class="text-danger">*</span></label>
-                                         <select required id="category" data-parsley-trigger="change"  class="form-control form-control-sm"  name="category" >
+                                         <select required id="category" data-parsley-trigger="change"  class="form-control form-control-sm" onchange="getpercentage();" name="category" >
                                              
                                              <!--select multiple name="academic" class="form-control form-control-sm" -->
                                                     <!--option value="">-Select Academic-</option-->
@@ -222,20 +222,9 @@ $sql="SELECT MAX(id) as latest_id FROM studentsdiscount ORDER BY id DESC";
 												</div>
                                                 <div class="form-group col-md-8">
                                         <label for="discountpercentage">Select Dicount Percentage </label>
-                                        <select id="discountpercentage"  class="form-control select2"  required name="discountpercentage" autocomplete="off">
-                                            <option selected>-Select student -</option>
-                                            <?php 
-                                            include("database/db_conection.php");//make connection here
-                                            $sql = mysqli_query($dbcon, "SELECT discountpercentage,category FROM category order by id DESC");
-                                            while ($row = $sql->fetch_assoc()){	
-                                                echo $category=$row['category'];
-                                                echo $percentage=$row['discountpercentage'];
-                                             //   echo $class=$row['class'];
-                                              //  echo '<option onchange="'.$row[''].'" value="'.$admissionno.'" >'.$name.'</option>';
-                                              echo '<option  value="'.$percentage.'" >'.$percentage.' '.$category.' </option>';
-                                            }
-                                            ?>
-                                        </select>                                        
+                                        <input type="text" class="form-control form-control-sm" readonly
+                                        id="discountpercentage" placeholder="Discount Percentage" class="form-control "  required name="discountpercentage"/>
+                                        
                                                 </div>
                                         </div>
                             
@@ -265,13 +254,26 @@ $sql="SELECT MAX(id) as latest_id FROM studentsdiscount ORDER BY id DESC";
                                 <select name="discountpercentage" id="discountpercentage">
                                     <option>------- Select --------</option></select>
                                  </div-->
-                                            
-                                                		
-								    <div class="form-row">
-                                                <div class="form-group col-md-8">
-									  <label >Approved by<span class="text-danger">*</span></label>
-									  <input type="text" class="form-control form-control-sm" placeholder="Enter Name of the person" name="approvedby" required/>
-										</div>
+                                 <div class="form-row">   
+                                 <div class="form-group col-md-8">
+                                        <label for="approvedby">Select Approved By</label>
+                                        <select id="approvedby"  class="form-control select2"  required name="approvedby" autocomplete="off">
+                                            <option selected>-Select student -</option>
+                                            <?php 
+                                            include("database/db_conection.php");//make connection here
+                                            $sql = mysqli_query($dbcon, "SELECT concat(firstname,' ',lastname) as empname from employees WHERE designation ='Trustee' 
+                                            order by id DESC");
+                                            while ($row = $sql->fetch_assoc()){	
+                                            //    echo $empid=$row['empid'];
+                                                echo $ename=$row['empname'];
+                                             //   echo $class=$row['class'];
+                                               echo '<option onchange="'.$row[''].'" value="'.$ename.'" >'.$ename.'</option>';
+                                            //  echo '<option  value="'.$empid.'" >'.$empid.' '.$ename.' </option>';
+                                            }
+                                            ?>
+                                        </select>                                        
+                                                </div>                                           		
+								    
                                 </div>    
 										
 								    <div class="form-row">
@@ -324,6 +326,25 @@ $(document).ready(function() {
 	<!-- END content-page -->
 	<!-- BEGIN Java Script for this page -->
 <script src="assets/plugins/select2/js/select2.min.js"></script>
+<script>
+    function getpercentage(){
+        var category = $('#category').val();
+        console.log('cat',category);
+        $.ajax ({
+                    url: "workers/setters/discount.php?category=" +category,
+                    type: 'post',
+                    success:function(res){
+                      var output = JSON.parse(res);
+                          if(output.status){
+                              var vals = output.values;
+                              console.log(vals[0]);
+                             $('#discountpercentage').val(vals[0].discountpercentage);      
+                            }                                          
+                    
+                  }
+                });
+    }
+</script>
 <script>                                
 $(document).ready(function() {
     $('.select2').select2();

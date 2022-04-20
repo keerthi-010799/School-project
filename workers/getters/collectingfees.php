@@ -1,6 +1,6 @@
 <?php
 include("../../database/db_conection.php");
-
+session_start();
 if(isset($_POST['array'])){
     $array = $_POST['array'];
     $data = json_decode($array,true);
@@ -114,8 +114,8 @@ echo 'test3',$sum;
     if ($result = mysqli_query($dbcon,$sqll)){
     $row = mysqli_fetch_assoc($result);	
     if(mysqli_num_rows($result)>0){
-    $date=$row['fee_bal_status'];	
-    $s = json_decode($date,true);
+    $dat=$row['fee_bal_status'];	
+    $s = json_decode($dat,true);
     print_r($s,true);
     $term1feestotal = $s["Termfees"]["Term1"]["TotalFees"];
     $term1feescollected = $s["Termfees"]["Term1"]["Feescollected"];
@@ -185,8 +185,7 @@ echo 'test3',$sum;
   "Term3"=>array("TotalFees"=>$term3feestotal,"Feescollected"=>$term3feescollected,"Balancetopay"=>"$term3balance")),
   "Vanfees"=>array("TotalFees"=>$vanfeestotal,"Feescollected"=>$vanfeescollected,"Balancetopay"=>"$vanbalance"),"Otherfees"=>array("itemname"=>"$itemname","price"=>"$price"));
   $status = json_encode($stats);
-  
-  
+    
   $checkstatus = "SELECT * from fee_status WHERE Fee_student_id = $stdid";
   if($result = mysqli_query($dbcon,$checkstatus)){
     $row = mysqli_fetch_assoc($result);
@@ -200,12 +199,66 @@ echo 'test3',$sum;
   }
   if (mysqli_query($dbcon,$sql1)) {
     echo 'success2';
+
+       
+                          $sq3="SELECT closingbalance FROM `instprofile`";
+                          if($resul = mysqli_query($dbcon,$sq3)){
+                           $ro4   = mysqli_fetch_assoc($resul);
+                           if(mysqli_num_rows($resul)>0){
+                           $csbal = $ro4['closingbalance'];
+                          }
+                          }
+                          $closingbal = $csbal + $amount;
+
+                          $userid = $_SESSION['userid'];
+													$sq1 = "select username from userprofile where id='$userid'";
+													$resut = mysqli_query($dbcon, $sq1);
+													$rs = mysqli_fetch_assoc($resut);
+                          $handler = $rs['username'];
+
+    $sql3="SELECT MAX(trans_id) as id FROM `transactions` ORDER BY trans_id DESC";
+    if($result4 = mysqli_query($dbcon,$sql3)){
+     $row4   = mysqli_fetch_assoc($result4);
+     if(mysqli_num_rows($result4)>0){
+      $prefix = "TRN-";   
+      $maxid = intval(substr($row4['id'],4));
+      $maxid += 1;
+      $tnsid = $maxid;
+     $tranid= $prefix.$maxid;
+      }
+     else{
+      $prefix = "TRN-";
+      $maxid = 0;
+      $maxid += 1;
+      $tnsid = $maxid;
+       $tranid = $prefix.$maxid;
+    }
+    }
+    $date1 = date("Y-m-d");
+  
+$sql2 = "INSERT into `transactions`(id,trans_id,trans_details,trans_type,trans_amt,trans_date,total_closing_bal,trans_handler) VALUES ('$tnsid','$tranid','$feestype','Credit','$amount','$date1','$closingbal','$handler')";
+if (mysqli_query($dbcon,$sql2)) {
+  echo 'success33';
+}else{
+  echo mysqli_error($dbcon);
+
+}
+
+$sql02 = "UPDATE `instprofile` set closingbalance = $closingbal";
+	if (mysqli_query($dbcon,$sql02)) {
+	  echo 'success cls bal';
+	  
+	}else{
+	  echo mysqli_error($dbcon);
+	}
+    
     $return['status']=true;
        } else { 
         $return['status']=false;
         $return['error']=mysqli_error($dbcon);  		
   	}
 
+    
 }
   echo json_encode($return);
   

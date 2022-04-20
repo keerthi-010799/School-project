@@ -182,7 +182,7 @@ if(isset($_POST['stuProfEdit']))
                                 <div class="form-row">
                                 <div class="form-group col-md-7">
                                        <label for="category">Discount Category<span class="text-danger">*</span></label>
-                                                <select id="category" onchange="onlocode(this)"   class="form-control form-control-sm" name="category">
+                                                <select id="category" onchange="getpercentage();"   class="form-control form-control-sm" name="category">
                                                     <?php 
                                                     include("database/db_conection.php");//make db connection here
 
@@ -204,32 +204,48 @@ if(isset($_POST['stuProfEdit']))
                                                    
                                     <div class="form-group col-md-7">
                                     <label for="category">Discount Percentage<span class="text-danger">*</span></label>
-                                                <select  id="category" onchange="onlocode(this)"  class="form-control form-control-sm" name="discountpercentage">
-                                                    <?php 
+                                                        <?php 
                                                     include("database/db_conection.php");//make connection here
 
                                                     $sql = mysqli_query($dbcon, "SELECT id,discountpercentage FROM category");
                                                     while ($row = $sql->fetch_assoc()){	
-                                                        echo $percentage_get=$row['discountpercentage'];
-                                                        echo $academic_get=$row['id'];
+                                                         $percentage_get=$row['discountpercentage'];
+                                                         $academic_get=$row['id'];
                                                         if($academic_get==$discountpercentage){
-                                                            echo '<option value="'.$percentage_get.'" selected>'.$percentage_get.'</option>';
+                                                             $percentage_get;
                                                         } else {
-                                                            echo '<option value="'.$percentage_get.'" >'.$percentage_get.'</option>';
+                                                            $percentage_get;                                                            
+                                                            }
+                                                        }
+                                                    ?>
+                                                <input type="text" class="form-control form-control-sm" readonly
+                                        id="discountpercentage" placeholder="Discount Percentage" class="form-control " value="<?php echo $percentage_get;?>" required name="discountpercentage"/>        
+                                </div>
+                                               
+
+                               
+                                    <div class="form-group col-md-7">
+                                 
+                                    <label for="inputState">Discount Approved By<span class="text-danger">*</span></label>
+                                                <select  id="approvedby" onchange="onlocode(this)"  readonly class="form-control form-control-sm" name="approvedby">
+                                                    <?php 
+                                                    include("database/db_conection.php");//make connection here
+
+                                                    $sql = mysqli_query($dbcon, "SELECT concat(firstname,' ',lastname) as ename 
+                                                     FROM employees where designation = 'Trustee'");
+                                                    while ($row = $sql->fetch_assoc()){	
+                                                        echo $enameget=$row['ename'];
+                                                        if($enameget==$ename){
+                                                            echo '<option value="'.$enameget.'" selected>'.$enameget.'</option>';
+                                                        } else {
+                                                            echo '<option value="'.$enameget.'" >'.$enameget.'</option>';
                                                             
                                                             }
                                                         }
                                                     ?>
                                                 </select>
                                 </div>
-                                               
-
-                               
-                                    <div class="form-group col-md-7">
-                                        <label>Discount Approved By<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-sm" name="approvedby" required class="form-control" value="<?php echo $approvedby;?>" />        
-                                    </div>
-                                </div>
+                                                    </div>
 
 								 
                                     
@@ -275,7 +291,25 @@ if(isset($_POST['stuProfEdit']))
 	<!--?php include('footer.php'); ?-->
 
 <!-- END main -->
-
+<script>
+    function getpercentage(){
+        var category = $('#category').val();
+        console.log('cat',category);
+        $.ajax ({
+                    url: "workers/setters/discount.php?category=" +category,
+                    type: 'post',
+                    success:function(res){
+                      var output = JSON.parse(res);
+                          if(output.status){
+                              var vals = output.values;
+                              console.log(vals[0]);
+                             $('#discountpercentage').val(vals[0].discountpercentage);      
+                            }                                          
+                    
+                  }
+                });
+    }
+    </script>
 
 </body>
 </html>
