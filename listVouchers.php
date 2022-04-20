@@ -103,7 +103,7 @@
                                         <script>
 										        function ToPrint(el){
 												var code= $(el).attr('data-code');
-												window.location.href = 'assets/voucherPrint.php?id='+code; 
+												window.location.href = 'voucherPrint.php?id='+code; 
                                               }
 
                                             function delete_record(x)

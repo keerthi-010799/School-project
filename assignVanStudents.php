@@ -185,7 +185,7 @@ while ($ro = $sq->fetch_assoc()){
                                <div class="form-row">
                                     <div class="form-group col-md-8">
                                         <label for="inputState"><span class="">Pickup Route</span><span class="text-danger"></span></label>
-                                                <select  id="routeno" onchange="onlocode(this)"  class="form-control select2" name="routeno">
+                                                <select  id="routeno" onchange="onlocode(this)"  class="form-control form-control-sm " name="routeno">
                                                     <option value="">-Select Route#-</option>
                                                     <?php 
                                                     include("database/db_conection.php");//make connection here

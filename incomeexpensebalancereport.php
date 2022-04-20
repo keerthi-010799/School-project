@@ -1,41 +1,6 @@
 <?php include('header.php'); ?>
 	<!-- End Sidebar -->
-    <style>
-* {
-  box-sizing: border-box;
-}
-
-.row {
-  margin-left:-5px;
-  margin-right:-5px;
-}
-  
-.column {
-  float: left;
-  width: 50%;
-  padding: 5px;
-}
-
-/* Clearfix (clear floats) */
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-  border: 1px solid #ddd;
-}
-
-th, td {
-  text-align: left;
-  padding: 16px;
-}
-</style>
-
+   
 
     <div class="content-page">
 	
@@ -91,10 +56,14 @@ th, td {
 									<tr>	
                                     <thead>
 											<tr>
-												<th>#</th>												
-												<th>Feesname</th>
+												<th>Id</th>												
+												<th>TransId</th>
 												<th>Date</th>
-												<th>Credit</th>												
+												<th>Details</th>
+                                                <th>Credit</th>
+                                                <th>Debit</th>	
+                                                <th>Payment Mode</th>												
+                                                <th>Closing Balance</th>	
 											</tr>
 										</thead>										
 										<tbody>																				
@@ -128,116 +97,44 @@ th, td {
 												// 		$sql.=" and s.fee_student_id='$studentwise'";    
 												// 	}													                                                   
 												// 	}else{
-													$sql = "SELECT fee_id,fee_type,collected_date,fees_paid FROM fees_management";
+													$sql = "SELECT * FROM transactions";
 													//}
 													$result = mysqli_query($dbcon,$sql);
 													
 													if ($result->num_rows > 0){
 													while ($row =$result-> fetch_assoc()){																				
 														echo "<tr>";
-                                                        echo '<td>' .$row['fee_id'] . '</td>';
-													echo '<td>' .$row['fee_type'] . '</td>';
-													echo '<td>'.$row['collected_date'].' </td>';
-													echo '<td>'.$row['fees_paid'].' </td>';													
+                                                        echo '<td>' .$row['id'] . '</td>';
+													echo '<td>' .$row['trans_id'] . '</td>';
+													echo '<td>'.$row['trans_date'].' </td>';
+                                                    echo '<td>'.$row['trans_details'].' </td>';																										                                                   
+													echo '<td>'.$row['trans_type'].' </td>';	
+                                                    echo '<td>'.$row['trans_type'].' </td>';
+                                                    echo '<td>'.$row['trans_amt_total'].' </td>';													
+													echo '<td>'.$row['trans_closing_bal'].' </td>';													
 													echo "</tr>";
 													}
 													}
-                                                    $sq = "SELECT sum(fees_paid) as totalfee from fees_management";
-                                                    $resul = mysqli_query($dbcon,$sq);													
-													if ($resul->num_rows > 0){
-													while ($ro =$resul-> fetch_assoc()){
-                                        echo "<input type='hidden' id='totfe' value=".$ro['totalfee']."/>";																				
                                                     }
                                                 }
 													?>																																										
-														</tbody>
-														<tfoot>
-                                            <tr>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-											</tr>
-                                        </tfoot>
-                                        </table>
-                                                </div>
-                                                <div class="column">
-                                            <table class="table table-bordered table-hover display" style="overflow-x:hidden;">
-                                            <thead>
-											<tr>
-												<th>Payee</th>												
-												<th>Date</th>
-												<th>Debit</th>																								
-											</tr>
-										</thead>										
-										<tbody>
+														
 																				
-											<?php
-												
-													include("database/db_conection.php");//make connection here
-												// 	if((isset($_GET['st'])&&$_GET['st']!='')||
-												// 	(isset($_GET['end'])&&$_GET['end']!='')||
-												// 	(isset($_GET['classwise']) && $_GET['classwise']!=='')||
-												// 	(isset($_GET['studentwise'])&&$_GET['studentwise']!='')){
-												// $timestamp = strtotime($_GET['st']);
-                                                // $st = date('m/d/Y', $timestamp);
-                                                // $timestamp = strtotime($_GET['end']);
-                                                // $end = date('m/d/Y', $timestamp);
-												// 		$classwise = $_GET['classwise'];
-												// 		$studentwise = $_GET['studentwise'];
-												// 		$sql = "SELECT sum(amount) as totalexpense,payee,amount,createdon FROM recordexpense";										                                            
-												// 		if($_GET['st']!=''){
-												// 			if($st==$end){
-												// 				$sql.= " and s.collected_date='$st' ";   
-												// 			}else{
-												// 				$sql.=" and (s.collected_date BETWEEN '$st' AND '$end') ";   
-												// 			}
-												// 		}
-												// 		if(isset($_GET['classwise'])&&$_GET['classwise']!=''){
-	
-												// 		$sql.=" and s.fee_class='".$_GET['classwise']."'";    
-												// 	}
-												// 	if(isset($_GET['studentwise'])&&$_GET['studentwise']!=''){
-	
-												// 		$sql.=" and s.fee_student_id='$studentwise'";    
-												// 	}													                                                   
-												// 	}else{
-													$sql = "SELECT payee,amount,createdon FROM recordexpense";
-													//}
-													$result = mysqli_query($dbcon,$sql);													
-													if ($result->num_rows > 0){
-													while ($row =$result-> fetch_assoc()){																				
-														echo "<tr>";
-													echo '<td>' .$row['payee'] . '</td>';
-													echo '<td>'.$row['amount'].' </td>';
-													echo '<td>'.$row['createdon'].' </td>';
-                                                    echo "</tr>";
-                                                    
-                                                    }
-                                                }
-                                                $sq1 = "SELECT sum(amount) as totalexpense from recordexpense";
-                                                $resul1 = mysqli_query($dbcon,$sq1);													
-                                                if ($resul1->num_rows > 0){
-                                                while ($ro1 =$resul1-> fetch_assoc()){
-                                                    echo '<input type="hidden" id="totex" value='.$ro1['totalexpense'].'/>';                                                }
-                                            }
-												?>
 														</tbody>
 														<tfoot>
                                             <tr>
                                                 <th></th>
                                                 <th></th>
-                                                <th></th>                                        
+                                                <th></th> 
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>  
+                                                <th></th>
+                                                <th></th>                                                                                       
 											</tr>
                                         </tfoot>                                                
 														</table>
 														</div>
-
-                                                        <div class="card-header">
-                                <span class="pull-right">
-                                    Closing Balance:<input id="closingbalance"/>											
-										</span>
-								
-									</div>
                                             </div>
                                             </div>
 														

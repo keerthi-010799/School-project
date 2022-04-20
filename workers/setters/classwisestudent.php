@@ -20,7 +20,7 @@ function sql_fetch_all($result){
 
     $results_array = array();
     while ($row = $result->fetch_assoc()) {
-        $results_array[] = $row['firstname'];
+        $results_array[] = $row;
     }
     $values = $results_array;
     return $values;

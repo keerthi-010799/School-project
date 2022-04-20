@@ -95,8 +95,7 @@ include('workers/getters/functions.php');
                                             <tr>
                                             <th>#</th>												
 												<th>Class</th>
-												<th>Academic Year</th>
-												<th>Admission No </th>
+												<th>ADMIN# </th>
                                                 <th>Student</th>
 												<th id='term1feestotal' style="display:">term1 Total Fees</th>
                                                 <th id='term1feespaid' style="display:">term1 Fees Paid</th>
@@ -152,7 +151,6 @@ include('workers/getters/functions.php');
                                                 echo "<tr>";
                                                 echo '<td>' .$row['fee_status_id'] . '</td>';
                                                 echo '<td>'.$row['fee_class'].' </td>';
-                                                echo '<td>'.$row['fee_acadamic_year'].' </td>';
                                                 $result1 = mysqli_query($dbcon,"SELECT * FROM studentprofile WHERE id = $sid");													
                                                 if ($result1->num_rows > 0){
                                                 while ($row1 =$result1-> fetch_assoc()){	
@@ -183,7 +181,6 @@ include('workers/getters/functions.php');
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th></th>
                                                 <th></th>
                                                 <th></th>
                                                 <th></th>
@@ -252,6 +249,7 @@ include('workers/getters/functions.php');
         var date_range = $('#daterange').val(); 
     });   
         $(document).ready(function() {
+            var feesType = $('#feesname').val();
         var table = $('#po_reports').DataTable( {
             lengthChange: false,
             "footerCallback": function ( row, data, start, end, display ) {
@@ -262,86 +260,107 @@ include('workers/getters/functions.php');
                     typeof i === 'number' ?
                         i : 0;
                 };
-                var grossval = api
-                .column( 5 )
+                var term1feestotal = api
+                .column( 4 , { search: 'applied'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 ).toFixed(2);
 
-                var grossvalStockQty = api
-                .column( 6 )
+                var term1feespaid = api
+                .column( 5 , { search: 'applied'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 ).toFixed(2);
-                var stockOnHand = api
-                .column( 7 )
+                var term1feesbalance = api
+                .column( 6 , { search: 'applied'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 ).toFixed(2);
-                var stockOnHanda = api
-                .column( 8 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 ).toFixed(2);
-                var stockOnHandb = api
-                .column( 9 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 ).toFixed(2);
-                var stockOnHandc = api
-                .column( 10 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 ).toFixed(2);
-                var stockOnHandd = api
-                .column( 11 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 ).toFixed(2);
-                var stockOnHande = api
-                .column( 12 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 ).toFixed(2);
-                var stockOnHandf = api
-                .column( 13 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 ).toFixed(2);
-                var stockOnHandg = api
-                .column( 14 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 ).toFixed(2);
-                var stockOnHandh = api
-                .column( 15 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 ).toFixed(2);
+                // var term2feestotal = api
+                // .column( 7 , { search: 'applied'} )
+                // .data()
+                // .reduce( function (a, b) {
+                //     return intVal(a) + intVal(b);
+                // }, 0 ).toFixed(2);
+                // var term2feespaid = api
+                // .column( 8 , { search: 'applied'} )
+                // .data()
+                // .reduce( function (a, b) {
+                //     return intVal(a) + intVal(b);
+                // }, 0 ).toFixed(2);
+                // var term2feesbalance = api
+                // .column( 9 , { search: 'applied'} )
+                // .data()
+                // .reduce( function (a, b) {
+                //     return intVal(a) + intVal(b);
+                // }, 0 ).toFixed(2);
+                // var term3feestotal = api
+                // .column( 10 , { search: 'applied'} )
+                // .data()
+                // .reduce( function (a, b) {
+                //     return intVal(a) + intVal(b);
+                // }, 0 ).toFixed(2);
+                // var term3feespaid = api
+                // .column( 11 , { search: 'applied'} )
+                // .data()
+                // .reduce( function (a, b) {
+                //     return intVal(a) + intVal(b);
+                // }, 0 ).toFixed(2);
+                // var term3feesbalance = api
+                // .column( 12 , { search: 'applied'} )
+                // .data()
+                // .reduce( function (a, b) {
+                //     return intVal(a) + intVal(b);
+                // }, 0 ).toFixed(2);
+                // var vanfeestotal = api
+                // .column( 13 , { search: 'applied'} )
+                // .data()
+                // .reduce( function (a, b) {
+                //     return intVal(a) + intVal(b);
+                // }, 0 ).toFixed(2);
+                // var vanfeespaid = api
+                // .column( 14 , { search: 'applied'} )
+                // .data()
+                // .reduce( function (a, b) {
+                //     return intVal(a) + intVal(b);
+                // }, 0 ).toFixed(2);
+                // var vanfeesbalance = api
+                // .column( 15 , { search: 'applied'} )
+                // .data()
+                // .reduce( function (a, b) {
+                //     return intVal(a) + intVal(b);
+                // }, 0 ).toFixed(2);
+              
+                // var otherfeestotal = api
+                // .column( 17 , { search: 'applied'} )
+                // .data()
+                // .reduce( function (a, b) {
+                //     return intVal(a) + intVal(b);
+                // }, 0 ).toFixed(2);                
                 
                 $( api.column( 0 ).footer() ).html('Total');
-                $( api.column( 5 ).footer() ).html(grossval);
-                $( api.column( 6 ).footer() ).html(grossvalStockQty);
-                $( api.column( 7 ).footer() ).html(stockOnHand);
-                $( api.column( 8 ).footer() ).html(stockOnHanda);
-                $( api.column( 9 ).footer() ).html(stockOnHandb);
-                $( api.column( 10 ).footer() ).html(stockOnHandc);
-                $( api.column( 11 ).footer() ).html(stockOnHandd);
-                $( api.column( 12 ).footer() ).html(stockOnHande);
-                $( api.column( 13 ).footer() ).html(stockOnHandf);
-                $( api.column( 14 ).footer() ).html(stockOnHandg);
-                $( api.column( 15 ).footer() ).html(stockOnHandh);
+            // if(feesType == 'Test' || feesType == "Term1Fees"){
+                $( api.column( 4 ).footer() ).html(term1feestotal);
+                $( api.column( 5 ).footer() ).html(term1feespaid);
+                $( api.column( 6 ).footer() ).html(term1feesbalance);
+            // }else if(feesType == "Term2Fees"){
+            //     $( api.column( 7 ).footer() ).html(term2feestotal);
+            //     $( api.column( 8 ).footer() ).html(term2feespaid);
+            //     $( api.column( 9 ).footer() ).html(term2feesbalance);
+            // }else if(feesType == "Term3Fees"){
+            //     $( api.column( 10 ).footer() ).html(term3feestotal);
+            //     $( api.column( 11 ).footer() ).html(term3feespaid);
+            //     $( api.column( 12 ).footer() ).html(term3feesbalance);
+            // }else if(feesType == "VanFees"){
+            //     $( api.column( 13 ).footer() ).html(vanfeestotal);
+            //     $( api.column( 14 ).footer() ).html(vanfeespaid);
+            //     $( api.column( 15 ).footer() ).html(vanfeesbalance);
+            // }else if(feesType == "OtherFees"){    
+            //     $( api.column( 17 ).footer() ).html(otherfeestotal);                
+            // }
 
             },
             buttons: [
@@ -354,7 +373,7 @@ include('workers/getters/functions.php');
                         $(win.document.body)
                             .css( 'font-size', '10pt' )
                             .prepend(
-                            '<p><img src="<?php echo $baseurl;?>assets/images/dhirajLogo.png" style="width:50px;height:50px;" /></p><p class="lead text-center"><b>Fees Status</b><br/></p></div>'
+                            '<p><img src="assets/images/schoollogo.jpeg" style="width:50px;height:50px;" /></p><p class="lead text-center"><b>Fees Status</b><br/></p></div>'
                         );
 
                         $(win.document.body).find( 'table' )

@@ -2,6 +2,7 @@
 <?php
 include("database/db_conection.php");//make connection here
 $message ='';
+//$admnoFound ='';
 	if (isset($_POST["submit"])) {
     
 	// $fileName = $_FILES["file"]["tmp_name"];
@@ -20,9 +21,8 @@ $message ='';
 					 $class =mysqli_real_escape_string($dbcon,$data[3]);
 					 $routeno =mysqli_real_escape_string($dbcon,$data[4]);
 					 $areaname =mysqli_real_escape_string($dbcon,$data[5]);
-					 $vanflag =mysqli_real_escape_string($dbcon,$data[6]);
-					 //$vanfees =mysqli_real_escape_string($dbcon,$data[5]);
-				 
+					 $amount =mysqli_real_escape_string($dbcon,$data[6]);
+					
 				 $query = "INSERT INTO  vanstudents( 
 				  academic,
 					 admissionno,
@@ -30,17 +30,55 @@ $message ='';
 					 class,
 					 routeno ,
 					 areaname,
-					 vanflag )
-					 VALUES('$academic','$admissionno','$studentname','$class','$routeno','$areaname','$vanflag')";
+					 amount 
+					 )
+					 VALUES('$academic','$admissionno','$studentname','$class','$routeno','$areaname','$amount')";
 					   mysqli_query($dbcon,$query);
+					   
 				 }
+				
 					fclose($handle) ;
-			 //print "Import Done";
-			//  echo "<script>alert('Import done');</script>";
+			
 			$message = " Van Students Imported Successfully";
 		 }
 	 }
+	 
  }
+
+ if(isset($_POST["submit"]))
+{
+  $file =$_POST['file'];
+ 
+ 
+echo $filename=$_FILES["file"]["name"];
+$ext=substr($filename,strrpos($filename,"."),(strlen($filename)-strrpos($filename,".")));
+ 
+//we check,file must be have csv extention
+if($ext=="csv")
+{
+  $file = fopen($filename, "r");
+         while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
+         {
+            $sql = "INSERT INTO  vanstudents( 
+				academic,
+				   admissionno,
+				   studentname,
+				   class,
+				   routeno ,
+				   areaname,
+				   amount 
+				   ) values('$emapData[0]','$emapData[1]','$emapData[2]','$emapData[3]','$emapData[4]','$emapData[5]','$emapData[6]')";
+            mysqli_query($con, $sql);
+         }
+         fclose($file);
+         echo "CSV File has been successfully Imported.";
+}
+else {
+    echo "Error: Please Upload only CSV File";
+}
+ 
+ 
+}
  ?>
 
 
@@ -73,6 +111,7 @@ $message ='';
 
 							<div class="card-header">
 							<h3><p class="text-success"><?php echo $message;?></p> </h3>
+						
 								
 								
 										<span class="pull-right">

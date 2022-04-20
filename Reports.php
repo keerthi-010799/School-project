@@ -202,63 +202,62 @@
                                 <tbody>
                                     <!-- foreach ($order->lineItems as $line) or some such thing here -->
                                     <tr>
-                                        <td><a href="VendorPayablesReports.php">
-                                            <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Vendor Balances Report
+                                        <td><a href="incomeexpensebalancereport.php">
+                                            <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Collection Balance Students Balance Sheet 
                                             </a>&nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="Vendor/Supplier Payments Outstanding Report."></i>
                                         </td>
 
                                         <td>
-                                            <a href="CustomerReceivablesReports.php">
-                                                <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Customer Balances Report                                        
+                                            <a href="listcollectedfees.php">
+                                                <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Fees Collection Report                                      
                                             </a>&nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="Customer Outstanding Report."></i>
                                         </td>
+                                        
+                                       
                                     </tr>
 
 
-                                    <tr>
+                                    <!--tr>
                                         <td>
-                                            <a href="VendorPaymentsReports.php">
-                                                <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Payments Made Report</a>&nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="Vendor/Suplier Payments Paid Report."></i>
+                                            <a href="feestatus.php">
+                                                <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Fees Payment Status Report</a>&nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="Vendor/Suplier Payments Paid Report."></i>
                                             </a>
                                         </td>
 
                                         <td class="text-left">
-                                            <a href="PaymentsRecievedReports.php">
-                                                <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i>&nbsp;Sales By Customer </a>
-                                        </td>
+                                            <a href="feestatus.php">
+                                                <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i>&nbsp;Fees Payment Status Report </a>
+                                        </td-->
 
 
 
-                                    </tr>
-
-                                    <tr>
-                                        <td><a href="listDebitNotes.php">
-                                            <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Debit Notes</td>
-
-                                        <td class="text-left"><a href="listCreditNotes.php">
-                                            <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Credit Notes Deatils</a>
-                                        </td>
-                                    </tr>
+                                    </tr-->
 
                                     <tr>
+                                        <!--td><a href="listDebitNotes.php">
+                                            <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Debit Notes</td-->
+                                            
+                                    </tr>
+
+                                    <!--tr>
                                         <td><a href="VendorCreditsReports.php">
                                             <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Vendor Credits
                                             History</a> &nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="Vendor Advance Credits Transaction History Report."></i></td>
                                         <td><a href="PaymentsRecievedReports.php">
                                             <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Customer Payments Made</a>&nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="Customer Payments Received Report."></i></td>
-                                    </tr>
+                                    </tr-->
 
                                     <tr>
                                         <td><a href="listVendorRefunds.php">
-                                            <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Refund History</td>
+                                            <!--i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Refund History</td-->
                                             
                                             <td>
-                                            <a href="salesItemwiseReport.php">
-                                                <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Sales Itemwise Report                                        
+                                            <a href="feestatus.php">
+                                                <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Fees Payment Status Report                                     
                                             </a>&nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="Customer Outstanding Report."></i>
                                         </td>
 
-                                    </tr>
+                                    </tr-->
 
 
 

@@ -27,11 +27,20 @@ function get_student_gendercountf(){
     return mysqli_num_rows($exc_q);
 }
 
-function get_grn_count(){
+function get_fees_collection(){
     global $dbcon;
-    $sql_q = "select id from grn_notes where grn_status='Recorded'";
-    $exc_q = mysqli_query($dbcon,$sql_q)or die("Error");
-    return mysqli_num_rows($exc_q);
+    $sql_q = "SELECT sum(fees_paid) as feespaid  FROM `fees_management` WHERE collected_date = CURDATE()";
+        $exc_q = mysqli_query($dbcon,$sql_q)or die("Error");
+        $row=mysqli_fetch_assoc($exc_q);
+        echo $row['feespaid']?$row['feespaid']:0;
+}
+
+function get_expenses(){
+    global $dbcon;
+    $sql_q = "SELECT sum(amount) as amount  FROM `recordexpense` WHERE createdon = CURDATE()";
+        $exc_q = mysqli_query($dbcon,$sql_q)or die("Error");
+        $row=mysqli_fetch_assoc($exc_q);
+        echo $row['amount']?$row['amount']:0;
 }
 
 function get_so_count(){
@@ -174,18 +183,18 @@ where inv_payment_status!='Paid' and inv_status='Approved' and DATE_ADD(inv_date
 				      </div>
 				 </div>
 
-                <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
+                <!--div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
 				    <div class="card-box noradius noborder bg-danger">
 				        <h6> <i class="fa fa-send-o bigfonts float-right text-white"></i></h6>
 				        <h4 class="text-white text-uppercase m-b-20">SMS Available</h4>
                          <h6 class="text-white"><?php  print_r(get_users_count());?></h6>
-				         <!--span class="text-white">Credits Available:<?php  print_r(get_users_count());?></span-->
+				         <!--span class="text-white">Credits Available:<?php  print_r(get_users_count());?></span>
 				     </div>
 				     </div>
-				</div>
+				</div-->
 				<!-- end row -->   
-            <hr>
-            <div class="row">
+            
+            <!--div class="row"-->
              <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
 				   <div class="card-box noradius noborder bg-danger">
                        <h1> <i class="fa fa-bell-o float-right text-white"></i></h1>
@@ -194,21 +203,26 @@ where inv_payment_status!='Paid' and inv_status='Approved' and DATE_ADD(inv_date
 				            <!--span class="text-white"><?php  print_r(get_users_count());?> New Users</span-->
 				      </div>
                 </div>
-				  
+				<hr>  
             <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
-				    <div class="card-box noradius noborder bg-info">
-								<h4 class="m-b-20 text-white counter">Topper:<?php echo get_student_count();?></h4>
-                            <span class="m-b-20 text-white counter">Name: <?php echo get_student_gendercountm();?></span><br>
-                            <span class="text-white">Class: <?php echo get_student_gendercountf();?></span>&nbsp;&nbsp;<br>
-                        <span class="text-white">Exam: <?php echo get_student_gendercountf();?></span>
+            <div class="card-box noradius noborder bg-purple">
+                      
+				         <h5 class="text-white text-uppercase m-b-20">Today's Collection</h5>
+								<h4 class="m-b-20 float-center text-white counter">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;<?php echo get_fees_collection();?></h4>
+                           
 				    </div>
 				</div>
                 <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
-				    <div class="card-box noradius noborder bg-warning">
-                    <h6 class="m-b-20 text-white counter text-white"><a href="PaymentsRecievedReports.php" style="color:white">Receipts:&nbsp;&nbsp;</a><?php echo get_users_count();?></h6>
-                        <h6 class="m-b-20 text-white counter">Expenses:&nbsp;<?php echo get_users_count();?></h6>
-                            <h6 class="m-b-20 text-white counter">Bank Deposit:&nbsp;<?php echo get_users_count();?></h6>
-                            <h6 class="text-white">Cash on Hand:&nbsp;<?php echo get_users_count();?></h6>
+				    <div class="card-box noradius noborder bg-danger">
+                    <h5 class="text-white text-uppercase m-b-20">Today's Expenses</h5>
+
+                    <h4 class="m-b-20 float-center text-white counter">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;<?php echo  get_expenses();?></h4>
+                           
+                    
+                      
+                            
 				    </div>
 				</div>
                 

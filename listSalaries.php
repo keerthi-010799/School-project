@@ -29,7 +29,7 @@
 								<div class="card-header">
 								
 										<span class="pull-right">
-										<a href="assignSaraly.php" class="btn btn-primary btn-sm"><i class="fa fa-user-plus" aria-hidden="true"></i>
+										<a href="assignSalary.php" class="btn btn-primary btn-sm"><i class="fa fa-user-plus" aria-hidden="true"></i>
 										Assign Salary </a></span>
 										
 									<h3><i class="fa fa-th-list bigfonts" aria-hidden="true"></i>&nbsp;List Salaries</h3>

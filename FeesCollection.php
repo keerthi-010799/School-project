@@ -65,7 +65,7 @@
                             <div class="form-group col-md-6">
                              
                                     <label for="student"><span class="">Students</span><span class="text-danger">*</span></label>
-                                         <select required id="student" data-parsley-trigger="change"  class="form-control form-control-sm"  name="student" >
+                                         <select required id="student" data-parsley-trigger="change"  class="form-control form-control-sm select2"  name="student" >
                                          <option value="0" selected>Select Student</option>
                                                     <?php
                                                     ?>
@@ -438,7 +438,7 @@
                               console.log(vals[0]);
                               for(var i=0;i<vals.length;i++){
                                 console.log(vals[i]);
-                             var new_option ='<option value="'+vals[i]+'">'+vals[i]+'</option>';
+                             var new_option ='<option value="'+vals[i].firstname+'">'+'['+vals[i].admissionno+']'+vals[i].firstname+vals[i].lastname+'</option>';
                              $('#student').append(new_option);      
                             }                                          
                     }

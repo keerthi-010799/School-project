@@ -81,10 +81,10 @@ if(isset($_POST['stuProfEdit']))
                                             $id=$_GET['id'];
 
                                             //selecting data associated with this particular id
-                                            $result = mysqli_query($dbcon, "SELECT concat(s.firstname,' ',s.lastname) name,
-                                            s.class,v.academic,v.admissionno,
-                                            v.vanflag,v.routeno,v.areaname
-                                            FROM vanstudents v,studentprofile s WHERE v.id=$id");
+                                            $result = mysqli_query($dbcon, "SELECT studentname,
+                                            class,academic,admissionno,
+                                            vanflag,routeno,areaname
+                                            FROM vanstudents  WHERE id=$id");
                                             while($res = mysqli_fetch_array($result))
                                             {
 												$academic =	$res['academic'];
@@ -92,7 +92,7 @@ if(isset($_POST['stuProfEdit']))
                                                 $routeno 	 =	$res['routeno'];
                                                 $areaname 	 =	$res['areaname'];                                           
 												$vanflag 	 =	$res['vanflag'];
-                                                $name 	 =	$res['name'];
+                                                $name 	 =	$res['studentname'];
                                                 $class 	 =	$res['class'];
 											
                                             }

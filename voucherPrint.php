@@ -48,7 +48,7 @@
 								
 
 								<?php
-											include("../database/db_conection.php");//make connection here
+											include("database/db_conection.php");//make connection here
  
 											if(isset($_GET['id']))
 											{
@@ -77,24 +77,30 @@
 													
 												}
 											}
-												
+							$sql3 = "SELECT * from instprofile";
+    						$result3 = mysqli_query($dbcon,$sql3);
+    						$row3 = $result3-> fetch_assoc();												
 											?>	
-												<div class="row">
-												<div class="invoice-title text-left mb-12">
-													<img src="../assets/images/logo3.png">
-												</div>
-													<div class="col-md-12">
-														<div class="invoice-title text-center mb-8">
-														<h2>Jayavasavi Matriculation Hr. Sec. School</h2>
-														<p>Alangayam-635701,Vaniyambadi-District
-														<b> <br>Mobile:&nbsp;91- 7010439399 &nbsp;Email:&nbsp;jvms4education@gmail.com</small></b></p>
+													
+													<div><h3 > 
+        <div style="text-align:left"><img  style="position:absolute" src=<?php echo $row3['image']; ?> width="100px" height="100px"/>  </div>
+       <div style="text-align:center;margin-left:40px;color:#8B008B"><?php echo $row3['instname'] ?> </h3>
+       <div style="margin-top:-15px;margin-left:40px;text-align:center">
+       <?php echo $row3['address']; ?><br/>
+                        <?php echo $row3['city']; ?>-<?php echo $row3['zip']; ?>&nbsp;
+                        <br/>
+                        <b>Mob#:&nbsp;</b><?php echo $row3['mobile']; ?>,<?php echo $row3['workphone']; ?> <br/>
+                        <b>E-mail:&nbsp;</b><?php echo $row3['email'];?><br/>
+        </h3>
+        </div>
+        <br/>
 															<h3>Payment Voucher Receipt</h3>
 															<!--strong>Receipt Date:</strong> <?php echo $date;?>-->
 														</div>
 														<hr>
 												<div class="row">
 															<div class="col-md-6">					
-																<address>											
+																<address>											 
 																<h5>Payee Details:</h5>
 																	<b>Name:&nbsp;&nbsp;</b><?php echo $payee;?><br>
 																	<b>Payee Type:&nbsp;&nbsp;</b><?php echo $payeetype;?><br>
