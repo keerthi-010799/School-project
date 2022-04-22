@@ -4,14 +4,8 @@ include("database/db_conection.php");//make connection here
 if(isset($_POST['FeesConfigEdit']))
 { 
     $feesId = $_POST['feesId'];
-	var_dump($_POST);
-	extract($_POST);
-    $updatefeesconfig = "UPDATE `feesconfig` SET `class` = '".$class."',
-											`feesname` = '".$feesname."',
-											`amount` = '".$amount."',
-											`duedate` = '".$duedate."',
-											`status` = '".$status."'
-										WHERE `id` = ".$feesId;
+    $amount = $_POST['amount'];
+    $updatefeesconfig = "UPDATE `feesconfig` SET `fee_config_amount` = $amount WHERE fee_config_id = '$feesId'";
 
     if(mysqli_query($dbcon,$updatefeesconfig))
     {
@@ -84,7 +78,7 @@ if(isset($_POST['FeesConfigEdit']))
 													$academic = $res['fee_config_academic_year'];													
 													$class = $res['fee_config_class'];
 													$feesname = $res['fee_config_name'];													
-													$amount = $res['fee_config_amount'];
+													$amount1 = $res['fee_config_amount'];
 													$duedate = $res['fee_config_duedate'];
 													$status = $res['fee_config_status'];
 													
@@ -120,49 +114,39 @@ if(isset($_POST['FeesConfigEdit']))
                                                 </select>
                                 </div>
                                 </div>
+
+                                
                                  <div class="form-row">
                                     <div class="form-group col-md-4">
-                                    <label for="inputState">Fees Head<span class="text-danger"></span></label>
+                                    <label for="inputState">Fees Name<span class="text-danger"></span></label>
                                                 <select  id="feesname" onchange="onlocode(this)"  class="form-control form-control-sm" name="feesname">
                                                     <?php 
-                                                    include("database/db_conection.php");//make connection here
-
-                                                    $sql = mysqli_query($dbcon, "SELECT feesname FROM feesconfig");
-                                                    while ($row = $sql->fetch_assoc()){	
-                                                        echo $feesname_get=$row['feesname'];
-                                                        if($feesname_get==$feesname){
-                                                            echo '<option value="'.$feesname_get.'" selected>'.$feesname_get.'</option>';
-                                                        } else {
-                                                            echo '<option value="'.$feesname_get.'" >'.$feesname_get.'</option>';
-                                                            
-                                                            }
-                                                        }
+                                                            echo '<option value="termfees" selected>termfees</option>';
                                                     ?>
                                                 </select>
                                 </div>
                                     <div class="form-group col-md-5">
                                         <label>Amount<span class="text-danger"></span></label>
-                                        <input type="text" class="form-control form-control-sm" name="amount" value="<?php echo $amount;?>" /> 
+                                        <input  type="text" class="form-control form-control-sm" id="amount" name="amount" onblur="addfees()" value="<?php echo $amount1;?>" /> 
                                     </div>         
 									<div class="form-group col-md-5">
                                         <label>Duedate</label>
                                         <input type="date" class="form-control form-control-sm" name="duedate" value="<?php echo $duedate;?>" /> 
 										</div>   									
 									</div>
-                                    
-                                    
-                                   
-                                    <div class="form-row">
-								<div class="col-md-12 col-md-offset-12">
-								<div class="checkbox"><label>Fees Status</label>&nbsp;&nbsp;
-									Active <input type="radio" name="status" value="Y"  <?php echo ($status=='Y')?"checked":"";?> />	
-				&nbsp;&nbsp;Inactive <input type="radio" name="status" value="N" <?php echo ($status=='N')?"checked":"";?> />
-								</div>
-								 </div>
-								 </div>
-                           
-                                    
-                                    
+                                    <div class="form-group col-md-4">
+										<label >Term 1</label><span class="text-danger">*</span>
+									  <input type="text" class="form-control form-control-sm" id="term1" name="term-1" placeholder="Term1 Fee" readonly >
+									</div>
+									<div class="form-group col-md-4">
+										<label >Term 2</label><span class="text-danger">*</span>
+									  <input type="text" class="form-control form-control-sm" id="term2" name="term-2" placeholder="Term2 Fee"  readonly>
+									</div>
+									<div class="form-group col-md-4">
+										<label >Term 3</label><span class="text-danger">*</span>
+									  <input type="text" class="form-control form-control-sm" id="term3" name="term-3" placeholder="Term3 Fee"  readonly>
+									</div>                                                                                                     
+                                                                        
                                     							
 								    <div class="form-row">
                                     <div class="form-group text-right m-b-10">
@@ -185,7 +169,55 @@ if(isset($_POST['FeesConfigEdit']))
 </div>
 </div>
 								
-								
+		<script>
+            $('document').ready(function(){
+	//addGroupnames_ajax.php
+    var total = $('#amount').val();
+	var term = Math.ceil(total/3);
+	$('#term1').val(term);
+	$('#term2').val(term);
+	$('#term3').val(term);
+
+    
+    $('#submitfeesname2').click(function(){
+		var feesname = $('#addfeesname2').val();
+		var description = $('#addescription2').val();
+		
+		//alert($partyname);
+		$.ajax ({
+           url: 'addFeesHeadModal.php',
+		   type: 'post',
+		   data: {
+				  //custype:custype,
+				  feesname:feesname,
+				  description:description
+				},
+		   //dataType: 'json',
+           success:function(response){
+				if(response!=0 || response!=""){
+					var new_option ="<option>"+response+"</option>";
+					$('#feesname').append(new_option);
+					 $('#customModalFeesname2').modal('toggle');
+					  window.location.reload(true);
+				
+				}else{
+					alert('Error in inserting Feesname,try another one');
+				}
+			}
+        
+         });
+		 
+		 });
+});
+            function addfees(){
+	var total = $('#amount').val();
+	var term = Math.ceil(total/3);
+	$('#term1').val(term);
+	$('#term2').val(term);
+	$('#term3').val(term);
+}
+
+        </script>						
 								
 								
 		      

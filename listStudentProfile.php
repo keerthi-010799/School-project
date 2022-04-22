@@ -135,8 +135,8 @@
 													<th style="width:20px">Parent</th>
 												    <th style="width:20px">Mobile</th>
 													<!--th style="width:20px">Academic</th-->												  
-													<th style="width:230px">Status</th>
-													<th style="width:20px">Actions</th>
+													<th style="width:20px">Status</th>
+													<th style="width:100px">Actions</th>
 													</tr>
 										</thead>										
 										<tbody>
@@ -188,6 +188,7 @@
 													//echo '<td><a href="editCustomerProfile.php?id='.$row_id.'" >'.$row['custid'] .'</a></td>';
 													echo '<td><img style="max-width:50px; height:35px;" src="'.$row['image'].'"/>';
 													echo '<td>'.$row['academic'].'<br /></td>';
+													//echo '<td>'.$row['admissionno'].'<br><a href="?id=' . $row['id'] . '">Bonafide</a>&nbsp;</td>';
 													echo '<td>'.$row['admissionno'].'<br /></td>';
 													//echo '<td>'.$row['custype'].'</td>';
 													echo '<td>'.$row['name'].'</td>';
@@ -215,10 +216,9 @@
 													<a onclick="delete_record(this);" id="deleteCustomerProfile" data-id="' . $row_id . '" class="btn btn-danger btn-sm"  data-title="Delete">
 													<i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                                 
-														<!--a onclick="print_record(this);" id="printStudentProfile" data-id="' . $row_id . '" class="btn btn-secondary btn-sm"  data-title="Print">
-													<i class="fa fa-print" aria-hidden="true"></i></a></td-->';                                               
-														
-														echo "</tr>";
+													<a class="btn btn-info btn-sm" onclick="ToPrint(this);" data-code="'.$row['id'].'" data-img="assets/images/schoollogo.jpeg"  data-id="po_print">
+													<i class="fa fa-print bigfonts" aria-hidden="true"></i></a></td>';
+													 echo "</tr>";
                                             }
                                         }
                                         ?>						
@@ -227,7 +227,12 @@
 											var page_batchwise = "<?php if(isset($_GET['batchwise'])){ echo $_GET['batchwise']; } ?>";
 											var page_academicwise = "<?php if(isset($_GET['academicwise'])){ echo $_GET['academicwise']; } ?>";
 
-                                            function delete_record(x)
+											
+										        function ToPrint(el){
+												var code= $(el).attr('data-code');
+												window.location.href = 'printBonafideCertificate.php?id='+code; 
+                                              }
+											function delete_record(x)
                                             {
      
                                                  var row_id = $(x).attr('data-id');
@@ -236,6 +241,8 @@
                                                   window.location.href = 'deleteStudentProfile.php?id='+row_id;
                                                }
                                             }
+											
+											
 											$(document).ready(function () {
 												$('#classwise').val(page_classwise);
 												$('#batchwise').val(page_batchwise);

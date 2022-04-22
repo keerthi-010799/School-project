@@ -53,15 +53,16 @@
                                         </span>
                                     </div>
                                 </div>
+                                
                                   
 									<div class="form-group col-md-3">
 											<input type="button" class="btn btn-primary btn-sm" name="search" value="Search" onclick="search_filter();">
 									</div>
+                                    </div>
 								
 									<div class="col-md-12 table-responsive">
 								<span id="po_reports_div"></span>
 									<div class="table-responsive row">
-                                        <div class="column">
 									<table id="po_reports" class="table table-bordered table-hover display" style="overflow-x:hidden;">
                                     <thead>
 											<tr>
@@ -83,9 +84,9 @@
 													(isset($_GET['classwise']) && $_GET['classwise']!=='')||
 													(isset($_GET['studentwise'])&&$_GET['studentwise']!='')){
 												$timestamp = strtotime($_GET['st']);
-                                                $st = date('m/d/Y', $timestamp);
+                                                $st = date('Y-m-d', $timestamp);
                                                 $timestamp = strtotime($_GET['end']);
-                                                $end = date('m/d/Y', $timestamp);
+                                                $end = date('Y-m-d', $timestamp);
 														$classwise = $_GET['classwise'];
 														$studentwise = $_GET['studentwise'];
 														$sql = "SELECT * FROM transactions s WHERE 1=1";										                                            
@@ -95,20 +96,11 @@
 															}else{
 																$sql.=" and (s.trans_date BETWEEN '$st' AND '$end') ";   
 															}
-														}
-														if(isset($_GET['classwise'])&&$_GET['classwise']!=''){
-	
-														$sql.=" and s.fee_class='".$_GET['classwise']."'";    
-													}
-													if(isset($_GET['studentwise'])&&$_GET['studentwise']!=''){
-	
-														$sql.=" and s.fee_student_id='$studentwise'";    
-													}													                                                   
+                                                        }
 													}else{
 													$sql = "SELECT * FROM transactions";
 													}
-													$result = mysqli_query($dbcon,$sql);
-													
+													$result = mysqli_query($dbcon,$sql);	
 													if ($result->num_rows > 0){
 													while ($row =$result-> fetch_assoc()){																				
 														echo "<tr>";
@@ -220,18 +212,20 @@
                 }, 0 ).toFixed(2);
                 
 
-                var stockOnHandc = api
-                .column( 6 )
-                .data()
-                .reduce( function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0 ).toFixed(2);
+                var stockOnHandc = 
+                stockOnHanda - stockOnHandb;
+                // api
+                // .column( 6 )
+                // .data()
+                // .reduce( function (a, b) {
+                //     return intVal(a) + intVal(b);
+                // }, 0 ).toFixed(2);
 
                 
                 $( api.column( 0 ).footer() ).html('Total');                
                  $( api.column( 4 ).footer() ).html(stockOnHanda);
                 $( api.column( 5 ).footer() ).html(stockOnHandb);
-                $( api.column( 6 ).footer() ).html(stockOnHandc);
+                 $( api.column( 6 ).footer() ).html(stockOnHandc);
 
 
             },

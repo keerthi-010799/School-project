@@ -185,9 +185,20 @@ include('workers/getters/functions.php');
                                                 <th></th>
                                                 <th></th>
                                                 <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
+                                                <th class = "tf1" style="display:"></th>
+                                                <th class = "tf1" style="display:"></th>
+                                                <th class = "tf1" style="display:"></th>
+                                                <th class = "tf2" style="display:none"></th>
+                                                <th class = "tf2" style="display:none"></th>
+                                                <th class = "tf2" style="display:none"></th>
+                                                <th class = "tf3" style="display:none"></th>
+                                                <th class = "tf3" style="display:none"></th>
+                                                <th class = "tf3" style="display:none"></th>
+                                                <th class = "vf" style="display:none"></th>
+                                                <th class = "vf" style="display:none"></th>
+                                                <th class = "vf" style="display:none"></th>  
+                                                <th class = "of" style="display:none"></th>                                             
+                                                <th class = "of" style="display:none"></th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -279,89 +290,82 @@ include('workers/getters/functions.php');
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 ).toFixed(2);
-                // var term2feestotal = api
-                // .column( 7 , { search: 'applied'} )
-                // .data()
-                // .reduce( function (a, b) {
-                //     return intVal(a) + intVal(b);
-                // }, 0 ).toFixed(2);
-                // var term2feespaid = api
-                // .column( 8 , { search: 'applied'} )
-                // .data()
-                // .reduce( function (a, b) {
-                //     return intVal(a) + intVal(b);
-                // }, 0 ).toFixed(2);
-                // var term2feesbalance = api
-                // .column( 9 , { search: 'applied'} )
-                // .data()
-                // .reduce( function (a, b) {
-                //     return intVal(a) + intVal(b);
-                // }, 0 ).toFixed(2);
-                // var term3feestotal = api
-                // .column( 10 , { search: 'applied'} )
-                // .data()
-                // .reduce( function (a, b) {
-                //     return intVal(a) + intVal(b);
-                // }, 0 ).toFixed(2);
-                // var term3feespaid = api
-                // .column( 11 , { search: 'applied'} )
-                // .data()
-                // .reduce( function (a, b) {
-                //     return intVal(a) + intVal(b);
-                // }, 0 ).toFixed(2);
-                // var term3feesbalance = api
-                // .column( 12 , { search: 'applied'} )
-                // .data()
-                // .reduce( function (a, b) {
-                //     return intVal(a) + intVal(b);
-                // }, 0 ).toFixed(2);
-                // var vanfeestotal = api
-                // .column( 13 , { search: 'applied'} )
-                // .data()
-                // .reduce( function (a, b) {
-                //     return intVal(a) + intVal(b);
-                // }, 0 ).toFixed(2);
-                // var vanfeespaid = api
-                // .column( 14 , { search: 'applied'} )
-                // .data()
-                // .reduce( function (a, b) {
-                //     return intVal(a) + intVal(b);
-                // }, 0 ).toFixed(2);
-                // var vanfeesbalance = api
-                // .column( 15 , { search: 'applied'} )
-                // .data()
-                // .reduce( function (a, b) {
-                //     return intVal(a) + intVal(b);
-                // }, 0 ).toFixed(2);
+                var term2feestotal = api
+                .column( 7 , { search: 'applied'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var term2feespaid = api
+                .column( 8 , { search: 'applied'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var term2feesbalance = api
+                .column( 9 , { search: 'applied'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var term3feestotal = api
+                .column( 10 , { search: 'applied'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var term3feespaid = api
+                .column( 11 , { search: 'applied'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var term3feesbalance = api
+                .column( 12 , { search: 'applied'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var vanfeestotal = api
+                .column( 13 , { search: 'applied'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var vanfeespaid = api
+                .column( 14 , { search: 'applied'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
+                var vanfeesbalance = api
+                .column( 15 , { search: 'applied'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);
               
-                // var otherfeestotal = api
-                // .column( 17 , { search: 'applied'} )
-                // .data()
-                // .reduce( function (a, b) {
-                //     return intVal(a) + intVal(b);
-                // }, 0 ).toFixed(2);                
+                var otherfeestotal = api
+                .column( 17 , { search: 'applied'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);                
                 
                 $( api.column( 0 ).footer() ).html('Total');
-            // if(feesType == 'Test' || feesType == "Term1Fees"){
                 $( api.column( 4 ).footer() ).html(term1feestotal);
                 $( api.column( 5 ).footer() ).html(term1feespaid);
                 $( api.column( 6 ).footer() ).html(term1feesbalance);
-            // }else if(feesType == "Term2Fees"){
-            //     $( api.column( 7 ).footer() ).html(term2feestotal);
-            //     $( api.column( 8 ).footer() ).html(term2feespaid);
-            //     $( api.column( 9 ).footer() ).html(term2feesbalance);
-            // }else if(feesType == "Term3Fees"){
-            //     $( api.column( 10 ).footer() ).html(term3feestotal);
-            //     $( api.column( 11 ).footer() ).html(term3feespaid);
-            //     $( api.column( 12 ).footer() ).html(term3feesbalance);
-            // }else if(feesType == "VanFees"){
-            //     $( api.column( 13 ).footer() ).html(vanfeestotal);
-            //     $( api.column( 14 ).footer() ).html(vanfeespaid);
-            //     $( api.column( 15 ).footer() ).html(vanfeesbalance);
-            // }else if(feesType == "OtherFees"){    
-            //     $( api.column( 17 ).footer() ).html(otherfeestotal);                
-            // }
-
+                $( api.column( 7 ).footer() ).html(term2feestotal);
+                $( api.column( 8 ).footer() ).html(term2feespaid);
+                $( api.column( 9 ).footer() ).html(term2feesbalance);
+                $( api.column( 10 ).footer() ).html(term3feestotal);
+                $( api.column( 11 ).footer() ).html(term3feespaid);
+                $( api.column( 12 ).footer() ).html(term3feesbalance);
+                $( api.column( 13 ).footer() ).html(vanfeestotal);
+                $( api.column( 14 ).footer() ).html(vanfeespaid);
+                $( api.column( 15 ).footer() ).html(vanfeesbalance);
+                $( api.column( 17 ).footer() ).html(otherfeestotal);                
             },
             buttons: [
                 {
@@ -444,6 +448,12 @@ include('workers/getters/functions.php');
 			$("#otherfeesprice").css('display','none');
 			$(".otherfeesitemnameval").css('display','none');
 			$(".otherfeespriceval").css('display','none');
+            $(".tf1").css('display','revert');
+            $(".tf2").css('display','none');
+            $(".tf3").css('display','none');
+            $(".vf").css('display','none');
+            $(".of").css('display','none');
+
         }
 		else if(feesType == "Term2Fees"){
 			$("#term1feestotal").css('display','none');
@@ -474,6 +484,12 @@ include('workers/getters/functions.php');
 			$("#otherfeesprice").css('display','none');
 			$(".otherfeesitemnameval").css('display','none');
 			$(".otherfeespriceval").css('display','none');
+            $(".tf1").css('display','none');
+            $(".tf2").css('display','revert');
+            $(".tf3").css('display','none');
+            $(".vf").css('display','none');
+            $(".of").css('display','none');
+
         }
 		else if(feesType == "Term3Fees"){
 			$("#term1feestotal").css('display','none');
@@ -504,6 +520,12 @@ include('workers/getters/functions.php');
 			$("#otherfeesprice").css('display','none');
 			$(".otherfeesitemnameval").css('display','none');
 			$(".otherfeespriceval").css('display','none');
+            $(".tf1").css('display','none');
+            $(".tf2").css('display','none');
+            $(".tf3").css('display','revert');
+            $(".vf").css('display','none');
+            $(".of").css('display','none');
+
         }
         else if(feesType == "VanFees"){
 			$("#term1feestotal").css('display','none');
@@ -533,7 +555,13 @@ include('workers/getters/functions.php');
             $("#otherfeesitemname").css('display','none');
 			$("#otherfeesprice").css('display','none');
 			$(".otherfeesitemnameval").css('display','none');
-			$(".otherfeespriceval").css('display','none');                           
+			$(".otherfeespriceval").css('display','none');  
+            $(".tf1").css('display','none');
+            $(".tf2").css('display','none');
+            $(".tf3").css('display','none');
+            $(".vf").css('display','revert');
+            $(".of").css('display','none');
+                         
         }
         else if(feesType == "OtherFees"){
 			$("#term1feestotal").css('display','none');
@@ -563,7 +591,13 @@ include('workers/getters/functions.php');
             $("#otherfeesitemname").css('display','revert');
 			$("#otherfeesprice").css('display','revert');
 			$(".otherfeesitemnameval").css('display','revert');
-			$(".otherfeespriceval").css('display','revert');       
+			$(".otherfeespriceval").css('display','revert');
+            $(".tf1").css('display','none');
+            $(".tf2").css('display','none');
+            $(".tf3").css('display','none');
+            $(".vf").css('display','none');
+            $(".of").css('display','revert');
+       
         }
         }
 </script>

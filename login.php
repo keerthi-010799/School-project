@@ -41,7 +41,7 @@ header('location: index.php');
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>e-Schoolz Login Screen</title>
-	        <link rel="shortcut icon" href="assets/images/logo3.png">
+	        <link rel="shortcut icon" href="assets/images/schoollogo.jpeg">
 
 
     <!-- Core CSS -->
@@ -64,7 +64,7 @@ header('location: index.php');
 
 		<!-- Favicon -->
 		<!--link rel="shortcut icon" href="assets/images/favicon.ico" -->
-		<link rel="shortcut icon" href="assets/images/logo.png">
+		<link rel="shortcut icon" href="assets/images/schoollogo.jpeg">
 
 		<!-- Bootstrap CSS -->
 		<link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />

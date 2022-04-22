@@ -276,11 +276,11 @@ if(isset($_POST['stuProfEdit']))
                                     </div>
                                 <div class="form-group col-md-4">
                                         <label>DOB<span class="text-danger"></span></label>
-                                        <input type="date" class="form-control form-control-sm" name="dob"  value="<?php echo $dob;?>" />
+                                        <input type="text" class="form-control form-control-sm" name="dob"  value="<?php echo $dob;?>" />
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Date of Admission<span class="text-danger"></span></label>
-                                        <input type="date" class="form-control form-control-sm" name="doa"  value="<?php echo $doa;?>" />
+                                        <input type="text" class="form-control form-control-sm" name="doa"  value="<?php echo $doa;?>" />
                                     </div>
                                     <div class="form-group col-md-4">
                                        <label for="inputState">Batch<span class="text-danger">*</span></label>

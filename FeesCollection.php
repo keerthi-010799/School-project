@@ -401,7 +401,7 @@
                       $('#discountname').val(name);
                       $('#termamount').val(vals.fee_config_amount);    
                         var total = $("#termtotal").val();
-                        var term = (total/3);
+                        var term = Math.ceil(total/3);
                         console.log("term",total);
                        $("#term1total").val(term);
                        $("#term2total").val(term);
@@ -456,9 +456,11 @@ var rowCount = $('#tbl tr').length;
             for(i=1;i<rowCount;i++){ 
                 var item_select = $('#tbl tr').eq(i).find('#itemname').val();               
                 var rwprice = $('#tbl tr').eq(i).find('#price').val();
+                var qty = $('#tbl tr').eq(i).find('#qty').val();
                 var inv_items_ele = {
                     itemname : item_select,                    
-                    rwprice : rwprice,                    
+                    rwprice : rwprice,
+                    qty : qty,                    
                 };
 
                 inv_items[i-1]=inv_items_ele;

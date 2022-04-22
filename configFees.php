@@ -249,7 +249,7 @@ $('document').ready(function(){
 });
 function addfees(){
 	var total = $('#amount').val();
-	var term = total/3;
+	var term = Math.ceil(total/3);
 	$('#term1').val(term);
 	$('#term2').val(term);
 	$('#term3').val(term);

@@ -54,9 +54,25 @@ if(isset($_POST['array'])){
      echo 'datta';
      print_r($d);
      foreach($d as $value){
-      echo $value['itemname'];      
+      $itmname = $value['itemname'];
+      $qty =  $value['qty'];     
+      $ssql = "SELECT * from stockitemmaster WHERE itemname = '$itmname'";
+      if($rslt = mysqli_query($dbcon,$ssql)){
+       $rrow   = mysqli_fetch_assoc($rslt);
+       if(mysqli_num_rows($rslt)>0){ 
+         echo 'stock',$rrow['stockinqty'];
+           $stock = $rrow['stockinqty'];        
+          }
+        }
+       echo $currrentstock = $stock - $qty;
+       $ssql1 = "UPDATE stockitemmaster SET stockinqty = $currrentstock WHERE itemname = '$itmname'";
+       if(mysqli_query($dbcon,$ssql1)){
+         echo 'success qty change';
+     }
+     else{
+      echo mysqli_error($dbcon);
     }
-
+    }      
 $sum = 0;
 foreach($d as $value){
      $sum += $value['rwprice'];

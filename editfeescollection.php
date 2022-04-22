@@ -518,9 +518,11 @@ var rowCount = $('#tbl tr').length;
             for(i=1;i<rowCount;i++){ 
                 var item_select = $('#tbl tr').eq(i).find('#itemname').val();               
                 var rwprice = $('#tbl tr').eq(i).find('#price').val();
+                var qty = $('#tbl tr').eq(i).find('#qty').val();
                 var inv_items_ele = {
                     itemname : item_select,                    
-                    rwprice : rwprice,                    
+                    rwprice : rwprice,        
+                    qty : qty,                                
                 };
 
                 inv_items[i-1]=inv_items_ele;

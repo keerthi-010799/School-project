@@ -32,7 +32,7 @@ if(isset($_SESSION['login_email'])){
         <meta name="author" content="">
 
         <!-- Favicon -->
-        <link rel="shortcut icon" href="assets/images/avatars/ssj-favicon.png">
+        <link rel="shortcut icon" href="assets/images/avatars/schoollogo.jpeg">
 		
 
         <!-- Bootstrap CSS -->
@@ -418,8 +418,8 @@ if(isset($_SESSION['login_email'])){
                     <li class="submenu">
                                 <a href="feesNavBar.php"> <i class="fa fa-money bigfonts" aria-hidden="true"></i> Fees Manegemet<span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">								
-                                    <li><a href="feesNavBar.php"><i class="fa fa-institution bigfonts" aria-hidden="true"></i>Manage Fees</a></li>	
-                                    <li><a href="listStockItemMaster.php"><i class="fa fa-building-o bigfonts" aria-hidden="true"></i>Stock Master</a></li>								
+                                    <!--li><a href="feesNavBar.php"><i class="fa fa-institution bigfonts" aria-hidden="true"></i>Manage Fees</a></li>	
+                                    <li><a href="listStockItemMaster.php"><i class="fa fa-building-o bigfonts" aria-hidden="true"></i>Stock Master</a></li-->								
                                     <!--li><a href="recordExpenses.php"><i class="fa fa-plus-circle"></i>add Expense</a></li-->								
                                     <!--li><a href=""><i class="fa fa-circle-o"></i>list Accounts</a></li-->
                                 </ul>

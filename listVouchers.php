@@ -49,7 +49,7 @@
 												<th>Created On</th>
 												<th>Created By</th>
 												<th>Status</th>
-												<th>ACTIONS </th>
+												<th style="width:100px">Actions</th>
 											</tr>
 										</thead>										
 										<tbody>
@@ -95,7 +95,8 @@
 														<i class="fa fa-pencil" aria-hidden="true"></i></a>
 													
 													<a href="javascript:deleteRecord_8(' . $row['id'] . ');" class="btn btn-danger btn-sm" data-placement="top" data-toggle="tooltip" data-title="Delete">
-													<i class="fa fa-trash-o" aria-hidden="true"></i></a><a class="btn btn-secondary btn-sm" onclick="ToPrint(this);" data-code="'.$row['id'].'" data-img="assets/images/logo.png"  data-id="po_print"><i class="fa fa-print bigfonts" aria-hidden="true"></i></a></td>';
+													<i class="fa fa-trash-o" aria-hidden="true"></i></a>
+													<a class="btn btn-info btn-sm" onclick="ToPrint(this);" data-code="'.$row['id'].'" data-img="assets/images/logo.png"  data-id="po_print"><i class="fa fa-print bigfonts" aria-hidden="true"></i></a></td>';
 													 echo "</tr>";
                                             }
                                         }
@@ -103,7 +104,8 @@
                                         <script>
 										        function ToPrint(el){
 												var code= $(el).attr('data-code');
-												window.location.href = 'voucherPrint.php?id='+code; 
+												window.location.href = 'assets/voucherPrint.php?id='+code; 
+											//	window.location.href = 'assets/voucherPrint.php?id='+code; 
                                               }
 
                                             function delete_record(x)
