@@ -9,6 +9,7 @@ if(isset($_POST['fees_id']) || isset($_GET['fees_id']))
     $result2 = mysqli_query($dbcon,$sql2);
     $row2 =$result2-> fetch_assoc();
     $iid = $row2['fee_student_id'];
+    $feeType = $row2['fee_type'];
    
     $sql = "SELECT * from studentprofile where id = '$iid'";
     $result = mysqli_query($dbcon,$sql);
@@ -153,6 +154,7 @@ function displaywords($number){
                         <th style=" width:10%;padding:10px;border-right:1px solid #000;border-left:1px solid #000;border-top:1px solid #000;">#</th>
                         <th style="width:15%;padding:10px;border-right:1px solid #000;border-bottom:1px solid #000;border-top:1px solid #000;">Fees Name</th>
                         <th style="width:15%;padding:10px;border-right:1px solid #000;border-bottom:1px solid #000;border-top:1px solid #000;">Amount</th>
+                        <th style="width:15%;padding:10px;border-right:1px solid #000;border-bottom:1px solid #000;border-top:1px solid #000;">Balance Fees</th>
                     </thead>
                     <tbody style="text-align:center;">
                         <?php
@@ -164,10 +166,17 @@ function displaywords($number){
                                 <?php echo 1;?>
                             </td>     
                             <td style="padding:10px;padding-left:3%;border-right:1px solid #000;border-bottom:1px solid #000;">
-                                <?php echo $row2['fee_type'];?>
+                                <?php if($feeType == "VanFees"){
+                                    echo $row2['fee_type']."-".$row2['description'];
+                                }else{ 
+                                    echo $row2['fee_type'];
+                                    }
+                                    ?>
                             </td>    
                             <td style="padding:10px;padding-left:3%;border-right:1px solid #000;border-bottom:1px solid #000;">
                                 <?php echo $row2['fees_paid'];?>
+                                <td style="padding:10px;padding-left:3%;border-right:1px solid #000;border-bottom:1px solid #000;">
+                                <?php echo $row2['fee_total_amt'] - $row2['fees_paid'];?>
 
                             </td>
                         </tr>                      

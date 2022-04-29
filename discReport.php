@@ -166,7 +166,7 @@
 														$classwise = $_GET['classwise'];
 														$academicwise = $_GET['academicwise'];
 														$batchwise = $_GET['batchwise'];	
-														$sql = "SELECT d.discid,d.id,d.admissionno,s.firstname,s.lastname,s.class,
+														$sql = "SELECT d.discid,d.id,d.admissionno,s.firstname,s.lastname,d.class,
 														d.academic,d.category,d.discountpercentage,d.status,d.approvedby,d.createdon,
                                                         d.createdby
                                                         FROM `studentprofile` s , `studentsdiscount` d
@@ -182,16 +182,17 @@
 													}
 													if(isset($_GET['academicwise'])&&$_GET['academicwise']!=''){
 	
-														$sql.=" and s.academic='".$_GET['academicwise']."'";    
+														$sql.=" and d.academic='".$_GET['academicwise']."'";    
 													}
 	
 													}else{
 													
-														$sql = "SELECT d.discid,d.id,d.admissionno,s.firstname,s.lastname,s.class,
+														$sql = "SELECT d.discid,d.id,d.admissionno,s.firstname,s.lastname,d.class,
 														d.academic,d.category,d.discountpercentage,d.status,d.approvedby,d.createdon,
                                                         d.createdby
                                                         FROM `studentprofile` s , `studentsdiscount` d
-                                                        WHERE d.admissionno = s.admissionno                                                        
+                                                        WHERE d.admissionno = s.admissionno   
+														AND d.academic = year(curdate())                                                     
 														ORDER BY d.id ASC";													}
 																											
 													$result = mysqli_query($dbcon,$sql);

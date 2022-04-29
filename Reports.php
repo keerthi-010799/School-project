@@ -256,8 +256,14 @@
                                                 <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Fees Payment Status Report                                     
                                             </a>&nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="Customer Outstanding Report."></i>
                                         </td>
+										<td>
+                                            <a href="FeesOutstandingSummaryReport.php">
+                                                <i class="fa fa-angle-right bigfonts" aria-hidden="true"></i> &nbsp;Fees Collection Outstanding Summary Report                                    
+                                            </a>&nbsp;<i class="fa fa-question-circle-o bigfonts" aria-hidden="true" data-toggle="popover" data-trigger="focus" data-placement="top" title="Customer Outstanding Report."></i>
+                                        </td>
 
-                                    </tr-->
+
+                                    </tr>
 
 
 

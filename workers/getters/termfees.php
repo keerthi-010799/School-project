@@ -38,7 +38,7 @@ if($result3 = mysqli_query($dbcon,$sq3)){
 }
 }
 
-$sql1 = mysqli_query($dbcon, "SELECT * FROM studentsdiscount WHERE admissionno = '$admno'");
+$sql1 = mysqli_query($dbcon, "SELECT * FROM studentsdiscount WHERE admissionno = '$admno' AND approvalStatus = 'Y'");
 while ($row = $sql1->fetch_assoc()){
       $percent = $row['discountpercentage'];      
       $name = $row['category'];      

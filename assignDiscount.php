@@ -5,7 +5,9 @@ if(isset($_POST['submit']))
 {
  $approvedby =$_POST['approvedby'];
  $academic=$_POST['academic'];
+ $classid=$_POST['class'];
  $admissionno=$_POST['admissionno']; 
+ $studentname=$_POST['studentname']; 
  $status = $_POST['status'];
  $category=$_POST['category'];
  $createdon=$_POST['createdon'];
@@ -38,21 +40,25 @@ $sql="SELECT MAX(id) as latest_id FROM studentsdiscount ORDER BY id DESC";
     
  }else{	
  $sql = "INSERT into studentsdiscount( `discid`,
-                                        `approvedby`,
+                                       
 										`academic`,
-										`admissionno`,										
+                                        `class`	,
+										`admissionno`,	
+                                        `studentname`,									
 										`status`,
 										`category`,
-										`createdon`	,
+										`createdon`	,                                       
                                         `createdby`	,
                                         `discountpercentage`								
 										)
 								VALUES ('$discid',
-                                        '$approvedby',
+                                      
 								        '$academic',
+                                        '$classid',
                                         '$admissionno',
+                                        '$studentname',
 										'$status',										
-										'$category',
+										'$category',                                       
 										'$createdon',	
                                         '$createdby',	
                                         '$discountpercentage'										
@@ -164,10 +170,10 @@ $sql="SELECT MAX(id) as latest_id FROM studentsdiscount ORDER BY id DESC";
                                                 </select>
 												</div>
                                 </div>
-								
+                               
 								
 
-                                <div class="form-row">
+                                <!--div class="form-row">
                                     <div class="form-group col-md-8">
                                         <label for="admissionno">Select Student </label>
                                         <select id="admissionno"  class="form-control select2"  required name="admissionno" autocomplete="off">
@@ -186,10 +192,45 @@ $sql="SELECT MAX(id) as latest_id FROM studentsdiscount ORDER BY id DESC";
                                             }
                                             ?>
                                         </select>                                        
-                                    </div>						
-									
-                           
+                                    </div>	
+                                    </div-->
+
+                                    <div class="form-row">
+                                    <div class="form-group col-md-8 ">
+                                    <label for="admissionno"><span class="">Select Admission Number</span><span class="text-danger">*</span></label>
+                                         <select required id="admissionno" data-parsley-trigger="change"  class="form-control select2" onchange="getstudentname();" name="admissionno" >
+                                         <option value="">-Select -</option>
+                                            
+                                                    <?php 
+                                                    include("database/db_conection.php");//make connection here
+
+                                                    $sql = mysqli_query($dbcon, "SELECT admissionno,firstname,class FROM studentprofile order by id DESC");
+                                                    while ($row = $sql->fetch_assoc()){	
+                                                        echo $admissionno=$row['admissionno'];
+                                                        echo $firstname=$row['firstname'];
+                                                        echo $class=$row['class'];
+                                                        echo '<option onchange="'.$row[''].'" value="'.$admissionno.'" >'.$admissionno.' '.$firstname.' '.$class.'</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+												                      
+                                    </div>	
+                                    <div class="form-group col-md-8">
+                                        <label for="studentname">Student Name</label>
+                                        <input type="text" class="form-control form-control-sm" 
+                                        id="studentname" placeholder="" class="form-control form-control-sm"  readonly required name="studentname"/>
+                                        </div>
                                     </div>
+
+                                    <div class="form-row">
+                                <div class="form-group col-md-8 ">
+                                    <label for="class"><span class="">Select Class</span><span class="text-danger">*</span></label>
+                                         <input required readonly id="class" class="form-control form-control-sm"  name="class" />
+												</div>
+                                              
+                                         
+                                        </div>
+								
 
                                     <div class="form-row">                                
                                     <h5 class="col-md-12 text-muted text-warning">Discount Details&nbsp;</h5>
@@ -205,8 +246,8 @@ $sql="SELECT MAX(id) as latest_id FROM studentsdiscount ORDER BY id DESC";
 
                                 <div class="form-group col-md-8 ">
                                     <label for="inputState"><span class="">Select Category</span><span class="text-danger">*</span></label>
-                                         <select required id="category" data-parsley-trigger="change"  class="form-control form-control-sm" onchange="getpercentage();" name="category" >
-                                             
+                                         <select required id="category" data-parsley-trigger="change"  class="form-control select2" onchange="getpercentage();" name="category" >
+                                         <option value="">-Select-</option>
                                              <!--select multiple name="academic" class="form-control form-control-sm" -->
                                                     <!--option value="">-Select Academic-</option-->
                                                     <?php 
@@ -222,7 +263,7 @@ $sql="SELECT MAX(id) as latest_id FROM studentsdiscount ORDER BY id DESC";
 												</div>
                                                 <div class="form-group col-md-8">
                                         <label for="discountpercentage">Select Dicount Percentage </label>
-                                        <input type="text" class="form-control form-control-sm" readonly
+                                        <input type="text" class="form-control form-control-sm" 
                                         id="discountpercentage" placeholder="Discount Percentage" class="form-control "  required name="discountpercentage"/>
                                         
                                                 </div>
@@ -254,14 +295,14 @@ $sql="SELECT MAX(id) as latest_id FROM studentsdiscount ORDER BY id DESC";
                                 <select name="discountpercentage" id="discountpercentage">
                                     <option>------- Select --------</option></select>
                                  </div-->
-                                 <div class="form-row">   
+                                 <!--div class="form-row">   
                                  <div class="form-group col-md-8">
                                         <label for="approvedby">Select Approved By</label>
                                         <select id="approvedby"  class="form-control select2"  required name="approvedby" autocomplete="off">
                                             <option selected>-Select student -</option>
                                             <?php 
                                             include("database/db_conection.php");//make connection here
-                                            $sql = mysqli_query($dbcon, "SELECT concat(firstname,' ',lastname) as empname from employees WHERE designation ='Trustee' 
+                                            $sql = mysqli_query($dbcon, "SELECT concat(firstname,' ',lastname) as empname from employees WHERE designation ='Chairman' OR designation = 'Secretary' 
                                             order by id DESC");
                                             while ($row = $sql->fetch_assoc()){	
                                             //    echo $empid=$row['empid'];
@@ -274,7 +315,7 @@ $sql="SELECT MAX(id) as latest_id FROM studentsdiscount ORDER BY id DESC";
                                         </select>                                        
                                                 </div>                                           		
 								    
-                                </div>    
+                                </div-->    
 										
 								    <div class="form-row">
 								    <div class="form-group text-right m-b-10">
@@ -339,6 +380,28 @@ $(document).ready(function() {
                               var vals = output.values;
                               console.log(vals[0]);
                              $('#discountpercentage').val(vals[0].discountpercentage);      
+                            }                                          
+                    
+                  }
+                });
+    }
+</script>
+
+<script>
+    function getstudentname(){
+        var admissionno = $('#admissionno').val();
+        console.log('admn',admissionno);
+        $.ajax ({
+                    url: "workers/setters/getStudent.php?admissionno=" +admissionno,
+                    type: 'post',
+                    success:function(res){
+                      var output = JSON.parse(res);
+                          if(output.status){
+                              var vals = output.values;
+                             var studentname = vals[0].firstname +' '+ vals[0].lastname;
+                              console.log(vals[0]);
+                             $('#studentname').val(studentname);
+                             $('#class').val(vals[0].class);      
                             }                                          
                     
                   }

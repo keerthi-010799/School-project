@@ -45,21 +45,22 @@ if($check !== false) {
 	echo "File is not an image.";
 	$uploadOk = 0;
 }
-	
+$voucherid ='';
+$prefix = "";
 	//Generating VoucherIDS
-//	$sql="SELECT MAX(id) as latest_id FROM recordexpense ORDER BY id DESC";
-//	if($result = mysqli_query($dbcon,$sql)){
-	//	$row   = mysqli_fetch_assoc($result);
-	//	if(mysqli_num_rows($result)>0){
-	//		$maxid = $row['latest_id'];
-	//		$maxid+=1;			
-	//		$voucherid = $prefix.$maxid;
-	//	}else{
-	//		$maxid = 0;
-	//		$maxid+=1;
-	//		$voucherid = $prefix.$maxid;
-	//	}
-//	}
+	$sql="SELECT MAX(id) as latest_id FROM recordexpense ORDER BY id DESC";
+	if($result = mysqli_query($dbcon,$sql)){
+		$row   = mysqli_fetch_assoc($result);
+		if(mysqli_num_rows($result)>0){
+		$maxid = $row['latest_id'];
+			$maxid+=1;			
+			$voucherid = $prefix.$maxid;
+		}else{
+		$maxid = 0;
+			$maxid+=1;
+			$voucherid = $prefix.$maxid;
+		}
+	}
 
 	$sql="INSERT INTO recordexpense(`voucherid`, 
 									`createdon`, 	
@@ -263,7 +264,7 @@ if($check !== false) {
 
 												<div class="form-group">	
 													<label >Enter Voucher Number<span class="text-danger"></span></label>
-												<input type="text" class="form-control form-control-sm" name="voucherid"  placeholder="Voucher Number"  />
+												<input type="text" class="form-control form-control-sm" name="voucherid"  placeholder="Voucher Number[OPTIONAL]"  />
 												</div>
 
 												<div class="form-group">	

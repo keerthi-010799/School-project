@@ -198,7 +198,7 @@ echo 'test3',$sum;
   }
   }
   if (mysqli_query($dbcon,$sql1)) {
-    echo 'success2';
+    echo 'success2';  
     $return['status']=true;
        } else { 
         $return['status']=false;

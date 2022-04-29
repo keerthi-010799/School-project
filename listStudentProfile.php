@@ -131,7 +131,7 @@
 													<th style="width:30px">Admn#</th>
 													<th style="width:40px">Name</th>
 													<th style="width:20px">Class/Course</th>
-													<th style="width:20px">Batch</th>
+													
 													<th style="width:20px">Parent</th>
 												    <th style="width:20px">Mobile</th>
 													<!--th style="width:20px">Academic</th-->												  
@@ -155,7 +155,7 @@
 														$batchwise = $_GET['batchwise'];	
 														$sql = "SELECT id,image,admissionno,concat(firstname,' ',lastname) 
 														as name,concat(class,' / ',section) as classsec,
-														fathername,mobile,batch,academic,status FROM `studentprofile` s where 1=1";										                                            
+														fathername,mobile,academic,status FROM `studentprofile` s where 1=1";										                                            
 													 if(isset($_GET['classwise'])&&$_GET['classwise']!=''){
 	
 														$sql.=" and s.class='".$_GET['classwise']."'";    
@@ -173,7 +173,7 @@
 													
 														$sql = "SELECT id,image,admissionno,concat(firstname,' ',lastname) 
 														as name,concat(class,' / ',section) as classsec,
-														fathername,mobile,batch,academic,status FROM `studentprofile` 
+														fathername,mobile,academic,status FROM `studentprofile` 
 														ORDER BY id ASC";													}
 																											
 													$result = mysqli_query($dbcon,$sql);
@@ -193,7 +193,7 @@
 													//echo '<td>'.$row['custype'].'</td>';
 													echo '<td>'.$row['name'].'</td>';
 													echo '<td>'.$row['classsec'].'</td>';
-													echo '<td>'.$row['batch'].'</td>';
+													//echo '<td>'.$row['batch'].'</td>';
 													echo '<td>'.$row['fathername'].'</td>';
 													echo '<td>'.$row['mobile'].'</td>';
 													//echo '<td>'.$row['academic'].'</td>';

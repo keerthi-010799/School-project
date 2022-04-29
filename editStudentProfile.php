@@ -30,7 +30,7 @@ if(isset($_POST['stuProfEdit']))
                                                             `gender`= '".$gender."',
                                                             `dob`= '".$dob."',
                                                             `doa`= '".$doa."',
-                                                            `batch`= '".$batch."',
+                                                         
                                                             `class`= '".$class."',
                                                             `section`= '".$section."',    
                                                             `bloodgroup`= '".$bloodgroup."',
@@ -43,7 +43,7 @@ if(isset($_POST['stuProfEdit']))
                                                             `aadhaar`= '".$aadhaar."',
                                                             `emis`= '".$emis."',
                                                             `oldschoolname`= '".$oldschoolname."',
-															 `category`= '".$category."',
+														
                                                             `occupation`= '".$occupation."',
                                                             `address`= '".$address."',
                                                             `city`= '".$city."',
@@ -51,12 +51,7 @@ if(isset($_POST['stuProfEdit']))
                                                             `email`= '".$email."',
                                                             `mobile`= '".$mobile."',
                                                             `altmobno`= '".$altmobno."',
-                                                            `vanflag`= '".$vanflag."',
-                                                            `discount`= '".$discount."',
-                                                            `category`= '".$category."',
-                                                            `routeno`= '".$routeno."',
-                                                            `areaname`= '".$areaname."',
-                                                            `vanfees`= '".$vanfees."',
+                                                           
                                                             `status`='".$status."',
                                                             `image`  = '".$target_file."'	
                                         WHERE `id` =".$stuId;
@@ -77,7 +72,7 @@ if(isset($_POST['stuProfEdit']))
                                                             `gender`= '".$gender."',
                                                             `dob`= '".$dob."',
                                                             `doa`= '".$doa."',
-                                                            `batch`= '".$batch."',
+                                                          
                                                             `class`= '".$class."',
                                                             `section`= '".$section."',    
                                                             `bloodgroup`= '".$bloodgroup."',
@@ -90,7 +85,7 @@ if(isset($_POST['stuProfEdit']))
                                                             `aadhaar`= '".$aadhaar."',
                                                             `emis`= '".$emis."',
                                                             `oldschoolname`= '".$oldschoolname."',
-															 `category`= '".$category."',
+															
                                                             `occupation`= '".$occupation."',
                                                             `address`= '".$address."',
                                                             `city`= '".$city."',
@@ -98,12 +93,7 @@ if(isset($_POST['stuProfEdit']))
                                                             `email`= '".$email."',
                                                             `mobile`= '".$mobile."',
                                                             `altmobno`= '".$altmobno."',
-                                                            `vanflag`= '".$vanflag."',
-                                                            `discount`= '".$discount."',
-                                                            `category`= '".$category."',
-                                                            `routeno`= '".$routeno."',
-                                                            `areaname`= '".$areaname."',
-                                                            `vanfees`= '".$vanfees."',
+                                                          
                                                             `status`='".$status."'
                                         WHERE `id` =".$stuId;
      //echo $updateStudentProfile;
@@ -193,7 +183,7 @@ if(isset($_POST['stuProfEdit']))
 												$gender  =	$res['gender'];		
 												$dob	 =	$res['dob'];	
 												$doa  =	$res['doa'];	
-                                                $batch 	 =	$res['batch'];	
+                                             
 												$class  =	$res['class'];		
 												$section  =	$res['section'];		
 												$bloodgroup 	 =	$res['bloodgroup'];	
@@ -206,7 +196,7 @@ if(isset($_POST['stuProfEdit']))
                                                 $aadhaar 	 =	$res['aadhaar'];	
 												$emis 	 =	$res['emis'];
                                                 $oldschoolname 	 =	$res['oldschoolname'];
-												$category 	 =	$res['category'];
+											
 												$occupation 	 =	$res['occupation'];
                                                 $address 	 =	$res['address'];	
 												$city 	 =	$res['city'];
@@ -214,12 +204,7 @@ if(isset($_POST['stuProfEdit']))
 												$email 	 =	$res['email'];
 												$mobile 	 =	$res['mobile'];
                                                 $altmobno 	 =	$res['altmobno'];
-                                                $vanflag 	 =	$res['vanflag'];
-                                                $discount 	 =	$res['discount'];
-                                                $category 	 =	$res['category'];
-                                                $routeno 	 =	$res['routeno'];
-                                                $areaname 	 =	$res['areaname'];
-                                                $vanfees 	 =	$res['vanfees'];
+                                              
 												$status 	 =	$res['status'];
 												$image 	 =	$res['image'];
 
@@ -267,7 +252,7 @@ if(isset($_POST['stuProfEdit']))
                                 </div>
                                 
                                 <div class="form-row">
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label >Gender<span class="text-danger">*</span></label>
                                     <select name="gender" class="form-control form-control-sm">
                                                     <option <?php if ($gender == "M" ) echo 'selected="selected"' ; ?> value="M">Male</option>
@@ -282,25 +267,7 @@ if(isset($_POST['stuProfEdit']))
                                         <label>Date of Admission<span class="text-danger"></span></label>
                                         <input type="text" class="form-control form-control-sm" name="doa"  value="<?php echo $doa;?>" />
                                     </div>
-                                    <div class="form-group col-md-4">
-                                       <label for="inputState">Batch<span class="text-danger">*</span></label>
-                                                <select id="batch" onchange="onlocode(this)"  class="form-control form-control-sm" name="batch">
-                                                    <?php 
-                                                    include("database/db_conection.php");//make db connection here
-
-                                                    $sql = mysqli_query($dbcon, "SELECT academic FROM academic");
-                                                    while ($row = $sql->fetch_assoc()){	
-                                                        echo $batch_get=$row['academic'];
-                                                        if($batch_get==$batch){
-                                                            echo '<option value="'.$batch_get.'" selected>'.$batch_get.'</option>';
-                                                        } else {
-                                                            echo '<option value="'.$batch_get.'" >'.$batch_get.'</option>';
-                                                            
-                                                            }
-                                                        }
-                                                    ?>
-                                                </select>
-                                            </div>
+                                   
                                     </div>
                                     
                                     <div class="form-row">
@@ -347,7 +314,7 @@ if(isset($_POST['stuProfEdit']))
 								</div>
 								 
                                 <div class="form-row">
-									<div class="form-group col-md-6">
+									<div class="form-group col-md-4">
                                        <label for="inputState">Bloodgroup<span class="text-danger">*</span></label>
                                                 <select id="bloodgroup" onchange="onlocode(this)"  class="form-control form-control-sm" name="bloodgroup">
                                                     <?php 
@@ -367,30 +334,10 @@ if(isset($_POST['stuProfEdit']))
                                                 </select>
 									
                                 </div>
-								<div class="form-group col-md-6">
-                                       <label for="inputState">Category<span class="text-danger">*</span></label>
-                                                <select id="category" onchange="onlocode(this)"  class="form-control form-control-sm" name="category">
-                                                    <?php 
-                                                    include("database/db_conection.php");//make db connection here
-
-                                                    $sql = mysqli_query($dbcon, "SELECT category FROM category");
-                                                    while ($row = $sql->fetch_assoc()){	
-                                                        echo $cat_get=$row['category'];
-                                                        if($cat_get==$category){
-                                                            echo '<option value="'.$cat_get.'" selected>'.$cat_get.'</option>';
-                                                        } else {
-                                                            echo '<option value="'.$cat_get.'" >'.$cat_get.'</option>';
-                                                            
-                                                            }
-                                                        }
-                                                    ?>
-                                                </select>
-                                </div>
-								</div>
 								
-                                
-                                <div class="form-row">
-                                    <div class="form-group col-md-3">
+								
+                          
+                                    <div class="form-group col-md-4">
                                         <label >Nationality<span class="text-danger"></span></label>
                                     <select  id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="nationality" >
                                         <option <?php if ($nationality == "1" ) echo 'selected="selected"' ; ?> value="1">Indian</option>
@@ -398,7 +345,7 @@ if(isset($_POST['stuProfEdit']))
                                         <option <?php if ($nationality == "3" ) echo 'selected="selected"' ; ?> value="2">Others</option>
                                         </select>   
                                     </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-4">
                                         <label>Religion<span class="text-danger"></span></label>
                                         <select  id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="religion" >
                                             <option <?php if ($religion == "Hindu" ) echo 'selected="selected"' ; ?> value="Hindu">Hindu</option>
@@ -408,7 +355,9 @@ if(isset($_POST['stuProfEdit']))
                                         <option <?php if ($religion == "Others" ) echo 'selected="selected"' ; ?> value="Others">Others</option>
                                     </select>   
                                     </div>
-                                        <div class="form-group col-md-3">
+                                </div>
+                                <div class="form-row">
+                                        <div class="form-group col-md-4">
                                         <label>Community<span class="text-danger"></span></label>
                                         <select  id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="community" >
                                             <option <?php if ($community == "BC" ) echo 'selected="selected"' ; ?> value="BC">BC</option>
@@ -420,7 +369,7 @@ if(isset($_POST['stuProfEdit']))
                                             <option <?php if ($community == "OC" ) echo 'selected="selected"' ; ?> value="OC">OC</option>
                                         </select>
                                 </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label>Caste<span class="text-danger"></span></label>
                                         <input type="text" class="form-control form-control-sm" name="caste" value="<?php echo $caste;?>" />
                                     </div> 

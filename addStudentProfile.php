@@ -24,7 +24,7 @@ if(isset($_POST['submit']))
  $gender =$_POST['gender'];
  $dob =$_POST['dob'];
  $doa =$_POST['doa'];
- $batch =$_POST['batch'];
+ //$batch =$_POST['batch'];
  $class =$_POST['class'];
  $section =$_POST['section'];
  $bloodgroup =$_POST['bloodgroup'];
@@ -92,13 +92,13 @@ $category =$_POST['category'];
     }
 //    else{	$sql = 'Insert....
  
- else{ $sql = "INSERT into studentprofile(`academic`,`admissionno`,`firstname`,`lastname`,`gender`,`dob`,`doa`,`batch`,`class`,`section`,
+ else{ $sql = "INSERT into studentprofile(`academic`,`admissionno`,`firstname`,`lastname`,`gender`,`dob`,`doa`,`class`,`section`,
                                     `bloodgroup`,`nationality`,`religion`,`community`,`caste`,`fathername`,`mothername`,
                                     `aadhaar`,`emis`,`oldschoolname`,`category`,`occupation`,`address`,`city`,`zip`,`email`,`mobile`,`altmobno`,`routeno`,`areaname`,`vanfees`,`vanflag`,
                                     `discount`,
                                     `image`                                      
 								    )
-				VALUES ('$academic','$admissionno','$firstname','$lastname','$gender','$dob','$doa','$batch','$class','$section','$bloodgroup',
+				VALUES ('$academic','$admissionno','$firstname','$lastname','$gender','$dob','$doa','$class','$section','$bloodgroup',
                 '$nationality','$religion','$community','$caste','$fathername','$mothername','$aadhaar','$emis','$oldschoolname','$category','$occupation',
                 '$address','$city','$zip','$email','$mobile','$altmobno','$routeno','$areaname','$vanfees','$vanflag','$discount','$target_file')";
 
@@ -375,35 +375,8 @@ echo "$sql";
                                         <label><span class="">Date of Admission</span><span class="text-danger"></span></label>
                                         <input type="date" class="form-control form-control-sm" name="doa"  value="<?php echo date("Y-m-d");?>" />
                                     </div>
-
-                                    <div class="form-group col-md-4 ">
-                                    <label for="inputState"><span class="">Batch</span><span class="text-danger">*</span></label>
-                                         <select required id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="batch" >
-                                             
-                                             <!--select multiple name="academic" class="form-control form-control-sm" -->
-                                                    <!--option value="">-Select Academic-</option-->
-                                                    <?php 
-                                                    include("database/db_conection.php");//make connection here
-
-                                                    $sql = mysqli_query($dbcon, "SELECT academic FROM academic order by id desc");
-                                                    while ($row = $sql->fetch_assoc()){	
-                                                        echo $academic=$row['academic'];
-                                                        echo '<option onchange="'.$row[''].'" value="'.$academic.'" >'.$academic.'</option>';
-                                                    }
-                                                    ?>
-                                                </select>
-												
-												<a href="#custom-modal" data-target="#customModalAcademic" data-toggle="modal">
-												<i class="fa fa-user-plus" aria-hidden="true"></i>Add New Batch</a><br>
 								
-												
-                                </div>
-                                    </div>
-                                    
-                                    
-								
-								 <div class="form-row">
-                                       <div class="form-group col-md-6">
+                                       <div class="form-group col-md-4">
                                     <label for="inputState"><span class="">Bloodgroup</span><span class="text-danger">*</span></label>
                                          <select required id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="bloodgroup" >
                                              
@@ -420,8 +393,10 @@ echo "$sql";
                                                     ?>
                                                 </select>
 												</div>
-									
-                                                <div class="form-group col-md-6">
+                                                </div>
+
+                                                <div class="form-row">
+                                                <div class="form-group col-md-4">
                                         <label ><span class="">Gender</span><span class="text-danger">*</span></label>
                                     <select required id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="gender" >
                                         <option value="">-Select Gender-</option>
@@ -429,10 +404,10 @@ echo "$sql";
                                         <option value="F">Female</option>
                                     </select>   
                                     </div>
-                                                </div>
+                                            
                                 
-                                <div class="form-row">
-                                    <div class="form-group col-md-3">
+                               
+                                    <div class="form-group col-md-4">
                                         <label><span class="">Nationality</span><span class="text-danger"></span></label>
                                     <select  id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="nationality" >
                                         <option value="Indian">Indian</option>
@@ -440,7 +415,7 @@ echo "$sql";
                                         <option value="Others">Others</option>
                                     </select>   
                                     </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-4">
                                     <label><span class="">Religion</span><span class="text-danger"></span></label>
                                         <select  id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="religion" >
                                         <option value="Hindu">Hindu</option>
@@ -450,7 +425,10 @@ echo "$sql";
                                             <option value="Others">Others</option>
                                     </select>   
                                     </div>
-                                        <div class="form-group col-md-3">
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
                                             <label><span class="">Community</span><span class="text-danger"></span></label>
                                         <select  id="inputState" data-parsley-trigger="change"  class="form-control form-control-sm"  name="community" >
                                         <option value="BC">BC</option>
@@ -462,7 +440,7 @@ echo "$sql";
                                             <option value="OC">OC</option>
                                             </select>
                                 </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-6">
                                         <label><span class="">Caste</span><span class="text-danger"></span></label>
                                         <input type="text" class="form-control form-control-sm" name="caste" placeholder=""   autocomplete="off" />
                                     </div> 

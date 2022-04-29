@@ -64,7 +64,9 @@
 													while ($row =$result-> fetch_assoc()){
 													echo "<tr>";
 													//echo '<td>' .$row['id'] . '</td>';
-													echo '<td>'.$row['voucherid'].' </td>';
+													//echo '<td>'.$row['voucherid'].' </td>';
+													echo '<td>'.$row['voucherid'].'<br><a href="verifyRecordExpense.php?id=' . $row['id'] . '">Verify</a>&nbsp;|&nbsp;<a href=#>Pending</a></td>';
+													
 													echo '<td>'.$row['payee'].' </td>';
 													echo '<td>'.$row['category'].' </td>';
 													echo '<td>'.$row['description'].' </td>';													
@@ -82,10 +84,17 @@
 													?>
 													<td>
 													<?php if($row['status']==1){
-																	echo 'Active';
-																}else if($row['status']==0){
-																	echo 'Inactive';
+																	//echo 'Created';
+
+																	echo '
+																	<span style="color:orange;text-align:center;"><b>CREATED</b>';
+
+																}else if($row['status']==2){
+																	echo '<span style="color:green;text-align:center;"><b>VERIFIED</b>';
 																}
+															else if($row['status']==3){
+																echo '<span style="color:red;text-align:center;"><b>Pending for Verification</b>';
+															}
 																else{
 																	echo "";
 																}	

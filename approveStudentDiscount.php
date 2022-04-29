@@ -1,47 +1,59 @@
 
 <?php
 include("database/db_conection.php");//make connection here
-$statusApproved = '';
+$statusApproved ='';
 if(isset($_POST['stuProfEdit']))
 { 
     var_dump($_POST);
-    extract($_POST);   
-
+    extract($_POST);  
+    
     $checkStatus="SELECT approvalStatus,id FROM studentsdiscount WHERE approvalStatus = 'Y' AND id =".$stuId;
-    $run_query=mysqli_query($dbcon,$checkStatus);
-      if(mysqli_num_rows($run_query)>0)
-    {
-     $statusApproved = "Discount has  already been Approved. You are not allowed to edit!";
-      // echo "<script>alert('Leave Request  '$statusApproved' is already been Approved Cannot be updated ')</script>";
-     // exit;
-     }
-    else{        
-
-        
+  $run_query=mysqli_query($dbcon,$checkStatus);
+	if(mysqli_num_rows($run_query)>0)
+  {
+     $statusApproved = "Discount is already been approved! You are not allowed to Change approval status anymore.";
+    
+   }
+  else{        
         $updateStudentProfile = "UPDATE `studentsdiscount` SET `academic`= '".$academic."',	
-                                                              `admissionno`= '".$admissionno."',   
-                                                              `class`= '".$class."',   
+                                                              `admissionno`= '".$admissionno."',    
+                                                              `class`= '".$class."',    
                                                               `studentname`= '".$studentname."',                                                          
                                                             `category`= '".$category."',                                                          									
                                                              `discountpercentage` ='".$discountpercentage."',
                                                             `status`= '".$status."',
-                                                            `createdon`= '".$createdon."'
-                                                                                                                 
+                                                            `approvalStatus`= '".$approvalStatus."',                                                           
+                                                            `createdon`= '".$createdon."',
+                                                            `approvedby`= '".$approvedby."'                                                           
                                         WHERE `id` =".$stuId;
-     //echo $updateStudentProfile;
+     //echo $updateStudentProfile; exit;
     
-        if(mysqli_query($dbcon,$updateStudentProfile))
-    {
+      //  if(mysqli_query($dbcon,$updateStudentProfile))
+    //{
         
-        header("location:discReport.php");
-    } else { echo die('Error: ' . mysqli_error($dbcon).$updateStudentProfile );
+      //  header("location:discReport.php");
+    //} else { echo die('Error: ' . mysqli_error($dbcon).$updateStudentProfile );
 	  
-            exit; //echo "<script>alert('Company Profile creation unsuccessful ')</script>";
-           }
+    //        exit; //echo "<script>alert('Company Profile creation unsuccessful ')</script>";
+  //         }
+        
    
-	die;
+//	die;
+
+//}
+
+if(mysqli_query($dbcon,$updateStudentProfile))
+    {
+		echo "<script>alert('Leave Type Successfully updated')</script>";
+     header("location:discReport.php");
+    } else { die('Error: ' . mysqli_error($dbcon).$updateStudentProfile );
+	exit; //echo "<script>alert('User creation unsuccessful ')</script>";
+	}
 }
+	//echo $updateLeaveType;
+
 }
+
 ?>
 
 
@@ -90,7 +102,7 @@ if(isset($_POST['stuProfEdit']))
 							</div>
 								
 							<div class="card-body">
-								<form autocomplete="off" action="editStudentDiscount.php" enctype="multipart/form-data" method="post">
+								<form autocomplete="off" action="approveStudentDiscount.php" enctype="multipart/form-data" method="post">
 								<?php
                                         include("database/db_conection.php");//make connection here
 
@@ -99,7 +111,8 @@ if(isset($_POST['stuProfEdit']))
                                             $id=$_GET['id'];
 
                                             //selecting data associated with this particular id
-                                            $result = mysqli_query($dbcon, "SELECT discid,id,admissionno,studentname,academic,class,category,discountpercentage,status,createdon,
+                                            $result = mysqli_query($dbcon, "SELECT discid,id,admissionno,approvalStatus,studentname,academic,class,category,
+                                            discountpercentage,status,approvedby,createdon,
                                             createdby
                                             FROM  `studentsdiscount`                                            
                                             WHERE id = $id");
@@ -113,10 +126,10 @@ if(isset($_POST['stuProfEdit']))
 												$category  =	$res['category'];												
                                                 $discountpercentage =	$res['discountpercentage'];
                                                 $status 	 =	$res['status'];
-                                               
+                                                $approvalStatus  =	$res['approvalStatus'];
+                                                $approvedby =  $res['approvedby'];
                                                 $createdon =  $res['createdon'];
                                                 $createdby =  $res['createdby'];
-                                               
                                                
                                                
                                             }
@@ -180,7 +193,7 @@ if(isset($_POST['stuProfEdit']))
                                 <div class="form-row">
                                 <div class="form-group col-md-7">
                                        <label for="category">Discount Category<span class="text-danger">*</span></label>
-                                                <select id="category" onchange="getpercentage();"   class="form-control form-control-sm" name="category">
+                                                <select id="category" readonly onchange="getpercentage();"   class="form-control form-control-sm" name="category">
                                                     <?php 
                                                     include("database/db_conection.php");//make db connection here
 
@@ -217,14 +230,47 @@ if(isset($_POST['stuProfEdit']))
                                                         }
                                                     ?>
                                                 <input type="text" class="form-control form-control-sm" 
-                                        id="discountpercentage" placeholder="Discount Percentage" class="form-control " value="<?php echo $percentage_get;?>" required name="discountpercentage"/>        
+                                        id="discountpercentage" readonly placeholder="Discount Percentage" class="form-control " value="<?php echo $percentage_get;?>" required name="discountpercentage"/>        
                                 </div>
+                                                    </div>
+                                            
+                                <div class="form-row">
+                                        <div class="form-group col-md-7">
+                                        <label>Approve / Reject Discount</label><span class="text-danger">*<span class="text-danger">
+                                        <select  id="inputState" name="approvalStatus" class="form-control form-control-sm" required>
+                                        <option <?php if ($approvalStatus == "N" ) echo 'selected="selected"' ; ?> value="N">Pending for Approval</option>
+                                        <option <?php if ($approvalStatus == "Y" ) echo 'selected="selected"' ; ?> value="Y">Approved</option>
+                                        <option <?php if ($approvalStatus == "R" ) echo 'selected="selected"' ; ?> value="R">Rejected</option>
+                                        </select>
+                                     </div>
+                                    </div>
 
-                                
-                                               
+                                    
 
                                
-                                   
+                                    <div class="form-group col-md-7">
+                                 
+                                    <label for="inputState">Approved/Updated By<span class="text-danger">*</span></label>
+                                                <select  id="approvedby" required onchange="onlocode(this)"   class="form-control form-control-sm" name="approvedby">
+                                               
+                                                   <?php 
+                                                    include("database/db_conection.php");//make connection here
+
+
+                                                    $sql = mysqli_query($dbcon, "SELECT concat(firstname,' ',lastname) as ename 
+                                                     FROM employees where designation = 'Chairman' OR designation = 'Secretary'");
+                                                    while ($row = $sql->fetch_assoc()){	
+                                                        echo $enameget=$row['ename'];
+                                                        if($enameget==$ename){
+                                                            echo '<option value="'.$enameget.'" selected>'.$enameget.'</option>';
+                                                        } else {
+                                                            echo '<option value="'.$enameget.'" >'.$enameget.'</option>';
+                                                            
+                                                            }
+                                                        }
+                                                    ?>
+                                                </select>
+                                </div>
                                                     </div>
 
 								 

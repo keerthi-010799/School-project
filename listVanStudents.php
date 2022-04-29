@@ -177,7 +177,24 @@ else {
 												   ?>
 											   </select>
 												</div>
-												<div class="form-group col-md-3">                                        
+												
+										<div class="form-group col-md-3">
+                                        
+                                         <select id="academicwise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="academic">
+                                             <option value="">-Select Academic-</option>
+                                                    <?php 
+                                                    include("database/db_conection.php");//make connection here
+
+                                                    $sql = mysqli_query($dbcon, "SELECT academic FROM academic WHERE status = 'Y' order by academic asc");
+                                                    while ($row = $sql->fetch_assoc()){	
+                                                        echo $academic=$row['academic'];
+                                                        echo '<option onchange="'.$row[''].'" value="'.$academic.'" >'.$academic.'</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+												
+                                        </div>
+										<div class="form-group col-md-3">                                        
 											<input type="button" class="btn btn-primary btn-sm" name="search" value="Filter" onclick="search_filter();">								
                                         </div>
 									</div>
@@ -204,21 +221,27 @@ else {
 										<?php
 													include("database/db_conection.php");//make connection here
 													
-													if((isset($_GET['routewise'])&&$_GET['routewise']!='')){
+													if((isset($_GET['routewise'])&&$_GET['routewise']!='')||(isset($_GET['academicwise'])&&$_GET['academicwise']!=''))
+													{
 													$routewise = $_GET['routewise'];
 
 													$sql = "SELECT id,academic,admissionno,studentname,
 													class,routeno,areaname,amount,vanflag
-													FROM  vanstudents Where 1=1";
+													FROM  vanstudents v WHERE 1=1 ";
 
 													if(isset($_GET['routewise'])&&$_GET['routewise']!=''){
 	
 														$sql.=" and routeno='".$_GET['routewise']."'";    
 													}
+													if(isset($_GET['academicwise'])&&$_GET['academicwise']!=''){
+	
+														$sql.=" and v.academic='".$_GET['academicwise']."'";    
+													}
 												}else{
 													$sql = "SELECT id,academic,admissionno,studentname,
 													class,routeno,areaname,amount,vanflag
-													FROM  vanstudents";
+													FROM  vanstudents v  WHERE academic = year(curdate())
+													";
 
 												}
 
@@ -261,13 +284,17 @@ else {
                                         ?>						
                                        <script>
 					var page_routewise = "<?php if(isset($_GET['routewise'])){ echo $_GET['routewise']; } ?>";
+					var page_academicwise = "<?php if(isset($_GET['academicwise'])){ echo $_GET['academicwise']; } ?>";
+
 
                     				$(document).ready(function () {
-												$('#routewise').val(page_routewise);												
+												$('#routewise').val(page_routewise);	
+												$('#academicwise').val(page_academicwise);											
 												});
 											function search_filter(){
 												var routewise = $('#routewise').val();
-												location.href="listVanStudents.php?routewise="+routewise;
+												var academicwise = $('#academicwise').val();												
+												location.href="listVanStudents.php?routewise="+routewise+"&academicwise="+academicwise;
 											}                        
 										function delete_record(x)
                                             {

@@ -167,20 +167,22 @@
                                         <th width="11%">Student</th>
                                         <th width="25%">Academic Year</th>
                                         <th width="12%">Area</th>
-                                        <th width="20%">Total Fees</th>
-                                        <th width="20%">Van Fees Paid</th>
-                                        <th width="20%">Van Fees Balance</th>
-                                        <th width="25%" >Fees collected</th>
+                                        <th width="14%">Total Fees</th>
+                                        <th width="14%">Van Fees Paid</th>
+                                        <th width="14%">Van Fees Balance</th>
+                                        <th width="14%" >Fees collected</th>
+                                        <th width="14%">Description</th>
                                     </tr>  
                                     <tr>                                                                                                                                                    
                                        <td id="stclass"></td>
                                        <td id="stname"></td>
                                        <td id="stacademic"></td>
                                        <td id="starea"></td>
-                                       <td> <input type="text" style="border:none;overflow:none;outline:none;" id="sttotal" name="van_fee_total" /></td>
-                                       <td> <input type="text" style="border:none;overflow:none;outline:none;" id="vanpaid" name="vanpaid" /></td>
-                                       <td> <input type="text" style="border:none;overflow:none;outline:none;" id="vanbalance" name="vanbalance" /></td>
+                                       <td> <input type="text" style="width:70px;border:none;overflow:none;outline:none;" id="sttotal" name="van_fee_total" /></td>
+                                       <td> <input type="text" style="width:70px;border:none;overflow:none;outline:none;" id="vanpaid" name="vanpaid" /></td>
+                                       <td> <input type="text" style="width:70px;border:none;overflow:none;outline:none;" id="vanbalance" name="vanbalance" /></td>
                                        <td><input id="van_fee" placeholder="Enter Amount" name="van_fee"/></td>                                                            
+                                       <td><input class="form-control form-control-sm" value="" name="desc"id="desc"/></td>                                                                                                
                                     </tr>
                                                 </table>
                                                 </div>
@@ -221,7 +223,7 @@
                                                 <td><input class="form-control form-control-sm" value="" id="category"/></td>
                                                 <td style="display:none"><input class="form-control form-control-sm" value="" id="amount"/></td>                                                                                                
                                                 <td><input class="form-control form-control-sm" value="" id="qty" onkeyup="calcamt(this)" onkeypress="calcamt(this)"/></td>                                                                                                
-                                                <td><input class="form-control form-control-sm" value="" name="price"id="price"/></td>                                                                                                
+                                                <td><input class="form-control form-control-sm" value="" name="price"id="price"/></td>
                                                 <td><a href='javascript:void(0);'  class='remove'><span class='fa fa-trash'></span><b></b></a></td>
                                               </tr>                                    
                                                 </table>  

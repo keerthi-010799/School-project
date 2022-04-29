@@ -485,7 +485,7 @@ include("database/db_conection.php");
                       $('#discountname').val(name);
                       $('#termamount').val(vals.fee_config_amount);    
                         var total = $("#termtotal").val();
-                        var term = (total/3);
+                        var term = Math.ceil(total/3);
                         console.log("term",total);
                        $("#term1total").val(term);
                        $("#term2total").val(term);
