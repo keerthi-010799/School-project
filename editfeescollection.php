@@ -187,6 +187,11 @@ include("database/db_conection.php");
                                                                         echo '<option value="VanFees" onchange="feesfunc()" selected>VanFees</option>';
                                                                         
                                                                         }
+                                                                        elseif($feestype1=='OldBalanceFees'){
+                                                                          echo '<option value="OldBalanceFees" onchange="feesfunc()" selected>OldBalanceFees</option>';
+                                                                          
+                                                                          }
+  
                                                                         elseif(substr($feestype1,0,9) === "OtherFees"){
                                                                           echo '<option value="OtherFees" onchange="feesfunc()" selected>OtherFees</option>';                                                                          
                                                                           }
@@ -256,7 +261,7 @@ include("database/db_conection.php");
                                                   <input type="text" class="form-control form-control-sm" name="term3total" id="term3total" readonly placeholder=""  class="form-control" autocomplete="off" />       
                                                   <input type="text" class="form-control form-control-sm" name="term3" placeholder=""  class="form-control" autocomplete="off" value="<?php if($feestype1=='Term2Fees'){
                                                         echo $paid;                                                    
-                                                    }?>" />
+                                                    }?>"/>
                                                 </div>     
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Term 3 paid</span><span class="text-danger">*</span></label>                                        
@@ -268,15 +273,16 @@ include("database/db_conection.php");
                                                 </div>                                            
                                                   </div>
                                                 </div>
-                                                </div>
+                                                
                                                 <div id="oldfeesform" style="display:none">  
                                                   <div class="form-row">
                                                   <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Old Balance Fees</span><span class="text-danger">*</span></label>
+                                                  </div>
                                                   <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Old Balance</span><span class="text-danger">*</span></label>                                        
                                                   <input type="text" style="width:200px" class="form-control form-control-sm" name="oldbaltotal" id="oldbaltotal" readonly placeholder=""  class="form-control" autocomplete="off" />
-                                                  <input type="text" style="width:200px"class="form-control form-control-sm" name="oldbal" placeholder="Enter Amount"  class="form-control" autocomplete="off" value = "<?php echo $amount;?>/>
+                                                  <input type="text" style="width:200px"class="form-control form-control-sm" name="oldbal" id="oldbal" placeholder="Enter Amount"  class="form-control" autocomplete="off" value = "<?php echo $paid;?>"/>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class=""> Old Balance paid</span><span class="text-danger">*</span></label>                                        
@@ -288,7 +294,7 @@ include("database/db_conection.php");
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Description</span><span class="text-danger">*</span></label>                                        
-                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="desc1"id="desc1"  placeholder="Description"  class="form-control" autocomplete="off" value = "<?php if($feestype1=='VanFees'){echo $desc;}?>"/>
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="desc1"id="desc1"  placeholder="Description"  class="form-control" autocomplete="off" value = "<?php if($feestype1=='OldBalanceFees'){echo $desc;}?>"/>
                                                 </div>
                                                   </div>
                                                   </div>
@@ -321,11 +327,12 @@ include("database/db_conection.php");
                                        <td> <input type="text" style="border:none;overflow:none;outline:none;" id="vanbalance" name="vanbalance" /></td>
                                       <td><input id="van_fee" name="van_fee" value="<?php if($feestype1=='VanFees'){
                                                         echo $paid;                                                    
-                                                    }?>" /></td>                                                            
-                                    </tr>
-                                    <td><input class="form-control form-control-sm" value="<?php if($feestype1=='VanFees'){
+                                                    }?>" /></td>    
+                                                                                        <td><input class="form-control form-control-sm" value="<?php if($feestype1=='VanFees'){
                                                         echo $desc;                                                    
                                                     }?>" name="desc"id="desc"/></td>                                                          -->
+                                                        
+                                    </tr>
 
                                                 </table>
                                                 </div>
@@ -550,14 +557,15 @@ include("database/db_conection.php");
                       var term3paid = output.term3feespaid;
                       var dic = output.dispercent != null ? output.dispercent : 0;
                       var discount = (dic / 100) * vals.fee_config_amount;
+                      var disamt = discount/3;
                       var totalfee = vals.fee_config_amount - discount;
                       $('#termtotal').val(totalfee);
                       $('#discount').val(dic); 
                       $('#discountname').val(name);
                       $('#termamount').val(vals.fee_config_amount);    
-                      var term1 = Math.ceil(vals.term1);
-                        var term2 = Math.ceil(vals.term2);
-                        var term3 = Math.ceil(vals.term3);
+                      $("#term1total").val(vals.term1 - disamt);
+                       $("#term2total").val(vals.term2 - disamt);
+                       $("#term3total").val(vals.term3 - disamt);     
                        $("#term1total").val(term1);
                        $("#term2total").val(term2);
                        $("#term3total").val(term3);     
@@ -582,7 +590,6 @@ include("database/db_conection.php");
           var clas = $('#class').val();
         var student = $('#student').val();
         var old = $('#oldbal').val();
-        console.log("old",clas,student);
           $.ajax({
       url: "workers/getters/oldbalfees.php?student="+student+"&class="+clas,
                 type: "post",
@@ -592,7 +599,8 @@ include("database/db_conection.php");
                     if (output.status) {
                       console.log("test")                  
                       var balance = output.balance;
-                      var olddue = balance - old;
+                      var olddue = +balance - (+old);
+                      console.log("old",olddue,balance,old);
                       $('#oldbaltotal').val(balance);
                       $('#oldbalance').val(olddue);
                       $('#std_id').val(output.stdid);

@@ -88,7 +88,7 @@
 											
 								        <div class="form-group">
 												<label>Reference</label><br />
-												<input type="text" style="width:300px;" name="reference" class="form-control form-control-sm " placeholder="Cheque No/Payment Transaction Ref No..">
+												<input type="text" style="width:300px;" name="reference" id="reference" class="form-control form-control-sm " placeholder="Cheque No/Payment Transaction Ref No..">
 												</div>
 
 
@@ -453,14 +453,15 @@
                       var term3paid = output.term3feespaid;
                       var dic = output.dispercent != null ? output.dispercent : 0;
                       var discount = (dic / 100) * vals.fee_config_amount;
+                      var disamt = discount/3;
                       var totalfee = vals.fee_config_amount - discount;
                       $('#termtotal').val(totalfee);
                       $('#discount').val(dic); 
                       $('#discountname').val(name);
                       $('#termamount').val(vals.fee_config_amount);    
-                       $("#term1total").val(vals.term1);
-                       $("#term2total").val(vals.term2);
-                       $("#term3total").val(vals.term3);     
+                       $("#term1total").val(vals.term1 - disamt);
+                       $("#term2total").val(vals.term2 - disamt);
+                       $("#term3total").val(vals.term3 - disamt);     
                        $('#std_id').val(id);
                        $('#admno').val(output.admissionno);
                        $('#term1paid').val(term1paid);

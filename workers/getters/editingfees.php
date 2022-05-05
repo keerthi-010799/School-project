@@ -17,7 +17,10 @@ if(isset($_POST['array'])){
     $total2 = $data['term2total'];
     $total3 = $data['term3total'];
     $total_amount;
+    $ref = $data['reference'];
+    $paymentmode = $data['paymentmode'];
     $amount;
+    $description;
     $fees_id= $data['id'];
     $fee_id ;
     $term1feestotal= '';
@@ -114,7 +117,7 @@ echo 'test3',$sum;
     $total_amount=$data['oldbaltotal'];
    }
 
-  $sql0 = "UPDATE `fees_management` SET `fee_type`='$feestype',`fees_paid` ='$amount',`fee_total_amt`='$total_amount' WHERE fee_id = $fees_id";
+  $sql0 = "UPDATE `fees_management` SET `fee_type`='$feestype',`fees_paid` ='$amount',`fee_total_amt`='$total_amount',`paymentmode`='$paymentmode',`reference` = '$ref',`description`='$description' WHERE fee_id = $fees_id";
   
   if(mysqli_query($dbcon,$sql0)){
    echo 'success1';
@@ -136,9 +139,9 @@ echo 'test3',$sum;
     $term3feestotal = $s["Termfees"]["Term3"]["TotalFees"];
     $term3feescollected = $s["Termfees"]["Term3"]["Feescollected"];
     $term3balance = $s["Termfees"]["Term3"]["Balancetopay"];
-    $oldfeestotal = $s["Termfees"]["Term3"]["TotalFees"];
-    $oldfeescollected = $s["Termfees"]["Term3"]["Feescollected"];
-    $oldbalance = $s["Termfees"]["Term3"]["Balancetopay"];
+    $oldfeestotal = $s["Oldfees"]["TotalFees"];
+    $oldfeescollected = $s["Oldfees"]["Feescollected"];
+    $oldbalance = $s["Oldfees"]["Balancetopay"];
     $vanfeestotal = $s["Vanfees"]["TotalFees"];
     $vanfeescollected = $s["Vanfees"]["Feescollected"];
     $vanbalance = $s["Vanfees"]["Balancetopay"];
@@ -165,7 +168,11 @@ echo 'test3',$sum;
       $term3feestotal = $totalfeess;
       $term3feescollected=$totalcollected;
       $term3balance = $total_amount - $term3feescollected;    
-     }elseif($feetype == 'VanFees'){
+     }elseif($feetype == 'OldBalanceFees'){
+      $oldfeestotal = $totalfeess;                                                                                                                                 
+      $oldfeescollected = $totalcollected;
+      $oldbalance = $total_amount - $oldfeescollected;
+    }elseif($feetype == 'VanFees'){
       $vanfeestotal = $totalfeess;                                                                                                                                 
       $vanfeescollected = $totalcollected;
       $vanbalance = $total_amount - $vanfeescollected;

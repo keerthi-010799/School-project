@@ -176,9 +176,9 @@ include('workers/getters/functions.php');
                                                 echo '<td class="vanfeesbalanceval" style="display:none">'.$s["Vanfees"]["Balancetopay"].' </td>';
                                                 echo '<td class="otherfeesitemnameval" style="display:none">'.$s["Otherfees"]["itemname"].' </td>';
                                                 echo '<td class="otherfeespriceval" style="display:none">'.$s["Otherfees"]["price"].' </td>';                                        
-                                                echo '<td class="oldfeestotalval" style="display:none">'.$s["Oldfees"]["TotalFees"].' </td>';
-                                                echo '<td class="oldfeespaidval" style="display:none">'.$s["Oldfees"]["Feescollected"].' </td>';
-                                                echo '<td class="oldfeesbalanceval" style="display:none">'.$s["Oldfees"]["Balancetopay"].' </td>';
+                                                echo '<td class="oldfeestotalval" style="display:none">'.$s["oldfees"]["TotalFees"].' </td>';
+                                                echo '<td class="oldfeespaidval" style="display:none">'.$s["oldfees"]["Feescollected"].' </td>';
+                                                echo '<td class="oldfeesbalanceval" style="display:none">'.$s["oldfees"]["Balancetopay"].' </td>';
                                                 echo "</tr>";
                                                 }
                                                 }
