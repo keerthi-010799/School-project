@@ -43,6 +43,9 @@
 												<th>Class</th>
 												<th>Gender</th>
 												<th>Fees Name</th>
+												<th>Term1</th>
+												<th>Term2</th>
+												<th>Term3</th>
 												<th>Amount</th>
 												<th>Due Date</th>
 												<th>Status</th>
@@ -66,6 +69,9 @@
 													echo '<td>'.$row['fee_config_class'].' </td>';
 													echo '<td>'.$row['fee_config_gender'].' </td>';
 													echo '<td>'.$row['fee_config_name'].' </td>';
+													echo '<td>'.$row['term1'].' </td>';
+													echo '<td>'.$row['term2'].' </td>';
+													echo '<td>'.$row['term3'].' </td>';												
 													echo '<td>'.$row['fee_config_amount'].' </td>';
 													echo '<td>'.$row['fee_config_duedate'].' </td>';
 													echo '<td>'.$row['fee_config_status'].' </td>';

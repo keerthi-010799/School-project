@@ -94,6 +94,9 @@
 												<th>Total Fees</th>
                                                 <th>Fees Paid</th>
 												<th>Status</th>
+                                                <th>Payment Mode</th>
+                                                <th>Reference</th>
+                                                <th>Description</th>
 												<th>Collected Date</th>
 												<th>Action</th>
 											</tr>
@@ -154,6 +157,9 @@
 													echo '<td>'.$row['fee_total_amt'].' </td>';
 													echo '<td>'.$row['fees_paid'].' </td>';
 													echo '<td> '.$row['fee_status'].' </td>';
+                                                    echo '<td> '.$row['paymentmode'].' </td>';
+                                                    echo '<td> '.$row['reference'].' </td>';
+                                                    echo '<td> '.$row['description'].' </td>';
 													echo '<td> '.$row['collected_date'].' </td>';													 																									 												
 													echo '<td>';
 													echo '    <div class="dropdown">
@@ -162,12 +168,15 @@
 	  					<div class="dropdown-menu">
 	  						<a class="dropdown-item"  href="#" onclick="ToPrint(this);" data-template="printreciept" data-code='.$row['fee_id'].'" data-img="assets/images/logo.png"  data-id="po_print"><i class="fa fa-print" aria-hidden="true"></i>&nbsp; Print</a>  ';
 	
-													if($row['fee_status']=="Created"){
+                              if($row['fee_status']=="Created"){
 														 echo ' <a class="dropdown-item" href="editfeescollection.php?id='.$row['fee_id'].'"  data-target="#modal_edit_user_5"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp; Edit</a>';   														
-														echo '
+                                                         if($_SESSION['groupname']=="Superadmin"){						
+
+                                                         echo '
 															<a class="dropdown-item"  href="workers/setters/invconverter.php?fee_id='.$row['fee_id'].'&fee_status=Verified" data-id="'.$row['fee_id'].'" class="btn btn-danger btn-sm" data-placement="top" data-toggle="tooltip" data-title="Delete">&nbsp; Verified</a>';
 	
 													}
+                                                }
 	
 													if($row['fee_status']=="Verified"){
 															echo '
@@ -178,6 +187,7 @@
 													echo "</tr>";
 													}
 													}
+                                                
 													?>	
 																											
 														
@@ -195,6 +205,10 @@
 												<th></th>
                                                 <th></th>
                                                 <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+
 											</tr>
                                         </tfoot>
 														</table>

@@ -44,10 +44,10 @@ if(isset($_POST['stuProfEdit']))
                 <div class="row">
 					<div class="col-xl-12">
 							<div class="breadcrumb-holder">
-                                    <h1 class="main-title float-left">Edit Student Profile </h1>
+                                    <h1 class="main-title float-left">Edit Van Student </h1>
                                     <ol class="breadcrumb float-right">
 									<a  href="index.php"><li class="breadcrumb-item">Home</a></li>
-										<li class="breadcrumb-item active">Edit Student Profile</li>
+										<li class="breadcrumb-item active">Edit Van Student</li>
                                     </ol>
                                     <div class="clearfix"></div>
                             </div>
@@ -83,17 +83,18 @@ if(isset($_POST['stuProfEdit']))
                                             //selecting data associated with this particular id
                                             $result = mysqli_query($dbcon, "SELECT studentname,
                                             class,academic,admissionno,
-                                            vanflag,routeno,areaname
+                                            vanflag,routeno,areaname,amount
                                             FROM vanstudents  WHERE id=$id");
                                             while($res = mysqli_fetch_array($result))
                                             {
 												$academic =	$res['academic'];
 												$admissionno = $res['admissionno'];
-                                                $routeno 	 =	$res['routeno'];
-                                                $areaname 	 =	$res['areaname'];                                           
-												$vanflag 	 =	$res['vanflag'];
                                                 $name 	 =	$res['studentname'];
                                                 $class 	 =	$res['class'];
+                                                $routeno 	 =	$res['routeno'];
+                                                $areaname 	 =	$res['areaname'];  
+                                                $amount 	 =	$res['amount'];                                            
+												$vanflag 	 =	$res['vanflag'];
 											
                                             }
                                         }
@@ -130,11 +131,17 @@ if(isset($_POST['stuProfEdit']))
                                 <div class="form-row">   
                                 <div class="form-group col-md-4">
                                         <label>Student Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-sm" readonly name="name"   class="form-control" autocomplete="off" value="<?php echo $name;?>" />
+                                        <input type="text" class="form-control form-control-sm" name="name"   class="form-control" autocomplete="off" value="<?php echo $name;?>" />
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Class<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-sm" readonly name="class"   class="form-control" autocomplete="off" value="<?php echo $class;?>" />
+                                        <input type="text" class="form-control form-control-sm"  name="class"   class="form-control" autocomplete="off" value="<?php echo $class;?>" />
+                                    </div>                                
+                                </div>
+                                <div class="form-row"> 
+                                <div class="form-group col-md-8">
+                                        <label>Amount<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-sm"  name="amount"   class="form-control" autocomplete="off" value="<?php echo $amount;?>" />
                                     </div>                                
                                 </div>
                                 
@@ -162,8 +169,8 @@ if(isset($_POST['stuProfEdit']))
                                     
                                     <div class="form-row">
                                     <div class="form-group col-md-4">
-                                    <label for="inputState">Route#<span class="text-danger"></span></label>
-                                                <select  id="academic" onchange="onlocode(this)"  class="form-control form-control-sm" name="routeno">
+                                    <label for="routeno">Route#<span class="text-danger"></span></label>
+                                                <select  id="routeno" onchange="onlocode(this)"  class="form-control select2" name="routeno">
                                                     <?php 
                                                     include("database/db_conection.php");//make connection here
 

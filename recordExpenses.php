@@ -117,58 +117,11 @@ $prefix = "";
 
 		}
        								
-
-										 
-		
 	if(mysqli_query($dbcon,$sql)&& mysqli_query($dbcon,$sql1))
 	{
 		echo "<script>alert('Expense Master creation Successful ')</script>";
 		
-		$sq3="SELECT closingbalance FROM `instprofile`";
-		if($resul = mysqli_query($dbcon,$sq3)){
-		 $ro4   = mysqli_fetch_assoc($resul);
-		 if(mysqli_num_rows($resul)>0){
-		 $csbal = $ro4['closingbalance'];
-		}
-		}
-		$closingbal = (+$csbal)-(+$amount);
-
-		$sql3="SELECT MAX(trans_id) as id FROM `transactions` ORDER BY trans_id DESC";
-		if($result4 = mysqli_query($dbcon,$sql3)){
-		 $row4   = mysqli_fetch_assoc($result4);
-		 if(mysqli_num_rows($result4)>0){
-		   $prefix = "TRN-";
-			 $maxid = intval(substr($row4['id'],4));
-			$maxid+= 1;
-			$tnsid = $maxid;
-		 $tranid = $prefix.$maxid;
-		  }
-		 else{
-			$prefix = "TRN-";
-		  $maxid = 0;
-		  $maxid+= 1;
-		  $tnsid = $maxid;
-		   $tranid = $prefix.$maxid;
-		}
-		}  
-	$sql2 = "INSERT into `transactions`(id,trans_id,trans_details,trans_type,trans_amt,trans_date,total_closing_bal,trans_handler) values('$tnsid','$tranid','$description','Debit','$amount','$createdon','$closingbal','$createdby')";
-	if (mysqli_query($dbcon,$sql2)) {
-	  echo 'success33';
-
-	}else{
-	  echo mysqli_error($dbcon);
-	}
-
-	$sql02 = "UPDATE `instprofile`set closingbalance = $closingbal";
-	if (mysqli_query($dbcon,$sql02)) {
-	  echo 'success cls bal';
-	  
-	}else{
-	  echo mysqli_error($dbcon);
-	}
-
-
-		header("location:listVouchers.php");
+				header("location:listVouchers.php");
     } else {
 		die('Error: ' . mysqli_error($dbcon));
 		exit;

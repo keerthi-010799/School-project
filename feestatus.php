@@ -74,7 +74,7 @@ include('workers/getters/functions.php');
 											 <option value="Term3Fees">Term3 Fees</option>
 											 <option value="VanFees">Van Fees</option>                                             
 											 <option value="OtherFees">Other Fees</option>
-
+											 <option value="OldBalanceFees">Old Balance Fees</option>
 												</select>
 
                                 </div>
@@ -111,6 +111,10 @@ include('workers/getters/functions.php');
                                                 <th id='vanfeesbalance' style="display:none">van Fees balance</th>
 												<th id='otherfeesitemname' style="display:none">other fees name </th>
                                                 <th id='otherfeesprice' style="display:none">other fees price</th>								
+                                                <th id='oldfeestotal' style="display:none">old Total Fees</th>
+                                                <th id='oldfeespaid' style="display:none">old Fees Paid</th>
+                                                <th id='oldfeesbalance' style="display:none">old Fees balance</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -172,6 +176,9 @@ include('workers/getters/functions.php');
                                                 echo '<td class="vanfeesbalanceval" style="display:none">'.$s["Vanfees"]["Balancetopay"].' </td>';
                                                 echo '<td class="otherfeesitemnameval" style="display:none">'.$s["Otherfees"]["itemname"].' </td>';
                                                 echo '<td class="otherfeespriceval" style="display:none">'.$s["Otherfees"]["price"].' </td>';                                        
+                                                echo '<td class="oldfeestotalval" style="display:none">'.$s["Oldfees"]["TotalFees"].' </td>';
+                                                echo '<td class="oldfeespaidval" style="display:none">'.$s["Oldfees"]["Feescollected"].' </td>';
+                                                echo '<td class="oldfeesbalanceval" style="display:none">'.$s["Oldfees"]["Balancetopay"].' </td>';
                                                 echo "</tr>";
                                                 }
                                                 }
@@ -199,6 +206,10 @@ include('workers/getters/functions.php');
                                                 <th class = "vf" style="display:none"></th>  
                                                 <th class = "of" style="display:none"></th>                                             
                                                 <th class = "of" style="display:none"></th>
+                                                <th class = "blf" style="display:none"></th>
+                                                <th class = "blf" style="display:none"></th>
+                                                <th class = "blf" style="display:none"></th>
+
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -351,7 +362,28 @@ include('workers/getters/functions.php');
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 ).toFixed(2);                
-                
+
+                var oldfeestotal = api
+                .column( 18 , { search: 'applied'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);                
+
+                var oldfeespaid = api
+                .column( 19 , { search: 'applied'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);                
+
+                var oldfeesbalance = api
+                .column( 20 , { search: 'applied'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 ).toFixed(2);                
+
                 $( api.column( 0 ).footer() ).html('Total');
                 $( api.column( 4 ).footer() ).html(term1feestotal);
                 $( api.column( 5 ).footer() ).html(term1feespaid);
@@ -365,7 +397,11 @@ include('workers/getters/functions.php');
                 $( api.column( 13 ).footer() ).html(vanfeestotal);
                 $( api.column( 14 ).footer() ).html(vanfeespaid);
                 $( api.column( 15 ).footer() ).html(vanfeesbalance);
-                $( api.column( 17 ).footer() ).html(otherfeestotal);                
+                $( api.column( 17 ).footer() ).html(otherfeestotal);
+                $( api.column( 18 ).footer() ).html(oldfeestotal);
+                $( api.column( 19 ).footer() ).html(oldfeespaid);
+                $( api.column( 20 ).footer() ).html(oldfeesbalance);
+                
             },
             buttons: [
                 {
@@ -448,11 +484,20 @@ include('workers/getters/functions.php');
 			$("#otherfeesprice").css('display','none');
 			$(".otherfeesitemnameval").css('display','none');
 			$(".otherfeespriceval").css('display','none');
+            $("#oldfeestotal").css('display','none');
+			$("#oldfeespaid").css('display','none');
+			$("#oldfeesbalance").css('display','none');
+			$(".oldfeestotalval").css('display','none');
+            $(".oldfeespaidval").css('display','none');
+            $(".oldfeesbalanceval").css('display','none');
+
             $(".tf1").css('display','revert');
             $(".tf2").css('display','none');
             $(".tf3").css('display','none');
             $(".vf").css('display','none');
             $(".of").css('display','none');
+            $(".blf").css('display','none');
+
 
         }
 		else if(feesType == "Term2Fees"){
@@ -484,11 +529,20 @@ include('workers/getters/functions.php');
 			$("#otherfeesprice").css('display','none');
 			$(".otherfeesitemnameval").css('display','none');
 			$(".otherfeespriceval").css('display','none');
+            $("#oldfeestotal").css('display','none');
+			$("#oldfeespaid").css('display','none');
+			$("#oldfeesbalance").css('display','none');
+			$(".oldfeestotalval").css('display','none');
+            $(".oldfeespaidval").css('display','none');
+            $(".oldfeesbalanceval").css('display','none');
+
             $(".tf1").css('display','none');
             $(".tf2").css('display','revert');
             $(".tf3").css('display','none');
             $(".vf").css('display','none');
             $(".of").css('display','none');
+            $(".blf").css('display','none');
+
 
         }
 		else if(feesType == "Term3Fees"){
@@ -520,11 +574,20 @@ include('workers/getters/functions.php');
 			$("#otherfeesprice").css('display','none');
 			$(".otherfeesitemnameval").css('display','none');
 			$(".otherfeespriceval").css('display','none');
+            $("#oldfeestotal").css('display','none');
+			$("#oldfeespaid").css('display','none');
+			$("#oldfeesbalance").css('display','none');
+			$(".oldfeestotalval").css('display','none');
+            $(".oldfeespaidval").css('display','none');
+            $(".oldfeesbalanceval").css('display','none');
+
             $(".tf1").css('display','none');
             $(".tf2").css('display','none');
             $(".tf3").css('display','revert');
             $(".vf").css('display','none');
             $(".of").css('display','none');
+            $(".blf").css('display','none');
+
 
         }
         else if(feesType == "VanFees"){
@@ -556,11 +619,20 @@ include('workers/getters/functions.php');
 			$("#otherfeesprice").css('display','none');
 			$(".otherfeesitemnameval").css('display','none');
 			$(".otherfeespriceval").css('display','none');  
+            $("#oldfeestotal").css('display','none');
+			$("#oldfeespaid").css('display','none');
+			$("#oldfeesbalance").css('display','none');
+			$(".oldfeestotalval").css('display','none');
+            $(".oldfeespaidval").css('display','none');
+            $(".oldfeesbalanceval").css('display','none');
+
             $(".tf1").css('display','none');
             $(".tf2").css('display','none');
             $(".tf3").css('display','none');
             $(".vf").css('display','revert');
             $(".of").css('display','none');
+            $(".blf").css('display','none');
+
                          
         }
         else if(feesType == "OtherFees"){
@@ -592,13 +664,68 @@ include('workers/getters/functions.php');
 			$("#otherfeesprice").css('display','revert');
 			$(".otherfeesitemnameval").css('display','revert');
 			$(".otherfeespriceval").css('display','revert');
+            $("#oldfeestotal").css('display','none');
+			$("#oldfeespaid").css('display','none');
+			$("#oldfeesbalance").css('display','none');
+			$(".oldfeestotalval").css('display','none');
+            $(".oldfeespaidval").css('display','none');
+            $(".oldfeesbalanceval").css('display','none');
+
             $(".tf1").css('display','none');
             $(".tf2").css('display','none');
             $(".tf3").css('display','none');
             $(".vf").css('display','none');
             $(".of").css('display','revert');
+            $(".blf").css('display','none');
+
        
         }
+        else if(feesType == "OldBalanceFees"){
+			$("#term1feestotal").css('display','none');
+			$("#term1feespaid").css('display','none');
+			$("#term1feesbalance").css('display','none');
+			$(".term1feestotalval").css('display','none');
+            $(".term1feespaidval").css('display','none');
+            $(".term1feesbalanceval").css('display','none');
+			$("#term2feestotal").css('display','none');
+			$("#term2feespaid").css('display','none');
+			$("#term2feesbalance").css('display','none');
+			$(".term2feestotalval").css('display','none');
+			$(".term2feespaidval").css('display','none');
+			$(".term2feesbalanceval").css('display','none');
+			$("#term3feestotal").css('display','none');
+			$("#term3feespaid").css('display','none');
+			$("#term3feesbalance").css('display','none');
+			$(".term3feestotalval").css('display','none');
+			$(".term3feespaidval").css('display','none');
+			$(".term3feesbalanceval").css('display','none');
+            $("#vanfeestotal").css('display','none');
+			$("#vanfeespaid").css('display','none');
+            $("#vanfeesbalance").css('display','none');
+            $(".vanfeestotalval").css('display','none');
+            $(".vanfeespaidval").css('display','none');
+            $(".vanfeesbalanceval").css('display','none');
+            $("#otherfeesitemname").css('display','none');
+			$("#otherfeesprice").css('display','none');
+			$(".otherfeesitemnameval").css('display','none');
+			$(".otherfeespriceval").css('display','none');
+            $("#oldfeestotal").css('display','revert');
+			$("#oldfeespaid").css('display','revert');
+			$("#oldfeesbalance").css('display','revert');
+			$(".oldfeestotalval").css('display','revert');
+            $(".oldfeespaidval").css('display','revert');
+            $(".oldfeesbalanceval").css('display','revert');
+
+            $(".tf1").css('display','none');
+            $(".tf2").css('display','none');
+            $(".tf3").css('display','none');
+            $(".vf").css('display','none');
+            $(".of").css('display','none');
+            $(".blf").css('display','revert');
+
+       
+        }
+
         }
 </script>
 <!-- BEGIN Java Script for this page -->

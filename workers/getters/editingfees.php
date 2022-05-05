@@ -24,6 +24,9 @@ if(isset($_POST['array'])){
     $term2feestotal= '';
     $term3feestotal= '';
     $vanfeestotal= '';
+    $oldfeestotal = '';
+    $oldfeescollected='';
+    $oldbalance = '';
     $term1feescollected = '';
     $term2feescollected = '';
     $term3feescollected= '';
@@ -49,7 +52,13 @@ if(isset($_POST['array'])){
      }
    }elseif($feestype == 'VanFees'){
     $amount=$data['van_fee'];
-   }elseif($feestype == 'OtherFees'){
+    $description = $data['desc'];
+   }elseif($feestype == 'OldBalanceFees'){
+    $amount=$data['oldbal'];
+    $description = $data['desc1']; 
+  }
+
+   elseif($feestype == 'OtherFees'){
      $d = json_decode($data['inv_items'],true);
      echo 'datta';
      print_r($d);
@@ -101,6 +110,8 @@ echo 'test3',$sum;
     $total_amount=$data['van_fee_total'];
    }elseif(substr($feestype,0,9) === "OtherFees"){
     $total_amount=$amount;
+   }elseif($feestype == 'OldBalanceFees'){
+    $total_amount=$data['oldbaltotal'];
    }
 
   $sql0 = "UPDATE `fees_management` SET `fee_type`='$feestype',`fees_paid` ='$amount',`fee_total_amt`='$total_amount' WHERE fee_id = $fees_id";
@@ -125,6 +136,9 @@ echo 'test3',$sum;
     $term3feestotal = $s["Termfees"]["Term3"]["TotalFees"];
     $term3feescollected = $s["Termfees"]["Term3"]["Feescollected"];
     $term3balance = $s["Termfees"]["Term3"]["Balancetopay"];
+    $oldfeestotal = $s["Termfees"]["Term3"]["TotalFees"];
+    $oldfeescollected = $s["Termfees"]["Term3"]["Feescollected"];
+    $oldbalance = $s["Termfees"]["Term3"]["Balancetopay"];
     $vanfeestotal = $s["Vanfees"]["TotalFees"];
     $vanfeescollected = $s["Vanfees"]["Feescollected"];
     $vanbalance = $s["Vanfees"]["Balancetopay"];
@@ -182,7 +196,8 @@ echo 'test3',$sum;
   $stats = array("Termfees"=>array("Term1"=>array("TotalFees"=>$term1feestotal,"Feescollected"=>$term1feescollected,"Balancetopay"=>"$term1balance"),
   "Term2"=>array("TotalFees"=>$term2feestotal,"Feescollected"=>$term2feescollected,"Balancetopay"=>"$term2balance"),
   "Term3"=>array("TotalFees"=>$term3feestotal,"Feescollected"=>$term3feescollected,"Balancetopay"=>"$term3balance")),
-  "Vanfees"=>array("TotalFees"=>$vanfeestotal,"Feescollected"=>$vanfeescollected,"Balancetopay"=>"$vanbalance"),"Otherfees"=>array("itemname"=>"$itemname","price"=>"$price"));
+  "Vanfees"=>array("TotalFees"=>$vanfeestotal,"Feescollected"=>$vanfeescollected,"Balancetopay"=>"$vanbalance"),"Otherfees"=>array("itemname"=>"$itemname","price"=>"$price"),
+  "oldfees"=>array("TotalFees"=>$oldfeestotal,"Feescollected"=>$oldfeescollected,"Balancetopay"=>"$oldbalance"));
   $status = json_encode($stats);
   
   

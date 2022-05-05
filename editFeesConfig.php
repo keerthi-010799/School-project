@@ -5,7 +5,11 @@ if(isset($_POST['FeesConfigEdit']))
 { 
     $feesId = $_POST['feesId'];
     $amount = $_POST['amount'];
-    $updatefeesconfig = "UPDATE `feesconfig` SET `fee_config_amount` = $amount WHERE fee_config_id = '$feesId'";
+	$term1  = $_POST['term1'];
+	$term2  = $_POST['term2'];
+	$term3  = $_POST['term3'];
+
+    $updatefeesconfig = "UPDATE `feesconfig` SET `fee_config_amount` = $amount ,`term1` = $term1,`term2` = $term2,`term3` = $term3 WHERE fee_config_id = '$feesId'";
 
     if(mysqli_query($dbcon,$updatefeesconfig))
     {
@@ -79,6 +83,9 @@ if(isset($_POST['FeesConfigEdit']))
 													$class = $res['fee_config_class'];
 													$feesname = $res['fee_config_name'];													
 													$amount1 = $res['fee_config_amount'];
+													$tterm1 = $res['term1'];
+													$tterm2 = $res['term2'];
+													$tterm3 = $res['term3'];
 													$duedate = $res['fee_config_duedate'];
 													$status = $res['fee_config_status'];
 													
@@ -127,7 +134,7 @@ if(isset($_POST['FeesConfigEdit']))
                                 </div>
                                     <div class="form-group col-md-5">
                                         <label>Amount<span class="text-danger"></span></label>
-                                        <input  type="text" class="form-control form-control-sm" id="amount" name="amount" onblur="addfees()" value="<?php echo $amount1;?>" /> 
+                                        <input  type="text" class="form-control form-control-sm" id="amount" name="amount"  value="<?php echo $amount1;?>" /> 
                                     </div>         
 									<div class="form-group col-md-5">
                                         <label>Duedate</label>
@@ -136,15 +143,15 @@ if(isset($_POST['FeesConfigEdit']))
 									</div>
                                     <div class="form-group col-md-4">
 										<label >Term 1</label><span class="text-danger">*</span>
-									  <input type="text" class="form-control form-control-sm" id="term1" name="term-1" placeholder="Term1 Fee" readonly >
+									  <input type="text" class="form-control form-control-sm" id="term1" name="term1" placeholder="Term1 Fee" onblur="addfees()" value="<?php echo $tterm1;?>">
 									</div>
 									<div class="form-group col-md-4">
 										<label >Term 2</label><span class="text-danger">*</span>
-									  <input type="text" class="form-control form-control-sm" id="term2" name="term-2" placeholder="Term2 Fee"  readonly>
+									  <input type="text" class="form-control form-control-sm" id="term2" name="term2" placeholder="Term2 Fee" onblur="addfees()" value="<?php echo $tterm2;?>">
 									</div>
 									<div class="form-group col-md-4">
 										<label >Term 3</label><span class="text-danger">*</span>
-									  <input type="text" class="form-control form-control-sm" id="term3" name="term-3" placeholder="Term3 Fee"  readonly>
+									  <input type="text" class="form-control form-control-sm" id="term3" name="term3" placeholder="Term3 Fee" onblur="addfees()" value="<?php echo $tterm3;?>">
 									</div>                                                                                                     
                                                                         
                                     							
@@ -172,13 +179,6 @@ if(isset($_POST['FeesConfigEdit']))
 		<script>
             $('document').ready(function(){
 	//addGroupnames_ajax.php
-    var total = $('#amount').val();
-	var term = Math.ceil(total/3);
-	$('#term1').val(term);
-	$('#term2').val(term);
-	$('#term3').val(term);
-
-    
     $('#submitfeesname2').click(function(){
 		var feesname = $('#addfeesname2').val();
 		var description = $('#addescription2').val();
@@ -210,11 +210,11 @@ if(isset($_POST['FeesConfigEdit']))
 		 });
 });
             function addfees(){
-	var total = $('#amount').val();
-	var term = Math.ceil(total/3);
-	$('#term1').val(term);
-	$('#term2').val(term);
-	$('#term3').val(term);
+	var term1 = $('#term1').val();
+	var term2 = $('#term2').val();
+	var term3 = $('#term3').val();
+	var total = Math.ceil((+term1)+(+term2)+(+term3));
+	$('#amount').val(total);	
 }
 
         </script>						

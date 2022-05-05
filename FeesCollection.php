@@ -72,6 +72,24 @@
                                                 </select>
                                             </div>
                                                 </div>  
+                                                <div class="form-group">								
+												<label >Payment Mode<span class="text-danger">*</span></label>
+												<select required id="paymentmode" data-parsley-trigger="change" style="width:300px;" class="form-control select2"  name="paymentmode" >
+													<!--option value="">-Select Payment Mode-</option-->
+														<option value="Cash">Cash</option>
+														<option value="Cheque">Cheque</option>
+														<option value="Credit Card">Credit Card</option>
+														<option value="Bank Transfer">Bank Transfer</option>
+														<option value="PhonePe">PhonePe</option>
+														<option value="GPay">GPay</option>
+
+												</select>
+											</div>      
+											
+								        <div class="form-group">
+												<label>Reference</label><br />
+												<input type="text" style="width:300px;" name="reference" class="form-control form-control-sm " placeholder="Cheque No/Payment Transaction Ref No..">
+												</div>
 
 
                                                 <div class="form-row">
@@ -82,6 +100,7 @@
                                                 <option value="TermFees" >Term Fees</option>
                                                 <option value="VanFees" >Van Fees</option>
                                                 <option value="OtherFees" >Other Fees</option>
+                                                <option value="OldBalanceFees" >Old Balance Fees</option>
                                             </select>
                                                   </div>
                                                   </div>                                                                                              
@@ -156,6 +175,33 @@
                                                   </div>
                                                 </div>
                                                 </div>
+
+                                                <div id="oldfeesform" style="display:none">  
+                                                  <div class="form-row">
+                                                  <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Old Balance Fees</span><span class="text-danger">*</span></label>
+                                                  <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Old Balance</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:200px" class="form-control form-control-sm" name="oldbaltotal" id="oldbaltotal" readonly placeholder=""  class="form-control" autocomplete="off" />
+                                                  <input type="text" style="width:200px"class="form-control form-control-sm" name="oldbal" id="oldbal" placeholder="Enter Amount"  class="form-control" autocomplete="off" />
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class=""> Old Balance paid</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="oldbalpaid" id="oldbalpaid" readonly placeholder=""  class="form-control" autocomplete="off" />
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Old Balance Due</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="oldbalance" id="oldbalance" readonly placeholder=""  class="form-control" autocomplete="off" />
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Description</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="desc1"id="desc1"  placeholder="Description"  class="form-control" autocomplete="off" />
+                                                </div>
+                                                </div>
+                                                  </div>
+                                                  </div>
+
+
                                                 <div id="vanfeesform" style="display:none">  
                                                   <div class="form-row">
                                                   <div class="form-group col-md-6">
@@ -293,20 +339,30 @@
             $("#termfeesform").css('display','block');
             $("#vanfeesform").css('display','none');
             $("#otherfeesform").css('display','none');
+            $("#oldfeesform").css('display','none');
             changeTermFees();          
         }
         else if(feesType == "VanFees"){
             $("#termfeesform").css('display','none');
             $("#vanfeesform").css('display','block');
             $("#otherfeesform").css('display','none');
+            $("#oldfeesform").css('display','none');
               changevanFees();             
         }
         else if(feesType == "OtherFees"){
             $("#otherfeesform").css('display','block');
             $("#termfeesform").css('display','none');
-            $("#vanfeesform").css('display','none');                
-
+            $("#vanfeesform").css('display','none');     
+            $("#oldfeesform").css('display','none');           
         }
+        else if(feesType == "OldBalanceFees"){
+            $("#otherfeesform").css('display','none');
+            $("#termfeesform").css('display','none');
+            $("#vanfeesform").css('display','none');     
+            $("#oldfeesform").css('display','block');    
+            changeoldbal();       
+        }
+
     }
       function changevanFees(){
         var stname = $('#student').val();
@@ -402,12 +458,9 @@
                       $('#discount').val(dic); 
                       $('#discountname').val(name);
                       $('#termamount').val(vals.fee_config_amount);    
-                        var total = $("#termtotal").val();
-                        var term = Math.ceil(total/3);
-                        console.log("term",total);
-                       $("#term1total").val(term);
-                       $("#term2total").val(term);
-                       $("#term3total").val(term);     
+                       $("#term1total").val(vals.term1);
+                       $("#term2total").val(vals.term2);
+                       $("#term3total").val(vals.term3);     
                        $('#std_id').val(id);
                        $('#admno').val(output.admissionno);
                        $('#term1paid').val(term1paid);
@@ -423,6 +476,31 @@
                   }
                 }
             });
+         }
+
+         function changeoldbal(){
+          var clas = $('#class').val();
+        var student = $('#student').val();
+        var old = $('#oldbal').val();
+        console.log("old",clas,student);
+          $.ajax({
+      url: "workers/getters/oldbalfees.php?student="+student+"&class="+clas,
+                type: "post",
+                //async: false,
+                success: function(x) {
+                    var output = JSON.parse(x);
+                    if (output.status) {
+                      console.log("test")                  
+                      var balance = output.balance;
+                      var olddue = balance - old;
+                      $('#oldbaltotal').val(balance);
+                      $('#oldbalance').val(olddue);
+                      $('#std_id').val(output.stdid);
+                      $('#admno').val(output.admissionno);
+                    } 
+                }
+            });
+
          }
 
 
@@ -489,7 +567,7 @@ $.ajax ({
                     },
                     success:function(response){
                       console.log(response);
-                        window.location.href="listcollectedfees.php";
+                      window.location.href="listcollectedfees.php";
                     }
                 });
 });

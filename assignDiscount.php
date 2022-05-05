@@ -3,7 +3,7 @@ include("database/db_conection.php");//make connection here
 $admissionnoFound ='';
 if(isset($_POST['submit']))
 {
- $approvedby =$_POST['approvedby'];
+//  $approvedby =$_POST['approvedby'];
  $academic=$_POST['academic'];
  $classid=$_POST['class'];
  $admissionno=$_POST['admissionno']; 

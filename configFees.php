@@ -12,7 +12,10 @@ if(isset($_POST['submit']))
 	$gender=$_POST['gender'];//same
 	$feesname=$_POST['feesname'];//same
 	$amount=$_POST['amount'];//same
-    $duedate=$_POST['duedate'];
+    $term1 = $_POST['term1'];
+	$term2 = $_POST['term2'];
+    $term3 = $_POST['term3'];
+	$duedate=$_POST['duedate'];
 	$feeprefix = $_POST['class'];
 
 	$sql="SELECT MAX(fee_config_id) as id FROM feesconfig ORDER BY id DESC";
@@ -41,8 +44,8 @@ $CheckFeesConfig="SELECT fee_config_name FROM  feesconfig WHERE fee_config_class
 	 }
     else{	
 
-	$insert_feesconfig="INSERT INTO feesconfig (`fee_config_code`,`fee_config_academic_year`,`fee_config_class`,`fee_config_gender`,`fee_config_name`,`fee_config_amount`,`fee_config_duedate`) 
-	VALUES ('$feescode','$academic','$class','$gender','$feesname','$amount','$duedate')";													    
+	$insert_feesconfig="INSERT INTO feesconfig (`fee_config_code`,`fee_config_academic_year`,`fee_config_class`,`fee_config_gender`,`fee_config_name`,`term1`,`term2`,`term3`,`fee_config_amount`,`fee_config_duedate`) 
+	VALUES ('$feescode','$academic','$class','$gender','$feesname','$term1','$term2','$term3','$amount','$duedate')";													    
 	
 	if(mysqli_query($dbcon,$insert_feesconfig))
 	{
@@ -112,7 +115,8 @@ $CheckFeesConfig="SELECT fee_config_name FROM  feesconfig WHERE fee_config_class
                                          <select id="class" class="form-control form-control-sm"  name="class" required >       
 											 <option value="">-Select Class-</option>
                                                     <?php 
-                                                    include("database/db_conection.php");//make connection here
+          
+		  include("database/db_conection.php");//make connection here
 														
 														$sql = mysqli_query($dbcon, "SELECT class FROM class ORDER BY id ASC");
                                                     while ($row = $sql->fetch_assoc()){	
@@ -156,24 +160,25 @@ $CheckFeesConfig="SELECT fee_config_name FROM  feesconfig WHERE fee_config_class
                                                 </select>
                                                 </div>
                                                 </div>
-												<div class="form-row">
-                                                <div class="form-group col-md-10">
-										<label >Amount</label><span class="text-danger">*</span>
-									<input type="text" id="amount" class="form-control form-control-sm" name="amount" placeholder="Enter Fee Amount" onblur="addfees()">
-									</div>
-                                    </div>
+												
 												<div class="form-group col-md-4">
 										<label >Term 1</label><span class="text-danger">*</span>
-									  <input type="text" class="form-control form-control-sm" id="term1" name="term-1" placeholder="Term1 Fee" readonly >
+									  <input type="text" class="form-control form-control-sm" id="term1" name="term1" placeholder="Term1 Fee">
 									</div>
 									<div class="form-group col-md-4">
 										<label >Term 2</label><span class="text-danger">*</span>
-									  <input type="text" class="form-control form-control-sm" id="term2" name="term-2" placeholder="Term2 Fee"  readonly>
+									  <input type="text" class="form-control form-control-sm" id="term2" name="term2" placeholder="Term2 Fee" >
 									</div>
 									<div class="form-group col-md-4">
 										<label >Term 3</label><span class="text-danger">*</span>
-									  <input type="text" class="form-control form-control-sm" id="term3" name="term-3" placeholder="Term3 Fee"  readonly>
-									</div>                                    																	
+									  <input type="text" class="form-control form-control-sm" id="term3" name="term3" placeholder="Term3 Fee" onblur="addfees()">
+									</div>      
+									<div class="form-row">
+                                                <div class="form-group col-md-10">
+										<label >Amount</label><span class="text-danger">*</span>
+									<input type="text" id="amount" class="form-control form-control-sm" name="amount" placeholder="Enter Fee Amount">
+									</div>
+                                    </div>                              																	
                                 <div class="form-row">
 									<div class="form-group col-md-10">
 										<label >Due Date</label><span class="text-danger">*</span>
@@ -248,11 +253,12 @@ $('document').ready(function(){
 		 });
 });
 function addfees(){
-	var total = $('#amount').val();
-	var term = Math.ceil(total/3);
-	$('#term1').val(term);
-	$('#term2').val(term);
-	$('#term3').val(term);
+	var term1 = $('#term1').val();
+	var term2 = $('#term2').val();
+	var term3 = $('#term3').val();
+
+	var total = Math.ceil((+term1)+(+term2)+(+term3));
+	$('#amount').val(total);	
 }
 			
 </script>	

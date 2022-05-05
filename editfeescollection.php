@@ -49,7 +49,11 @@ include("database/db_conection.php");
 													$feestype1 = $res['fee_type'];													
 													$amount = $res['fee_total_amt'];
 													$paid = $res['fees_paid'];													
-                          $sid = $res['fee_student_id'];																										
+                          $sid = $res['fee_student_id'];	
+                          $pmode = $res['paymentmode'];
+                          $ref = $res['reference'];
+                          $desc = $res['description'];			
+
                       }
                       $result1 = mysqli_query($dbcon, "SELECT * FROM studentprofile WHERE id = $sid");								 
 												while($res1 = mysqli_fetch_array($result1))
@@ -127,6 +131,32 @@ include("database/db_conection.php");
                                                 </select>
                                             </div>
                                                 </div>  
+                          
+                          <div class="form-group">								
+												<label >Payment Mode<span class="text-danger">*</span></label>
+												<select required id="paymentmode" data-parsley-trigger="change" style="width:300px;" class="form-control select2"  name="paymentmode" >
+													<!--option value="">-Select Payment Mode-</option-->
+                        <?php
+                                              if($pmode == "Cash") {echo"<option selected value='Cash'>Cash</option>";} else {echo "<option  value='Cash'>Cash</option>";}				
+                                                if($pmode == "Cheque" ){
+                                              	echo"<option selected value='Cheque'>Cheque</option>";}else{echo "<option value='Cheque'>Cheque</option>";}
+                                                if($pmode == "Credit Card"){
+                                              	echo"<option selected value='Credit Card'>Credit Card</option>";}else{echo "<option value='Credit Card'>Credit Card</option>";}
+                                                if($pmode == "Bank Transfer" ){
+                                              	echo"<option selected value='Bank Transfer'>Bank Transfer</option>";}else{echo "<option value='Bank Transfer'>Bank Transfer</option>";}
+                                                if($pmode == "PhonePe"){
+                                              	echo"<option selected value='PhonePe'>PhonePe</option>";}else{echo "<option value='PhonePe'>PhonePe</option>";}
+                                                if($pmode == "GPay"){
+                                              	echo"<option selected value='GPay'>GPay</option>";}else{echo "<option value='GPay'>GPay</option>";}
+                    
+												?>
+                        </select>
+											</div>      
+											
+								        <div class="form-group">
+												<label>Reference</label><br />
+												<input type="text" style="width:300px;" name="reference" class="form-control form-control-sm " value="<?php echo $ref?>" placeholder="Cheque No/Payment Transaction Ref No..">
+												</div>
 
 
                                                 <div class="form-row">
@@ -239,6 +269,30 @@ include("database/db_conection.php");
                                                   </div>
                                                 </div>
                                                 </div>
+                                                <div id="oldfeesform" style="display:none">  
+                                                  <div class="form-row">
+                                                  <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Old Balance Fees</span><span class="text-danger">*</span></label>
+                                                  <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Old Balance</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:200px" class="form-control form-control-sm" name="oldbaltotal" id="oldbaltotal" readonly placeholder=""  class="form-control" autocomplete="off" />
+                                                  <input type="text" style="width:200px"class="form-control form-control-sm" name="oldbal" placeholder="Enter Amount"  class="form-control" autocomplete="off" value = "<?php echo $amount;?>/>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class=""> Old Balance paid</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="oldbalpaid" id="oldbalpaid" readonly placeholder=""  class="form-control" autocomplete="off" />
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Old Balance Due</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="oldbalance" id="oldbalance" readonly placeholder=""  class="form-control" autocomplete="off" />
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                  <label for="inputState"><span class="">Description</span><span class="text-danger">*</span></label>                                        
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="desc1"id="desc1"  placeholder="Description"  class="form-control" autocomplete="off" value = "<?php if($feestype1=='VanFees'){echo $desc;}?>"/>
+                                                </div>
+                                                  </div>
+                                                  </div>
+                                                  </div>
                                                 <div id="vanfeesform" style="display:none">  
                                                   <div class="form-row">
                                                   <div class="form-group col-md-6">
@@ -254,6 +308,8 @@ include("database/db_conection.php");
                                         <th width="20%">Van Fees Paid</th>
                                         <th width="20%">Van Fees Balance</th>
                                         <th width="25%" >Fees collected</th>
+                                        <th width="25%" >Description</th>
+
                                     </tr>  
                                     <tr>                                                                                                                                                    
                                        <td id="stclass"></td>
@@ -267,11 +323,16 @@ include("database/db_conection.php");
                                                         echo $paid;                                                    
                                                     }?>" /></td>                                                            
                                     </tr>
+                                    <td><input class="form-control form-control-sm" value="<?php if($feestype1=='VanFees'){
+                                                        echo $desc;                                                    
+                                                    }?>" name="desc"id="desc"/></td>                                                          -->
+
                                                 </table>
                                                 </div>
                                                   </div>
                                                 </div>
-                                                  <div id="otherfeesform" style="display:none">  
+
+                                                <div id="otherfeesform" style="display:none">  
                                                   <div class="form-row">
                                                   <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Other Fees</span><span class="text-danger">*</span></label>
@@ -375,20 +436,30 @@ include("database/db_conection.php");
             $("#termfeesform").css('display','block');
             $("#vanfeesform").css('display','none');
             $("#otherfeesform").css('display','none');
+            $("#oldfeesform").css('display','none');
             changeTermFees();          
         }
         else if(feesType == "VanFees"){
             $("#termfeesform").css('display','none');
             $("#vanfeesform").css('display','block');
             $("#otherfeesform").css('display','none');
+            $("#oldfeesform").css('display','none');
               changevanFees();             
         }
         else if(feesType == "OtherFees"){
             $("#otherfeesform").css('display','block');
             $("#termfeesform").css('display','none');
-            $("#vanfeesform").css('display','none');                
-
+            $("#vanfeesform").css('display','none'); 
+            $("#oldfeesform").css('display','none');               
         }
+        else if(feesType == "OldBalanceFees"){
+            $("#oldfeesform").css('display','block');
+            $("#otherfeesform").css('display','none');
+            $("#termfeesform").css('display','none');
+            $("#vanfeesform").css('display','none');                
+            changeoldbal();
+        }
+
     }
     function changevanFees(){
         var stname = $('#student').val();
@@ -484,20 +555,20 @@ include("database/db_conection.php");
                       $('#discount').val(dic); 
                       $('#discountname').val(name);
                       $('#termamount').val(vals.fee_config_amount);    
-                        var total = $("#termtotal").val();
-                        var term = Math.ceil(total/3);
-                        console.log("term",total);
-                       $("#term1total").val(term);
-                       $("#term2total").val(term);
-                       $("#term3total").val(term);     
+                      var term1 = Math.ceil(vals.term1);
+                        var term2 = Math.ceil(vals.term2);
+                        var term3 = Math.ceil(vals.term3);
+                       $("#term1total").val(term1);
+                       $("#term2total").val(term2);
+                       $("#term3total").val(term3);     
                        $('#std_id').val(id);
                        $('#admno').val(output.admissionno);
                        $('#term1paid').val(term1paid);
                        $('#term2paid').val(term2paid);                                                        
                        $('#term3paid').val(term3paid); 
-                       var term1balance = term-term1paid;
-                       var term2balance = term-term2paid;
-                       var term3balance = term-term3paid;   
+                       var term1balance = term1-term1paid;
+                       var term2balance = term2-term2paid;
+                       var term3balance = term3-term3paid;   
                        $('#term1balance').val(term1balance);
                        $('#term2balance').val(term2balance);
                        $('#term3balance').val(term3balance);
@@ -505,6 +576,31 @@ include("database/db_conection.php");
                   }
                 }
             });
+         }
+
+         function changeoldbal(){
+          var clas = $('#class').val();
+        var student = $('#student').val();
+        var old = $('#oldbal').val();
+        console.log("old",clas,student);
+          $.ajax({
+      url: "workers/getters/oldbalfees.php?student="+student+"&class="+clas,
+                type: "post",
+                //async: false,
+                success: function(x) {
+                    var output = JSON.parse(x);
+                    if (output.status) {
+                      console.log("test")                  
+                      var balance = output.balance;
+                      var olddue = balance - old;
+                      $('#oldbaltotal').val(balance);
+                      $('#oldbalance').val(olddue);
+                      $('#std_id').val(output.stdid);
+                      $('#admno').val(output.admissionno);
+                    } 
+                }
+            });
+
          }
          $("form#feescollect").submit(function(e){                     
           e.preventDefault(); 
