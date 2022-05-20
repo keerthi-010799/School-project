@@ -74,7 +74,7 @@ include('workers/getters/functions.php');
 											 <option value="Term3Fees">Term3 Fees</option>
 											 <option value="VanFees">Van Fees</option>                                             
 											 <option value="OtherFees">Other Fees</option>
-											 <option value="OldBalanceFees">Old Balance Fees</option>
+											 <option value="oldBalanceFees">Old Balance Fees</option>
 												</select>
 
                                 </div>
@@ -680,7 +680,7 @@ include('workers/getters/functions.php');
 
        
         }
-        else if(feesType == "OldBalanceFees"){
+        else if(feesType == "oldBalanceFees"){
 			$("#term1feestotal").css('display','none');
 			$("#term1feespaid").css('display','none');
 			$("#term1feesbalance").css('display','none');

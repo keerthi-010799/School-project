@@ -22,6 +22,11 @@ $message ='';
 					 $routeno =mysqli_real_escape_string($dbcon,$data[4]);
 					 $areaname =mysqli_real_escape_string($dbcon,$data[5]);
 					 $amount =mysqli_real_escape_string($dbcon,$data[6]);
+
+					 $sq = mysqli_query($dbcon, "SELECT amount FROM areamaster WHERE areaname = '$areaname'");
+					 while ($ro = $sq->fetch_assoc()){
+						  echo $amount = $ro['amount'];      
+					   }
 					
 				 $query = "INSERT INTO  vanstudents( 
 				  academic,

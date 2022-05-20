@@ -204,7 +204,9 @@ function displaywords($number){
                             $result = mysqli_query($dbcon,$user);
                             $row = $result-> fetch_assoc();
                             $name = $row['firstname'];
-                              echo $name; ?> <span style="margin-left:400px;text-align:left;">Verified by:<?php echo $name;?></span></div>
+                              echo $name; ?> <span style="margin-left:400px;text-align:left;">Verified by:<?php if($_SESSION['groupname']=="Superadmin"){						
+                                echo $name;
+                              }?></span></div>
                             <td width="100%" style="padding:10px;">
                                 <p style="text-align: center;">***-This  is computer generated receipt hence seal and signature not required ***</p>
                             </td>

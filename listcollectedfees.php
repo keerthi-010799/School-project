@@ -44,8 +44,8 @@
                                     </div>
                                 </div>
                                     <div class="form-group col-md-3">
-                                         
-                                         <select id="classwise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="class">
+                                             <label for="class">
+                                         <select id="classwise" data-parsley-trigger="change"  class="form-control select2"  name="class">
                                              <option value="">-Select Class-</option>
                                                     <?php 
                                                     include("database/db_conection.php");//make connection here
@@ -60,7 +60,7 @@
                                         </div>
 										<div class="form-group col-md-3">
                                         
-                                         <select id="studentwise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="student">
+                                         <select id="studentwise" data-parsley-trigger="change"  class="form-control select2"  name="student">
                                              <option value="">-Select Student-</option>
                                                     <?php 
                                                     include("database/db_conection.php");//make connection here

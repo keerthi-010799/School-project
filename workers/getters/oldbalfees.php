@@ -12,7 +12,14 @@ if (isset($_GET['student'])) {
         $std_id = $row['id'];        
         $adminno = $row['admissionno'];
     }
+}
+$sq1 ="SELECT sum(fees_paid) as feespaid FROM fees_management WHERE fee_student_id = $std_id and fee_type = 'OldBalanceFees'";
+if($result1 = mysqli_query($dbcon,$sq1)){
+    $ro1 = mysqli_fetch_assoc($result1);
+    if(mysqli_num_rows($result1)>0){  
+    $oldpaid = $ro1['feespaid'];
 } 
+}
     $return=array();
     $values=array();
     $sql = "SELECT * FROM oldbalstudents where  firstname = '$student' and admissionno = '$adminno'";
@@ -24,6 +31,7 @@ if (isset($_GET['student'])) {
         $return['admissionno'] = $row['admissionno'];
         $return['stdid'] =  $std_id;
         $return['balance'] = $row['fees_balance'];
+        $return['oldpaid'] = $oldpaid;
 }
     }else{
         $return['status']=false;

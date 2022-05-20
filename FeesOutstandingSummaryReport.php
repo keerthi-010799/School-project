@@ -35,7 +35,8 @@ include('workers/getters/functions.php');
                         </div>
                         <div class="form-group row">
                         <div class="form-group col-md-3">
-                        <select id="classwise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="class">
+						    <label for="class">
+                        <select id="classwise" data-parsley-trigger="change"  class="form-control select2"  name="class">
                                              <option value="">-Select Class-</option>
                                                     <?php 
                                                     include("database/db_conection.php");//make connection here
@@ -51,7 +52,7 @@ include('workers/getters/functions.php');
                         
                                 <div class="form-group row">
                         <div class="form-group col-md-6">
-                        <select id="studentwise" data-parsley-trigger="change"  class="form-control form-control-sm"  name="student">
+                        <select id="studentwise" data-parsley-trigger="change"  class="form-control select2"  name="student">
                                              <option value="">-Select Student-</option>
                                                     <?php 
                                                     include("database/db_conection.php");//make connection here
@@ -122,7 +123,8 @@ include('workers/getters/functions.php');
                                         $term1pid ='';
                                         $term2pid ='';
                                         $term3pid ='';
-                                        $vanpid   ='';                  
+                                        $vanpid   ='';   
+                                        $percent = '';               
                                         
                                         if((isset($_GET['st'])&&$_GET['st']!='')||
                                                 (isset($_GET['end'])&&$_GET['end']!='')||
@@ -158,7 +160,9 @@ include('workers/getters/functions.php');
                                                 while ($row =$result-> fetch_assoc()){	
                                                     $sid = $row['id'];
                                                     $class = $row['class'];
-                                                    $name = $row['firstname'];                                                    
+                                                    $name = $row['firstname'];   
+                                                    $lname = $row['lastname'];
+                                                    $sname = $name." ".$lname;                                               
                                 $term = "SELECT * FROM feesconfig WHERE fee_config_class = '$class'";                                                   
                                 if($result1 = mysqli_query($dbcon,$term)){
                                      $row1   = mysqli_fetch_assoc($result1);
@@ -166,37 +170,79 @@ include('workers/getters/functions.php');
                                          $termfee = $row1['fee_config_amount'];
                                     }
                                 }
-
                                     $van ="SELECT * FROM vanstudents WHERE studentname = '$name'";
                                 if($result2 = mysqli_query($dbcon,$van)){
                                     $row2   = mysqli_fetch_assoc($result2);
                                     if(mysqli_num_rows($result2)>0){
                                         $vanfee = $row2['amount'];
                                     }
+                                    else{
+                                        $vanfee = '';
+                                    }
+                                }
+
+                                $dis = "SELECT * FROM studentsdiscount WHERE approvalStatus = 'Y' AND studentname = '$sname'";
+                                if($resultd = mysqli_query($dbcon,$dis)){
+                                    $rowd   = mysqli_fetch_assoc($resultd);
+                                    if(mysqli_num_rows($resultd)>0){
+                                     $percent = $rowd['discountpercentage'];
+                                    }
+                                    else{
+                                        $percent = '';
+                                    }
+                                }
+                                $admn = "SELECT * FROM newadmission WHERE studentname = '$sname'";
+                                if($resultad = mysqli_query($dbcon,$admn)){
+                                    $rowad   = mysqli_fetch_assoc($resultad);
+                                    if(mysqli_num_rows($resultad)>0){
+                                     $admfee = $rowad['admission_fee'];
+                                    }
+                                    else{
+                                        $admfee = '';
+                                    }
                                 }
                                 $all ="SELECT * FROM fee_status WHERE fee_student_id = '$sid'";                                
                                 if($result3 = mysqli_query($dbcon,$all)){
                                     $row3   = mysqli_fetch_assoc($result3);
                                     if(mysqli_num_rows($result3)>0){
-                                        $dat=$row3['fee_bal_status'];	
-                                        echo " ";
+                                        $dat=$row3['fee_bal_status'];	                                        
                                         $s = json_decode($dat,true);
                                         print_r($s,true);
+                                        if(strlen($s["Termfees"]["Term1"]["Feescollected"]) >0){
+                                             $term1col =$s["Termfees"]["Term1"]["Feescollected"];
+                                            } else {
+                                                $term1col = "";};
+                                        
+                                        if(strlen($s["Termfees"]["Term2"]["Feescollected"]>0)) {$term2col =$s["Termfees"]["Term2"]["Feescollected"];}else{$term2col ="";};
+                                        
+                                        if(strlen($s["Termfees"]["Term3"]["Feescollected"] ) >0) {$term3col =$s["Termfees"]["Term3"]["Feescollected"];}else{$term3col ="";};
+                                         
+                                        if(strlen($s["Vanfees"]["Feescollected"]) >0) {$vancol =$s["Vanfees"]["Feescollected"];}else{$vancol ="";};
+                                        
+                                        if(strlen($s["Termfees"]["Term1"]["Balancetopay"]) >0) {$term1pid = $s["Termfees"]["Term1"]["Balancetopay"];}else{$term1pid = "";};
+                                        
+                                        if(strlen($s["Termfees"]["Term2"]["Balancetopay"]) >0) {$term2pid = $s["Termfees"]["Term2"]["Balancetopay"];}else{$term2pid = "";};
+                                        
+                                        if(strlen($s["Termfees"]["Term3"]["Balancetopay"]) >0) {$term3pid = $s["Termfees"]["Term3"]["Balancetopay"];}else{$term3pid = "";};
+                                        
+                                        if(strlen($s["Vanfees"]["Balancetopay"]) >0) {$vanpid =$s["Vanfees"]["Balancetopay"];}else{$vanpid = "";};
+                                        }                                  
+                                else{
+                                    $term1col = "";
+                                    $term2col = "";
+                                    $term3col = "";
+                                    $vancol = "";
+                                    $term1pid = "";
+                                    $term2pid = "";
+                                    $term3pid = "";
+                                    $vanpid = "";
 
-                                        $term1col = $s["Termfees"]["Term1"]["Feescollected"];
-                                        $term2col =$s["Termfees"]["Term2"]["Feescollected"];
-                                        $term3col =$s["Termfees"]["Term3"]["Feescollected"];
-                                        $vancol   = $s["Vanfees"]["Feescollected"];
-                                        $term1pid = $s["Termfees"]["Term1"]["Balancetopay"];
-                                        $term2pid = $s["Termfees"]["Term2"]["Balancetopay"];
-                                        $term3pid = $s["Termfees"]["Term3"]["Balancetopay"];
-                                        $vanpid = $s["Vanfees"]["Balancetopay"];
-                                        }
-                                }  
-                                 $total = (int)$termfee+(int)$vanfee;                                			
+                                }
+                            }
+                                 $discount = (int)$percent /100*(int)$termfee;
+                                 $total = (int)$termfee+(int)$vanfee - (int)$discount +(int)$admfee;                                			
                                  $feespaid = (int)$term1col+(int)$term2col+(int)$term3col+(int)$vancol;																	
                                  $feesblance = $total - $feespaid;																	
-
                                                 echo "<tr>";
                                                 echo '<td>' .$sid . '</td>';
                                                 echo '<td>'.$class.' </td>';
@@ -221,9 +267,9 @@ include('workers/getters/functions.php');
                                                 <th></th>
                                                 <th></th>
                                                 <th></th>
-                                                <th class = "tf1" style="display:"></th>
-                                                <th class = "tf1" style="display:"></th>
-                                                <th class = "tf1" style="display:"></th>                                            </tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>                                            </tr>
                                         </tfoot>
                                     </table>
                                 </div>

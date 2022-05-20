@@ -100,7 +100,7 @@
                                                 <option value="TermFees" >Term Fees</option>
                                                 <option value="VanFees" >Van Fees</option>
                                                 <option value="OtherFees" >Other Fees</option>
-                                                <option value="OldBalanceFees" >Old Balance Fees</option>
+                                                <option value="oldBalanceFees" >Old Balance Fees</option>
                                             </select>
                                                   </div>
                                                   </div>                                                                                              
@@ -355,7 +355,7 @@
             $("#vanfeesform").css('display','none');     
             $("#oldfeesform").css('display','none');           
         }
-        else if(feesType == "OldBalanceFees"){
+        else if(feesType == "oldBalanceFees"){
             $("#otherfeesform").css('display','none');
             $("#termfeesform").css('display','none');
             $("#vanfeesform").css('display','none');     
@@ -459,9 +459,9 @@
                       $('#discount').val(dic); 
                       $('#discountname').val(name);
                       $('#termamount').val(vals.fee_config_amount);    
-                       $("#term1total").val(vals.term1 - disamt);
-                       $("#term2total").val(vals.term2 - disamt);
-                       $("#term3total").val(vals.term3 - disamt);     
+                       $("#term1total").val(Math.ceil(vals.term1 - disamt));
+                       $("#term2total").val(Math.ceil(vals.term2 - disamt));
+                       $("#term3total").val(Math.ceil(vals.term3 - disamt));     
                        $('#std_id').val(id);
                        $('#admno').val(output.admissionno);
                        $('#term1paid').val(term1paid);
@@ -497,6 +497,7 @@
                       $('#oldbaltotal').val(balance);
                       $('#oldbalance').val(olddue);
                       $('#std_id').val(output.stdid);
+                      $('#oldbalpaid').val(output.oldpaid);
                       $('#admno').val(output.admissionno);
                     } 
                 }

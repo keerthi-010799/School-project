@@ -19,8 +19,7 @@ if(isset($_POST['stuProfEdit']))
                                                               `admissionno`= '".$admissionno."',    
                                                               `class`= '".$class."',    
                                                               `studentname`= '".$studentname."',                                                          
-                                                            `category`= '".$category."',                                                          									
-                                                             `discountpercentage` ='".$discountpercentage."',
+                                                           
                                                             `status`= '".$status."',
                                                             `approvalStatus`= '".$approvalStatus."',                                                           
                                                             `createdon`= '".$createdon."',
@@ -123,8 +122,8 @@ if(mysqli_query($dbcon,$updateStudentProfile))
                                                 $class =	$res['class'];
                                                 $studentname =	$res['studentname'];
 												$admissionno = $res['admissionno'];																				
-												$category  =	$res['category'];												
-                                                $discountpercentage =	$res['discountpercentage'];
+											//	$category  =	$res['category'];												
+                                             //   $discountpercentage =	$res['discountpercentage'];
                                                 $status 	 =	$res['status'];
                                                 $approvalStatus  =	$res['approvalStatus'];
                                                 $approvedby =  $res['approvedby'];
@@ -190,49 +189,8 @@ if(mysqli_query($dbcon,$updateStudentProfile))
 									&nbsp;&nbsp;Unassign Discount <input type="radio" name="status" value="N"  <?php echo ($status=='N')?"checked":"";?> />
 								</div>
 
-                                <div class="form-row">
-                                <div class="form-group col-md-7">
-                                       <label for="category">Discount Category<span class="text-danger">*</span></label>
-                                                <select id="category" readonly onchange="getpercentage();"   class="form-control form-control-sm" name="category">
-                                                    <?php 
-                                                    include("database/db_conection.php");//make db connection here
-
-                                                    $sql = mysqli_query($dbcon, "SELECT id,category FROM category");
-                                                    while ($row = $sql->fetch_assoc()){	
-                                                        echo $category_get=$row['category'];
-                                                        echo $id_get=$row['id'];
-                                                        if($id_get==$category){
-                                                            echo '<option value="'.$category_get.'" selected>'.$category_get.'</option>';
-                                                        } else {
-                                                            echo '<option value="'.$category_get.'" >'.$category_get.'</option>';
-                                                            
-                                                            }
-                                                        }
-                                                    ?>
-                                                </select>
-                                            </div>
-                        
-                                                   
-                                    <div class="form-group col-md-7">
-                                    <label for="category">Discount Percentage<span class="text-danger">*</span></label>
-                                                        <?php 
-                                                    include("database/db_conection.php");//make connection here
-
-                                                    $sql = mysqli_query($dbcon, "SELECT id,discountpercentage FROM category");
-                                                    while ($row = $sql->fetch_assoc()){	
-                                                         $percentage_get=$row['discountpercentage'];
-                                                         $academic_get=$row['id'];
-                                                        if($academic_get==$discountpercentage){
-                                                             $percentage_get;
-                                                        } else {
-                                                            $percentage_get;                                                            
-                                                            }
-                                                        }
-                                                    ?>
-                                                <input type="text" class="form-control form-control-sm" 
-                                        id="discountpercentage" readonly placeholder="Discount Percentage" class="form-control " value="<?php echo $percentage_get;?>" required name="discountpercentage"/>        
-                                </div>
-                                                    </div>
+                               
+                                                    
                                             
                                 <div class="form-row">
                                         <div class="form-group col-md-7">

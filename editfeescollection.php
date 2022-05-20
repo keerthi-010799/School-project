@@ -44,7 +44,8 @@ include("database/db_conection.php");
 												while($res = mysqli_fetch_array($result))
 												{
 													//$feescode = $res['feescode'];
-													$academic1 = $res['fee_academic_year'];													
+													$academic1 = $res['fee_academic_year'];	
+                          $admno	= $res['fee_admission_no'];											
 													$class1 = $res['fee_class'];
 													$feestype1 = $res['fee_type'];													
 													$amount = $res['fee_total_amt'];
@@ -52,7 +53,8 @@ include("database/db_conection.php");
                           $sid = $res['fee_student_id'];	
                           $pmode = $res['paymentmode'];
                           $ref = $res['reference'];
-                          $desc = $res['description'];			
+                          $desc = $res['description'];		
+                          $date = $res['collected_date'];	
 
                       }
                       $result1 = mysqli_query($dbcon, "SELECT * FROM studentprofile WHERE id = $sid");								 
@@ -158,7 +160,15 @@ include("database/db_conection.php");
 												<input type="text" style="width:300px;" name="reference" class="form-control form-control-sm " value="<?php echo $ref?>" placeholder="Cheque No/Payment Transaction Ref No..">
 												</div>
 
-
+                        <div class="form-row">                              
+                              <div class="form-group col-md-8">
+                                  <label><span class="">Date</span><span class="text-danger"></span></label>
+                                      <input type="date" class="form-control form-control-sm" name="date"  value="<?php 
+                                      $phpdate = strtotime( $date );
+                                      $ddate = date( 'Y-m-d', $phpdate );
+                                      echo $ddate;?>" />
+                                  </div>
+                                </div>
                                                 <div class="form-row">
                             <div class="form-group col-md-6">
                             <label for="inputState"><span class="">Fees Type</span><span class="text-danger">*</span></label>
@@ -187,8 +197,8 @@ include("database/db_conection.php");
                                                                         echo '<option value="VanFees" onchange="feesfunc()" selected>VanFees</option>';
                                                                         
                                                                         }
-                                                                        elseif($feestype1=='OldBalanceFees'){
-                                                                          echo '<option value="OldBalanceFees" onchange="feesfunc()" selected>OldBalanceFees</option>';
+                                                                        elseif($feestype1=='oldBalanceFees'){
+                                                                          echo '<option value="oldBalanceFees" onchange="feesfunc()" selected>OldBalanceFees</option>';
                                                                           
                                                                           }
   
@@ -294,7 +304,7 @@ include("database/db_conection.php");
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                   <label for="inputState"><span class="">Description</span><span class="text-danger">*</span></label>                                        
-                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="desc1"id="desc1"  placeholder="Description"  class="form-control" autocomplete="off" value = "<?php if($feestype1=='OldBalanceFees'){echo $desc;}?>"/>
+                                                  <input type="text" style="width:100px" class="form-control form-control-sm" name="desc1"id="desc1"  placeholder="Description"  class="form-control" autocomplete="off" value = "<?php if($feestype1=='oldBalanceFees'){echo $desc;}?>"/>
                                                 </div>
                                                   </div>
                                                   </div>
@@ -387,8 +397,8 @@ include("database/db_conection.php");
                                                 </div>
                               <div class="form-row">
                                     <div class="form-group  text-right m-b-12">
-                                    <input type="hidden" id="std_id" name="std_id"/>
-                                    <input type="hidden" id="admno" name="admno"/>
+                                    <input type="hidden" id="std_id" name="std_id" value="<?php echo $sid;?>"/>
+                                    <input type="hidden" id="admno" name="admno" value = "<?php echo $admno;?>"/>
                                         <button type="submit" name="submit" class="btn btn-primary btn-sm" >
 														            Make Fees Payment
                                                     </button>
@@ -459,7 +469,7 @@ include("database/db_conection.php");
             $("#vanfeesform").css('display','none'); 
             $("#oldfeesform").css('display','none');               
         }
-        else if(feesType == "OldBalanceFees"){
+        else if(feesType == "oldBalanceFees"){
             $("#oldfeesform").css('display','block');
             $("#otherfeesform").css('display','none');
             $("#termfeesform").css('display','none');
@@ -563,9 +573,9 @@ include("database/db_conection.php");
                       $('#discount').val(dic); 
                       $('#discountname').val(name);
                       $('#termamount').val(vals.fee_config_amount);    
-                      $("#term1total").val(vals.term1 - disamt);
-                       $("#term2total").val(vals.term2 - disamt);
-                       $("#term3total").val(vals.term3 - disamt);     
+                      $("#term1total").val(Math.ceil(vals.term1 - disamt));
+                       $("#term2total").val(Math.ceil(vals.term2 - disamt));
+                       $("#term3total").val(Math.ceil(vals.term3 - disamt));     
                        $("#term1total").val(term1);
                        $("#term2total").val(term2);
                        $("#term3total").val(term3);     
@@ -605,6 +615,7 @@ include("database/db_conection.php");
                       $('#oldbalance').val(olddue);
                       $('#std_id').val(output.stdid);
                       $('#admno').val(output.admissionno);
+                      $('#oldbalpaid').val(output.oldpaid);
                     } 
                 }
             });

@@ -9,6 +9,7 @@ if(isset($_POST['array'])){
     $class=$data['class'];
     $student =$data['student'];
     $admno = $data['admno'];
+    $cdate = $data['date'];
     $itemname ='';
     $price = '';
     $feestype=$data['FeesType'];
@@ -56,7 +57,7 @@ if(isset($_POST['array'])){
    }elseif($feestype == 'VanFees'){
     $amount=$data['van_fee'];
     $description = $data['desc'];
-   }elseif($feestype == 'OldBalanceFees'){
+   }elseif($feestype == 'oldBalanceFees'){
     $amount=$data['oldbal'];
     $description = $data['desc1']; 
   }
@@ -113,14 +114,23 @@ echo 'test3',$sum;
     $total_amount=$data['van_fee_total'];
    }elseif(substr($feestype,0,9) === "OtherFees"){
     $total_amount=$amount;
-   }elseif($feestype == 'OldBalanceFees'){
+   }elseif($feestype == 'oldBalanceFees'){
     $total_amount=$data['oldbaltotal'];
    }
 
-  $sql0 = "UPDATE `fees_management` SET `fee_type`='$feestype',`fees_paid` ='$amount',`fee_total_amt`='$total_amount',`paymentmode`='$paymentmode',`reference` = '$ref',`description`='$description' WHERE fee_id = $fees_id";
+  $sql0 = "UPDATE `fees_management` SET `fee_type`='$feestype',`fees_paid` ='$amount',`fee_total_amt`='$total_amount',`paymentmode`='$paymentmode',`reference` = '$ref',`description`='$description',`collected_date` ='$cdate' WHERE fee_id = $fees_id";
   
   if(mysqli_query($dbcon,$sql0)){
    echo 'success1';
+   if($feestype == "oldBalanceFees"){
+    $bal = $total_amount - $amount;
+    $obs = "UPDATE oldbalstudents set fees_balance = '$bal'";
+    if(mysqli_query($dbcon,$obs)){
+      echo 'successbal';
+    }else{
+      echo mysqli_error($dbcon);
+    }
+  }
   }
 
   $sqll = "SELECT * FROM fee_status where fee_student_id = $stdid";						                                                                                                        
@@ -139,9 +149,9 @@ echo 'test3',$sum;
     $term3feestotal = $s["Termfees"]["Term3"]["TotalFees"];
     $term3feescollected = $s["Termfees"]["Term3"]["Feescollected"];
     $term3balance = $s["Termfees"]["Term3"]["Balancetopay"];
-    $oldfeestotal = $s["Oldfees"]["TotalFees"];
-    $oldfeescollected = $s["Oldfees"]["Feescollected"];
-    $oldbalance = $s["Oldfees"]["Balancetopay"];
+    $oldfeestotal = $s["oldfees"]["TotalFees"];
+    $oldfeescollected = $s["oldfees"]["Feescollected"];
+    $oldbalance = $s["oldfees"]["Balancetopay"];
     $vanfeestotal = $s["Vanfees"]["TotalFees"];
     $vanfeescollected = $s["Vanfees"]["Feescollected"];
     $vanbalance = $s["Vanfees"]["Balancetopay"];
@@ -168,7 +178,7 @@ echo 'test3',$sum;
       $term3feestotal = $totalfeess;
       $term3feescollected=$totalcollected;
       $term3balance = $total_amount - $term3feescollected;    
-     }elseif($feetype == 'OldBalanceFees'){
+     }elseif($feetype == 'oldBalanceFees'){
       $oldfeestotal = $totalfeess;                                                                                                                                 
       $oldfeescollected = $totalcollected;
       $oldbalance = $total_amount - $oldfeescollected;
